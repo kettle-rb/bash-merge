@@ -275,10 +275,10 @@ module Bash
           [:pipeline, commands]
         when "comment"
           # Comments identified by their content
-          [:comment, node_text(node)&.strip]
+          [:comment, node_text(node).strip]
         else
           # Generic fallback - type and first few chars of content
-          content_preview = node_text(node)&.slice(0, 50)&.strip
+          content_preview = node_text(node).slice(0, 50).strip
           [node_type.to_sym, content_preview]
         end
       end
@@ -299,7 +299,7 @@ module Bash
         # Look for test_command, compound_statement, etc.
         node.each do |child|
           if %w[test_command bracket_command].include?(child.type.to_s)
-            return node_text(child)&.slice(0, 100)&.strip
+            return node_text(child).slice(0, 100).strip
           end
         end
         nil
@@ -314,7 +314,7 @@ module Bash
       def extract_case_expression(node)
         # Extract the expression being matched in a case statement
         node.each do |child|
-          return node_text(child)&.slice(0, 50)&.strip if child.type.to_s == "word" || child.type.to_s == "variable_name"
+          return node_text(child).slice(0, 50).strip if child.type.to_s == "word" || child.type.to_s == "variable_name"
         end
         nil
       end
