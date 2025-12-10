@@ -15,7 +15,7 @@ module Bash
     #   merger = SmartMerger.new(
     #     template_bash,
     #     dest_bash,
-    #     signature_match_preference: :template,
+    #     preference: :template,
     #     add_template_only_nodes: true
     #   )
     #   result = merger.merge
@@ -43,7 +43,7 @@ module Bash
       attr_reader :result
 
       # @return [Symbol] Preference for signature matches
-      attr_reader :signature_match_preference
+      attr_reader :preference
 
       # @return [Boolean] Whether to add template-only nodes
       attr_reader :add_template_only_nodes
@@ -56,7 +56,7 @@ module Bash
       # @param template_content [String] Template Bash source code
       # @param dest_content [String] Destination Bash source code
       # @param signature_generator [Proc, nil] Custom signature generator
-      # @param signature_match_preference [Symbol] Which version to prefer when
+      # @param preference [Symbol] Which version to prefer when
       #   nodes have matching signatures:
       #   - :destination (default) - Keep destination version (customizations)
       #   - :template - Use template version (updates)
@@ -70,12 +70,12 @@ module Bash
         template_content,
         dest_content,
         signature_generator: nil,
-        signature_match_preference: :destination,
+        preference: :destination,
         add_template_only_nodes: false,
         freeze_token: FileAnalysis::DEFAULT_FREEZE_TOKEN,
         parser_path: nil
       )
-        @signature_match_preference = signature_match_preference
+        @preference = preference
         @add_template_only_nodes = add_template_only_nodes
         @freeze_token = freeze_token
 
@@ -101,7 +101,7 @@ module Bash
         @resolver = ConflictResolver.new(
           @template_analysis,
           @dest_analysis,
-          signature_match_preference: signature_match_preference,
+          preference: preference,
           add_template_only_nodes: add_template_only_nodes,
         )
 
@@ -111,7 +111,7 @@ module Bash
         DebugLogger.debug("SmartMerger initialized", {
           template_valid: @template_analysis.valid?,
           dest_valid: @dest_analysis.valid?,
-          preference: signature_match_preference,
+          preference: preference,
           add_template_only: add_template_only_nodes,
         })
       end

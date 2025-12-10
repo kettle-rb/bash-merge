@@ -18,8 +18,8 @@ RSpec.describe Bash::Merge::SmartMerger do
   end
 
   describe "configuration options" do
-    it "accepts signature_match_preference" do
-      expect(described_class.instance_method(:initialize).parameters.flatten).to include(:signature_match_preference)
+    it "accepts preference" do
+      expect(described_class.instance_method(:initialize).parameters.flatten).to include(:preference)
     end
 
     it "accepts add_template_only_nodes" do
@@ -74,8 +74,8 @@ RSpec.describe Bash::Merge::SmartMerger do
       expect(described_class.instance_methods).to include(:result)
     end
 
-    it "exposes signature_match_preference" do
-      expect(described_class.instance_methods).to include(:signature_match_preference)
+    it "exposes preference" do
+      expect(described_class.instance_methods).to include(:preference)
     end
 
     it "exposes add_template_only_nodes" do

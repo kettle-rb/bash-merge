@@ -14,20 +14,20 @@ RSpec.describe Bash::Merge::ConflictResolver do
       expect(resolver.dest_analysis).to eq(dest_analysis)
     end
 
-    it "accepts signature_match_preference option" do
+    it "accepts preference option" do
       resolver = described_class.new(
         template_analysis,
         dest_analysis,
-        signature_match_preference: :template,
+        preference: :template,
       )
 
-      expect(resolver.signature_match_preference).to eq(:template)
+      expect(resolver.preference).to eq(:template)
     end
 
     it "defaults to destination preference" do
       resolver = described_class.new(template_analysis, dest_analysis)
 
-      expect(resolver.signature_match_preference).to eq(:destination)
+      expect(resolver.preference).to eq(:destination)
     end
 
     it "accepts add_template_only_nodes option" do

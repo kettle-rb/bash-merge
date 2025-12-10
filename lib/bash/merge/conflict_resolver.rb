@@ -10,21 +10,21 @@ module Bash
     #   resolver.resolve(result)
     class ConflictResolver < ::Ast::Merge::ConflictResolverBase
       # Alias for backward compatibility with existing API
-      alias_method :signature_match_preference, :preference
+      alias_method :preference, :preference
 
       # Creates a new ConflictResolver
       #
       # @param template_analysis [FileAnalysis] Analyzed template file
       # @param dest_analysis [FileAnalysis] Analyzed destination file
-      # @param signature_match_preference [Symbol] Which version to prefer when
+      # @param preference [Symbol] Which version to prefer when
       #   nodes have matching signatures:
       #   - :destination (default) - Keep destination version (customizations)
       #   - :template - Use template version (updates)
       # @param add_template_only_nodes [Boolean] Whether to add nodes only in template
-      def initialize(template_analysis, dest_analysis, signature_match_preference: :destination, add_template_only_nodes: false)
+      def initialize(template_analysis, dest_analysis, preference: :destination, add_template_only_nodes: false)
         super(
           strategy: :batch,
-          preference: signature_match_preference,
+          preference: preference,
           template_analysis: template_analysis,
           dest_analysis: dest_analysis,
           add_template_only_nodes: add_template_only_nodes
@@ -90,7 +90,7 @@ module Bash
             template_node = template_info[:node]
 
             # Decide which to keep based on preference
-            if @signature_match_preference == :destination
+            if @preference == :destination
               add_node_to_result(dest_node, result, :destination, DECISION_KEPT_DEST)
             else
               add_node_to_result(template_node, result, :template, DECISION_KEPT_TEMPLATE)
