@@ -97,13 +97,13 @@ Gem::Specification.new do |spec|
   # Listed files are the relative paths from bindir above.
   spec.executables = []
 
-  # Shared merge infrastructure
-  # spec.add_dependency("ast-merge", "~> 1.0")                            # ruby >= 3.2.0
-
-  # Parser - Tree-sitter for Bash (JSONC comments not needed; bash uses # comments)
+  # Parser - Tree-sitter for Bash
   spec.add_dependency("ruby_tree_sitter", "~> 2.0")                     # ruby >= 3.2.0
   # NOTE: tree-sitter-bash parser must be installed separately via your package manager
   #       e.g., `apt install libtree-sitter-bash-dev` or built from source
+
+  # Shared merge infrastructure
+  spec.add_dependency("ast-merge", "~> 1.0")                            # ruby >= 3.2.0
 
   # Utilities
   spec.add_dependency("version_gem", "~> 1.1", ">= 1.1.9")              # ruby >= 2.2.0
