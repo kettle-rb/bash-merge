@@ -42,7 +42,7 @@
 
 # ☯️ Bash::Merge
 
-[![Version][👽versioni]][👽version] [![GitHub tag (latest SemVer)][⛳️tag-img]][⛳️tag] [![License: MIT][📄license-img]][📄license-ref] [![Downloads Rank][👽dl-ranki]][👽dl-rank] [![Open Source Helpers][👽oss-helpi]][👽oss-help] [![CodeCov Test Coverage][🏀codecovi]][🏀codecov] [![Coveralls Test Coverage][🏀coveralls-img]][🏀coveralls] [![QLTY Test Coverage][🏀qlty-covi]][🏀qlty-cov] [![QLTY Maintainability][🏀qlty-mnti]][🏀qlty-mnt] [![CI Heads][🚎3-hd-wfi]][🚎3-hd-wf] [![CI Runtime Dependencies @ HEAD][🚎12-crh-wfi]][🚎12-crh-wf] [![CI Current][🚎11-c-wfi]][🚎11-c-wf] [![CI Truffle Ruby][🚎9-t-wfi]][🚎9-t-wf] [![CI JRuby][🚎10-j-wfi]][🚎10-j-wf] [![Deps Locked][🚎13-🔒️-wfi]][🚎13-🔒️-wf] [![Deps Unlocked][🚎14-🔓️-wfi]][🚎14-🔓️-wf] [![CI Supported][🚎6-s-wfi]][🚎6-s-wf] [![CI Legacy][🚎4-lg-wfi]][🚎4-lg-wf] [![CI Unsupported][🚎7-us-wfi]][🚎7-us-wf] [![CI Ancient][🚎1-an-wfi]][🚎1-an-wf] [![CI Test Coverage][🚎2-cov-wfi]][🚎2-cov-wf] [![CI Style][🚎5-st-wfi]][🚎5-st-wf] [![CodeQL][🖐codeQL-img]][🖐codeQL] [![Apache SkyWalking Eyes License Compatibility Check][🚎15-🪪-wfi]][🚎15-🪪-wf]
+[![Version][👽versioni]][👽version] [![GitHub tag (latest SemVer)][⛳️tag-img]][⛳️tag] [![License: MIT][📄license-img]][📄license-ref] [![Downloads Rank][👽dl-ranki]][👽dl-rank] [![Open Source Helpers][👽oss-helpi]][👽oss-help] [![CodeCov Test Coverage][🏀codecovi]][🏀codecov] [![Coveralls Test Coverage][🏀coveralls-img]][🏀coveralls] [![QLTY Test Coverage][🏀qlty-covi]][🏀qlty-cov] [![QLTY Maintainability][🏀qlty-mnti]][🏀qlty-mnt] [![CI Heads][🚎3-hd-wfi]][🚎3-hd-wf] [![CI Runtime Dependencies @ HEAD][🚎12-crh-wfi]][🚎12-crh-wf] [![CI Current][🚎11-c-wfi]][🚎11-c-wf] [![CI Truffle Ruby][🚎9-t-wfi]][🚎9-t-wf] [![Deps Locked][🚎13-🔒️-wfi]][🚎13-🔒️-wf] [![Deps Unlocked][🚎14-🔓️-wfi]][🚎14-🔓️-wf] [![CI Supported][🚎6-s-wfi]][🚎6-s-wf] [![CI Test Coverage][🚎2-cov-wfi]][🚎2-cov-wf] [![CI Style][🚎5-st-wfi]][🚎5-st-wf] [![CodeQL][🖐codeQL-img]][🖐codeQL] [![Apache SkyWalking Eyes License Compatibility Check][🚎15-🪪-wfi]][🚎15-🪪-wf]
 
 `if ci_badges.map(&:color).detect { it != "green"}` ☝️ [let me know][🖼️galtzo-discord], as I may have missed the [discord notification][🖼️galtzo-discord].
 
@@ -115,8 +115,16 @@ This gem is part of a family of gems that provide intelligent merging for variou
 | [rbs-merge][rbs-merge] | RBS | [RBS][rbs] | Smart merge for Ruby type signatures |
 | [dotenv-merge][dotenv-merge] | Dotenv | internal ([dotenv][dotenv]) | Smart merge for `.env` files |
 | [toml-merge][toml-merge] | TOML | [tree-sitter-toml][ts-toml] | Smart merge for TOML files |
+| [markdown-merge][markdown-merge] | Markdown | _base classes_ | Shared foundation for Markdown mergers |
 | [markly-merge][markly-merge] | Markdown | [Markly][markly] | Smart merge for Markdown (CommonMark via libcmark-gfm) |
 | [commonmarker-merge][commonmarker-merge] | Markdown | [Commonmarker][commonmarker] | Smart merge for Markdown (CommonMark via comrak) |
+
+**Example implementations** for the gem templating use case:
+
+| Gem | Purpose | Description |
+|-----|---------|-------------|
+| [kettle-dev][kettle-dev] | Gem Development | Gem templating tool using `*-merge` gems |
+| [kettle-jem][kettle-jem] | Gem Templating | Gem template library with smart merge support |
 
 [ast-merge]: https://github.com/kettle-rb/ast-merge
 [prism-merge]: https://github.com/kettle-rb/prism-merge
@@ -127,8 +135,11 @@ This gem is part of a family of gems that provide intelligent merging for variou
 [rbs-merge]: https://github.com/kettle-rb/rbs-merge
 [dotenv-merge]: https://github.com/kettle-rb/dotenv-merge
 [toml-merge]: https://github.com/kettle-rb/toml-merge
+[markdown-merge]: https://github.com/kettle-rb/markdown-merge
 [markly-merge]: https://github.com/kettle-rb/markly-merge
 [commonmarker-merge]: https://github.com/kettle-rb/commonmarker-merge
+[kettle-dev]: https://github.com/kettle-rb/kettle-dev
+[kettle-jem]: https://github.com/kettle-rb/kettle-jem
 [prism]: https://github.com/ruby/prism
 [psych]: https://github.com/ruby/psych
 [ts-json]: https://github.com/tree-sitter/tree-sitter-json
@@ -144,8 +155,8 @@ This gem is part of a family of gems that provide intelligent merging for variou
 
 | Tokens to Remember      | [![Gem name][⛳️name-img]][⛳️gem-name] [![Gem namespace][⛳️namespace-img]][⛳️gem-namespace]                                                                                                                                                                                                                                                                          |
 |-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Works with JRuby        | ![JRuby 9.1 Compat][💎jruby-9.1i] ![JRuby 9.2 Compat][💎jruby-9.2i] ![JRuby 9.3 Compat][💎jruby-9.3i] <br/> [![JRuby 9.4 Compat][💎jruby-9.4i]][🚎10-j-wf] [![JRuby 10.0 Compat][💎jruby-c-i]][🚎11-c-wf] [![JRuby HEAD Compat][💎jruby-headi]][🚎3-hd-wf]                                                                                                          |
-| Works with Truffle Ruby | ![Truffle Ruby 22.3 Compat][💎truby-22.3i] ![Truffle Ruby 23.0 Compat][💎truby-23.0i] <br/> [![Truffle Ruby 23.1 Compat][💎truby-23.1i]][🚎9-t-wf] [![Truffle Ruby 24.1 Compat][💎truby-c-i]][🚎11-c-wf]                                                                                                                                                            |
+| Works with JRuby        | [![JRuby 10.0 Compat][💎jruby-c-i]][🚎11-c-wf] [![JRuby HEAD Compat][💎jruby-headi]][🚎3-hd-wf]                                                                                                          |
+| Works with Truffle Ruby | [![Truffle Ruby 23.1 Compat][💎truby-23.1i]][🚎9-t-wf] [![Truffle Ruby 24.1 Compat][💎truby-c-i]][🚎11-c-wf]                                                                                                                                                            |
 | Works with MRI Ruby 3   | [![Ruby 3.2 Compat][💎ruby-3.2i]][🚎6-s-wf] [![Ruby 3.3 Compat][💎ruby-3.3i]][🚎6-s-wf] [![Ruby 3.4 Compat][💎ruby-c-i]][🚎11-c-wf] [![Ruby HEAD Compat][💎ruby-headi]][🚎3-hd-wf]                                                                                         |
 | Support & Community     | [![Join Me on Daily.dev's RubyFriends][✉️ruby-friends-img]][✉️ruby-friends] [![Live Chat on Discord][✉️discord-invite-img-ftb]][✉️discord-invite] [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork] [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor]                                       |
 | Source                  | [![Source on GitLab.com][📜src-gl-img]][📜src-gl] [![Source on CodeBerg.org][📜src-cb-img]][📜src-cb] [![Source on Github.com][📜src-gh-img]][📜src-gh] [![The best SHA: dQw4w9WgXcQ!][🧮kloc-img]][🧮kloc]                                                                                                                                                         |
@@ -764,26 +775,16 @@ Thanks for RTFM. ☺️
 [🏀coveralls-img]: https://coveralls.io/repos/github/kettle-rb/bash-merge/badge.svg?branch=main
 [🖐codeQL]: https://github.com/kettle-rb/bash-merge/security/code-scanning
 [🖐codeQL-img]: https://github.com/kettle-rb/bash-merge/actions/workflows/codeql-analysis.yml/badge.svg
-[🚎1-an-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/ancient.yml
-[🚎1-an-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/ancient.yml/badge.svg
 [🚎2-cov-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/coverage.yml
 [🚎2-cov-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/coverage.yml/badge.svg
 [🚎3-hd-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/heads.yml
 [🚎3-hd-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/heads.yml/badge.svg
-[🚎4-lg-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/legacy.yml
-[🚎4-lg-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/legacy.yml/badge.svg
 [🚎5-st-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/style.yml
 [🚎5-st-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/style.yml/badge.svg
 [🚎6-s-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/supported.yml
 [🚎6-s-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/supported.yml/badge.svg
-[🚎7-us-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/unsupported.yml
-[🚎7-us-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/unsupported.yml/badge.svg
-[🚎8-ho-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/hoary.yml
-[🚎8-ho-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/hoary.yml/badge.svg
 [🚎9-t-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/truffle.yml
 [🚎9-t-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/truffle.yml/badge.svg
-[🚎10-j-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/jruby.yml
-[🚎10-j-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/jruby.yml/badge.svg
 [🚎11-c-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/current.yml
 [🚎11-c-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/current.yml/badge.svg
 [🚎12-crh-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/dep-heads.yml
@@ -798,15 +799,9 @@ Thanks for RTFM. ☺️
 [💎ruby-3.3i]: https://img.shields.io/badge/Ruby-3.3-CC342D?style=for-the-badge&logo=ruby&logoColor=white
 [💎ruby-c-i]: https://img.shields.io/badge/Ruby-current-CC342D?style=for-the-badge&logo=ruby&logoColor=green
 [💎ruby-headi]: https://img.shields.io/badge/Ruby-HEAD-CC342D?style=for-the-badge&logo=ruby&logoColor=blue
-[💎truby-22.3i]: https://img.shields.io/badge/Truffle_Ruby-22.3_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=pink
-[💎truby-23.0i]: https://img.shields.io/badge/Truffle_Ruby-23.0_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=pink
 [💎truby-23.1i]: https://img.shields.io/badge/Truffle_Ruby-23.1-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink
 [💎truby-c-i]: https://img.shields.io/badge/Truffle_Ruby-current-34BCB1?style=for-the-badge&logo=ruby&logoColor=green
 [💎truby-headi]: https://img.shields.io/badge/Truffle_Ruby-HEAD-34BCB1?style=for-the-badge&logo=ruby&logoColor=blue
-[💎jruby-9.1i]: https://img.shields.io/badge/JRuby-9.1_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=red
-[💎jruby-9.2i]: https://img.shields.io/badge/JRuby-9.2_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=red
-[💎jruby-9.3i]: https://img.shields.io/badge/JRuby-9.3_(%F0%9F%9A%ABCI)-AABBCC?style=for-the-badge&logo=ruby&logoColor=red
-[💎jruby-9.4i]: https://img.shields.io/badge/JRuby-9.4-FBE742?style=for-the-badge&logo=ruby&logoColor=red
 [💎jruby-c-i]: https://img.shields.io/badge/JRuby-current-FBE742?style=for-the-badge&logo=ruby&logoColor=green
 [💎jruby-headi]: https://img.shields.io/badge/JRuby-HEAD-FBE742?style=for-the-badge&logo=ruby&logoColor=blue
 [🤝gh-issues]: https://github.com/kettle-rb/bash-merge/issues
