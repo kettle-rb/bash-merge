@@ -1,7 +1,19 @@
 # frozen_string_literal: true
 
 # External gems
-require "tree_sitter"
+# TreeHaver provides a unified cross-Ruby interface to tree-sitter
+require "tree_haver"
+
+# Register tree-sitter bash grammar
+bash_finder = TreeHaver::GrammarFinder.new(:bash)
+bash_available = bash_finder.available?
+bash_finder.register! if bash_available
+
+# Ensure grammar is available
+unless bash_available
+  warn "WARNING: Bash grammar not available. #{bash_finder.not_found_message}"
+end
+
 require "version_gem"
 require "set"
 

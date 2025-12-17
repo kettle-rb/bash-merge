@@ -15,7 +15,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
 
     it "creates wrapper instances from FileAnalysis" do
       analysis = Bash::Merge::FileAnalysis.new(bash_content)
-      skip "Tree-sitter parser not available: #{analysis.errors.first}" unless analysis.valid?
+      skip "tree-sitter parser not available: #{analysis.errors.first}" unless analysis.valid?
 
       nodes = analysis.nodes
       expect(nodes).to be_an(Array)
@@ -27,7 +27,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     it "returns false for NodeWrapper instances" do
       source = "echo 'hello'"
       analysis = Bash::Merge::FileAnalysis.new(source)
-      skip "Tree-sitter parser not available: #{analysis.errors.first}" unless analysis.valid?
+      skip "tree-sitter parser not available: #{analysis.errors.first}" unless analysis.valid?
 
       node = analysis.nodes.first
       expect(node).to be_a(described_class)

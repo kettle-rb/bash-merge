@@ -81,8 +81,8 @@ Gem::Specification.new do |spec|
   # Listed files are the relative paths from bindir above.
   spec.executables = []
 
-  # Parser - Tree-sitter for Bash
-  spec.add_dependency("ruby_tree_sitter", "~> 2.0")                     # ruby >= 3.2.0
+  # Parser - tree_haver provides unified tree-sitter interface
+  spec.add_dependency("tree_haver", "~> 3.0")                           # ruby >= 3.2.0
   # NOTE: tree-sitter-bash parser must be installed separately via your package manager
   #       e.g., `apt install libtree-sitter-bash-dev` or built from source
 

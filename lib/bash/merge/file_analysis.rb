@@ -16,35 +16,41 @@ module Bash
       # Default freeze token for identifying freeze blocks
       DEFAULT_FREEZE_TOKEN = "bash-merge"
 
-      # Common paths where tree-sitter-bash library might be installed
-      # Searched in order until one is found
-      # For versioned libraries (e.g., Fedora), set TREE_SITTER_BASH_PATH env var
-      PARSER_SEARCH_PATHS = [
-        "/usr/lib/libtree-sitter-bash.so",
-        "/usr/lib64/libtree-sitter-bash.so",
-        "/usr/local/lib/libtree-sitter-bash.so",
-        "/opt/homebrew/lib/libtree-sitter-bash.dylib",
-        "/usr/local/lib/libtree-sitter-bash.dylib",
-      ].freeze
-
       # @return [CommentTracker] Comment tracker for this file
       attr_reader :comment_tracker
 
-      # @return [TreeSitter::Tree, nil] Parsed AST
+      # @return [TreeHaver::Tree, nil] Parsed AST
       attr_reader :ast
 
       # @return [Array] Parse errors if any
       attr_reader :errors
 
-      # Find the parser library path
-      # @return [String, nil] Path to the parser library or nil if not found
-      def self.find_parser_path
-        # Check environment variable first
-        env_path = ENV["TREE_SITTER_BASH_PATH"]
-        return env_path if env_path && File.exist?(env_path)
+      class << self
+        # Find the parser library path
+        #
+        # Uses TreeHaver::GrammarFinder if available, otherwise
+        # searches common paths directly.
+        #
+        # @return [String, nil] Path to the parser library or nil if not found
+        def find_parser_path
+          # Use TreeHaver's GrammarFinder if available
+          if defined?(TreeHaver::GrammarFinder)
+            TreeHaver::GrammarFinder.new(:bash).find_library_path
+          else
+            # Fallback: check environment variable first
+            env_path = ENV["TREE_SITTER_BASH_PATH"]
+            return env_path if env_path && File.exist?(env_path)
 
-        # Search common paths
-        PARSER_SEARCH_PATHS.find { |path| File.exist?(path) }
+            # Search common paths
+            [
+              "/usr/lib/libtree-sitter-bash.so",
+              "/usr/lib64/libtree-sitter-bash.so",
+              "/usr/local/lib/libtree-sitter-bash.so",
+              "/opt/homebrew/lib/libtree-sitter-bash.dylib",
+              "/usr/local/lib/libtree-sitter-bash.dylib",
+            ].find { |path| File.exist?(path) }
+          end
+        end
       end
 
       # Initialize file analysis
@@ -96,13 +102,6 @@ module Bash
 
       # Check if a line is within a freeze block.
       #
-      # NOTE: This method intentionally does NOT call `super` or use the base
-      # `freeze_blocks` method. The base implementation derives freeze blocks from
-      # `statements.select { |n| n.is_a?(Freezable) }`, but during initialization
-      # `@freeze_blocks` is extracted BEFORE `@nodes` is populated (see
-      # `integrate_nodes_and_freeze_blocks`). This method is called during that
-      # integration process, so we must use `@freeze_blocks` directly.
-      #
       # @param line_num [Integer] 1-based line number
       # @return [Boolean]
       def in_freeze_block?(line_num)
@@ -110,13 +109,6 @@ module Bash
       end
 
       # Get the freeze block containing the given line.
-      #
-      # NOTE: This method intentionally does NOT call `super` or use the base
-      # `freeze_blocks` method. The base implementation derives freeze blocks from
-      # `statements.select { |n| n.is_a?(Freezable) }`, but during initialization
-      # `@freeze_blocks` is extracted BEFORE `@nodes` is populated (see
-      # `integrate_nodes_and_freeze_blocks`). This method is called during that
-      # integration process, so we must use `@freeze_blocks` directly.
       #
       # @param line_num [Integer] 1-based line number
       # @return [FreezeNode, nil]
@@ -159,25 +151,48 @@ module Bash
       private
 
       def parse_bash
-        unless @parser_path && File.exist?(@parser_path)
-          @errors << "Tree-sitter bash parser not found at #{@parser_path.inspect}. Install tree-sitter-bash or set TREE_SITTER_BASH_PATH."
+        # Check if TreeHaver is available
+        unless defined?(TreeHaver)
+          error_msg = "TreeHaver not available. Install tree_haver gem."
+          @errors << error_msg
           @ast = nil
           return
         end
 
         begin
-          language = TreeSitter::Language.load("bash", @parser_path)
-          parser = TreeSitter::Parser.new
-          parser.language = language
-          @ast = parser.parse_string(nil, @source)
+          # Use TreeHaver's unified interface
+          parser = TreeHaver::Parser.new
 
-          # parse_string returns nil on ABI version mismatch or other parser issues
+          # Determine which language to use
+          language = if @parser_path && File.exist?(@parser_path)
+            # Custom parser path provided - use it
+            TreeHaver::Language.from_library(@parser_path, symbol: "tree_sitter_bash", name: "bash")
+          elsif TreeHaver::Language.respond_to?(:bash)
+            # Use registered bash language (from GrammarFinder)
+            TreeHaver::Language.bash
+          else
+            # No language available
+            error_msg = if defined?(TreeHaver::GrammarFinder)
+              TreeHaver::GrammarFinder.new(:bash).not_found_message
+            else
+              "tree-sitter bash parser not found. Install tree-sitter-bash or set TREE_SITTER_BASH_PATH."
+            end
+            @errors << error_msg
+            @ast = nil
+            return
+          end
+
+          parser.language = language
+          @ast = parser.parse(@source)
+
+          # parse returns nil on ABI version mismatch or other parser issues
           if @ast.nil?
-            @errors << "Tree-sitter bash parser failed to parse. This may indicate an ABI version mismatch between ruby_tree_sitter and the bash parser library at #{@parser_path}."
+            @errors << "tree-sitter bash parser failed to parse. This may indicate an ABI version mismatch."
+            return
           end
 
           # Check for parse errors in the tree
-          if @ast&.root_node&.has_error?
+          if @ast.root_node&.has_error?
             collect_parse_errors(@ast.root_node)
           end
         rescue Exception => e
