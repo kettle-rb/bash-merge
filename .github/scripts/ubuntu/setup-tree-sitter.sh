@@ -7,24 +7,44 @@ set -e
 #   --sudo: Use sudo for package installation commands
 #   --cli:  Install tree-sitter-cli via npm (optional)
 #   --build: Build and install the tree-sitter C runtime from source when distro packages are missing (optional)
+#   --workspace PATH: Workspace root path (defaults to /workspaces/bash-merge for GHA compatibility)
 
 SUDO=""
 INSTALL_CLI=false
 BUILD_FROM_SOURCE=false
+WORKSPACE_ROOT="/workspaces/bash-merge"
 
 for arg in "$@"; do
   case $arg in
     --sudo)
       SUDO="sudo"
+      shift
       ;;
     --cli)
       INSTALL_CLI=true
+      shift
       ;;
     --build)
       BUILD_FROM_SOURCE=true
+      shift
+      ;;
+    --workspace)
+      WORKSPACE_ROOT="$2"
+      shift 2
+      ;;
+    --workspace=*)
+      WORKSPACE_ROOT="${arg#*=}"
+      shift
       ;;
   esac
 done
+
+echo "Configuration:"
+echo "  Workspace root: $WORKSPACE_ROOT"
+echo "  Using sudo: $([ -n "$SUDO" ] && echo "yes" || echo "no")"
+echo "  Install CLI: $INSTALL_CLI"
+echo "  Build from source: $BUILD_FROM_SOURCE"
+echo ""
 
 have_cmd() { command -v "$1" >/dev/null 2>&1; }
 
@@ -61,24 +81,16 @@ install_tree_sitter_from_source() {
 
 echo "Installing tree-sitter system library and dependencies..."
 $SUDO apt-get update -y
-# libtree-sitter-dev is optional when building from source via --build
-if ! $SUDO apt-get install -y \
-  build-essential \
-  pkg-config \
-  $( [ "$BUILD_FROM_SOURCE" = false ] && echo "libtree-sitter-dev" ) \
-  wget \
-  gcc \
-  g++ \
-  make \
-  zlib1g-dev \
-  libssl-dev \
-  libreadline-dev \
-  libyaml-dev \
-  libxml2-dev \
-  libxslt1-dev \
-  libcurl4-openssl-dev \
-  software-properties-common \
-  libffi-dev; then
+
+# Build package list based on options
+PACKAGES="build-essential pkg-config wget gcc g++ make zlib1g-dev libssl-dev libreadline-dev libyaml-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev"
+
+# Add libtree-sitter-dev unless building from source
+if [ "$BUILD_FROM_SOURCE" = false ]; then
+  PACKAGES="$PACKAGES libtree-sitter-dev"
+fi
+
+if ! $SUDO apt-get install -y $PACKAGES; then
   echo "ERROR: apt-get failed to install required packages."
   echo "Please check your network, package sources, and re-run this script."
   exit 1
@@ -112,22 +124,65 @@ else
   echo "Skipping tree-sitter-cli installation (use --cli flag to install)"
 fi
 
-echo "Building and installing tree-sitter-toml..."
-cd /tmp
-wget -q https://github.com/tree-sitter-grammars/tree-sitter-toml/archive/refs/heads/master.zip
-unzip -q master.zip
-cd tree-sitter-toml-master
+echo "Building and installing tree-sitter-bash..."
 
-# Compile both parser.c and scanner.c
-gcc -fPIC -I./src -c src/parser.c -o parser.o
-gcc -fPIC -I./src -c src/scanner.c -o scanner.o
+# Ensure wget and unzip are installed
+if ! have_cmd wget; then
+  echo "Installing wget..."
+  $SUDO apt-get install -y wget
+fi
+if ! have_cmd unzip; then
+  echo "Installing unzip..."
+  $SUDO apt-get install -y unzip
+fi
 
-# Link both object files into the shared library
-gcc -shared -o libtree-sitter-toml.so parser.o scanner.o
+TMPDIR=$(mktemp -d)
+trap "rm -rf $TMPDIR" EXIT
+cd "$TMPDIR"
+
+echo "Downloading tree-sitter-bash from GitHub..."
+if ! wget -q https://github.com/tree-sitter/tree-sitter-bash/archive/refs/heads/master.zip -O bash.zip; then
+  echo "ERROR: Failed to download tree-sitter-bash" >&2
+  echo "URL: https://github.com/tree-sitter/tree-sitter-bash/archive/refs/heads/master.zip" >&2
+  echo "Check your internet connection and GitHub availability" >&2
+  exit 1
+fi
+
+if ! unzip -q bash.zip; then
+  echo "ERROR: Failed to unzip tree-sitter-bash" >&2
+  exit 1
+fi
+
+cd tree-sitter-bash-master
+
+# Compile parser.c and scanner.c
+if ! gcc -fPIC -I./src -c src/parser.c -o parser.o; then
+  echo "ERROR: Failed to compile parser.c" >&2
+  exit 1
+fi
+
+if ! gcc -fPIC -I./src -c src/scanner.c -o scanner.o; then
+  echo "ERROR: Failed to compile scanner.c" >&2
+  exit 1
+fi
+
+# Link the shared library
+if ! gcc -shared -o libtree-sitter-bash.so parser.o scanner.o; then
+  echo "ERROR: Failed to link tree-sitter-bash.so" >&2
+  exit 1
+fi
 
 # Install to system
-$SUDO cp libtree-sitter-toml.so /usr/local/lib/
-$SUDO ldconfig
+if ! $SUDO cp libtree-sitter-bash.so /usr/local/lib/; then
+  echo "ERROR: Failed to copy tree-sitter-bash.so to /usr/local/lib/" >&2
+  exit 1
+fi
+
+if ! $SUDO ldconfig; then
+  echo "WARNING: ldconfig failed, library may not be immediately available" >&2
+fi
+
+echo "Successfully installed tree-sitter-bash to /usr/local/lib/"
 
 echo ""
 echo "tree-sitter setup complete!"
@@ -147,4 +202,5 @@ else
   echo "  WARNING: Could not find libtree-sitter runtime library!"
 fi
 
-echo "  TREE_SITTER_TOML_PATH=/usr/local/lib/libtree-sitter-toml.so"
+echo "  TREE_SITTER_BASH_PATH=/usr/local/lib/libtree-sitter-bash.so"
+
