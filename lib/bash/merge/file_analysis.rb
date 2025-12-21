@@ -26,30 +26,13 @@ module Bash
       attr_reader :errors
 
       class << self
-        # Find the parser library path
-        #
-        # Uses TreeHaver::GrammarFinder if available, otherwise
-        # searches common paths directly.
+        # Find the parser library path using TreeHaver::GrammarFinder
         #
         # @return [String, nil] Path to the parser library or nil if not found
         def find_parser_path
-          # Use TreeHaver's GrammarFinder if available
-          if defined?(TreeHaver::GrammarFinder)
-            TreeHaver::GrammarFinder.new(:bash).find_library_path
-          else
-            # Fallback: check environment variable first
-            env_path = ENV["TREE_SITTER_BASH_PATH"]
-            return env_path if env_path && File.exist?(env_path)
+          return unless defined?(TreeHaver::GrammarFinder)
 
-            # Search common paths
-            [
-              "/usr/lib/libtree-sitter-bash.so",
-              "/usr/lib64/libtree-sitter-bash.so",
-              "/usr/local/lib/libtree-sitter-bash.so",
-              "/opt/homebrew/lib/libtree-sitter-bash.dylib",
-              "/usr/local/lib/libtree-sitter-bash.dylib",
-            ].find { |path| File.exist?(path) }
-          end
+          TreeHaver::GrammarFinder.new(:bash).find_library_path
         end
       end
 
