@@ -145,23 +145,27 @@ module Bash
         end
 
         begin
-          # Use TreeHaver's unified interface
+          # Let TreeHaver handle all backend selection and language loading
           parser = TreeHaver::Parser.new
 
-          # Determine which language to use
-          language = if @parser_path && File.exist?(@parser_path)
-            # Custom parser path provided - use it
+          # Get the language - tree_haver handles automatic discovery and backend selection
+          language = if @parser_path && !@parser_path.empty? && File.exist?(@parser_path)
+            # Explicit parser path provided - use it
             TreeHaver::Language.from_library(@parser_path, symbol: "tree_sitter_bash", name: "bash")
           elsif TreeHaver::Language.respond_to?(:bash)
-            # Use registered bash language (from GrammarFinder)
+            # Use registered bash language (auto-discovered by GrammarFinder)
             TreeHaver::Language.bash
           else
-            # No language available
-            error_msg = if defined?(TreeHaver::GrammarFinder)
-              TreeHaver::GrammarFinder.new(:bash).not_found_message
-            else
-              "tree-sitter bash parser not found. Install tree-sitter-bash or set TREE_SITTER_BASH_PATH."
+            # Try to auto-register via GrammarFinder
+            if defined?(TreeHaver::GrammarFinder)
+              finder = TreeHaver::GrammarFinder.new(:bash)
+              finder.register! if finder.available?
+              TreeHaver::Language.bash if TreeHaver::Language.respond_to?(:bash)
             end
+          end
+
+          unless language
+            error_msg = "No Bash parser available. Install tree-sitter-bash (via tree_haver) or set TREE_SITTER_BASH_PATH."
             @errors << error_msg
             @ast = nil
             return
