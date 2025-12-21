@@ -6,13 +6,14 @@ RSpec.describe Bash::Merge::SmartMerger do
   describe "#initialize" do
     context "when parser is not available" do
       it "raises TemplateParseError for template issues" do
-        expect {
-          described_class.new(
-            "echo 'template'",
-            "echo 'dest'",
-            parser_path: "/nonexistent/parser.so",
-          )
-        }.to raise_error(Bash::Merge::TemplateParseError)
+        stub_env("TREE_SITTER_BASH_PATH" => "/nonexistent/parser.so") do
+          expect {
+            described_class.new(
+              "echo 'template'",
+              "echo 'dest'"
+            )
+          }.to raise_error(Bash::Merge::TemplateParseError)
+        end
       end
     end
   end
@@ -34,9 +35,19 @@ RSpec.describe Bash::Merge::SmartMerger do
       expect(described_class.instance_method(:initialize).parameters.flatten).to include(:signature_generator)
     end
 
-    it "accepts parser_path" do
-      expect(described_class.instance_method(:initialize).parameters.flatten).to include(:parser_path)
+    it "accepts match_refiner" do
+      expect(described_class.instance_method(:initialize).parameters.flatten).to include(:match_refiner)
     end
+
+    it "accepts regions" do
+      expect(described_class.instance_method(:initialize).parameters.flatten).to include(:regions)
+    end
+
+    it "accepts node_typing" do
+      expect(described_class.instance_method(:initialize).parameters.flatten).to include(:node_typing)
+    end
+
+    # Note: parser_path was removed - use TREE_SITTER_BASH_PATH environment variable instead
   end
 
   describe "instance methods" do
