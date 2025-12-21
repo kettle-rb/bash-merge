@@ -42,13 +42,15 @@ module Bash
       # @param freeze_token [String] Token for freeze block markers
       # @param signature_generator [Proc, nil] Custom signature generator
       # @param parser_path [String, nil] Path to tree-sitter-bash parser library
-      def initialize(source, freeze_token: DEFAULT_FREEZE_TOKEN, signature_generator: nil, parser_path: nil)
+      # @param options [Hash] Additional options (forward compatibility - ignored by FileAnalysis)
+      def initialize(source, freeze_token: DEFAULT_FREEZE_TOKEN, signature_generator: nil, parser_path: nil, **options)
         @source = source
         @lines = source.lines.map(&:chomp)
         @freeze_token = freeze_token
         @signature_generator = signature_generator
         @parser_path = parser_path || self.class.find_parser_path
         @errors = []
+        # **options captures any additional parameters (e.g., node_typing) for forward compatibility
 
         # Initialize comment tracking
         @comment_tracker = CommentTracker.new(source)
