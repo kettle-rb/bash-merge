@@ -4,6 +4,15 @@
 # TreeHaver provides a unified cross-Ruby interface to tree-sitter
 require "tree_haver"
 
+# BACKEND COMPATIBILITY for Bash:
+# - FFI: Most portable and reliable with bash grammar (recommended)
+# - MRI: Has ABI incompatibility with bash grammar
+# - Rust: Has version mismatch with bash grammar
+#
+# Set TREE_HAVER_BACKEND=ffi (or mri/rust) to control backend selection.
+# When MRI loads a grammar first, FFI gets incompatible pointers (symbol conflict).
+# MRI statically links tree-sitter, FFI dynamically links libtree-sitter.so.
+
 # Register tree-sitter bash grammar
 bash_finder = TreeHaver::GrammarFinder.new(:bash)
 bash_available = bash_finder.available?

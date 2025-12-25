@@ -50,6 +50,7 @@ module Bash
       #
       # @note To specify a custom parser path, use the TREE_SITTER_BASH_PATH environment
       #   variable. This is handled by tree_haver's GrammarFinder.
+      # @param options [Hash] Additional options for forward compatibility
       #
       # @raise [TemplateParseError] If template has syntax errors
       # @raise [DestinationParseError] If destination has syntax errors
@@ -63,7 +64,8 @@ module Bash
         match_refiner: nil,
         regions: nil,
         region_placeholder: nil,
-        node_typing: nil
+        node_typing: nil,
+        **options
       )
         super(
           template_content,
@@ -76,6 +78,7 @@ module Bash
           regions: regions,
           region_placeholder: region_placeholder,
           node_typing: node_typing,
+          **options
         )
       end
 

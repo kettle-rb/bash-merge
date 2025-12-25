@@ -21,13 +21,17 @@ module Bash
       #   - :destination (default) - Keep destination version (customizations)
       #   - :template - Use template version (updates)
       # @param add_template_only_nodes [Boolean] Whether to add nodes only in template
-      def initialize(template_analysis, dest_analysis, preference: :destination, add_template_only_nodes: false)
+      # @param match_refiner [#call, nil] Optional match refiner for fuzzy matching
+      # @param options [Hash] Additional options for forward compatibility
+      def initialize(template_analysis, dest_analysis, preference: :destination, add_template_only_nodes: false, match_refiner: nil, **options)
         super(
           strategy: :batch,
           preference: preference,
           template_analysis: template_analysis,
           dest_analysis: dest_analysis,
-          add_template_only_nodes: add_template_only_nodes
+          add_template_only_nodes: add_template_only_nodes,
+          match_refiner: match_refiner,
+          **options
         )
       end
 

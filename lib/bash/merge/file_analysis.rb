@@ -30,8 +30,6 @@ module Bash
         #
         # @return [String, nil] Path to the parser library or nil if not found
         def find_parser_path
-          return unless defined?(TreeHaver::GrammarFinder)
-
           TreeHaver::GrammarFinder.new(:bash).find_library_path
         end
       end
@@ -136,58 +134,21 @@ module Bash
       private
 
       def parse_bash
-        # Check if TreeHaver is available
-        unless defined?(TreeHaver)
-          error_msg = "TreeHaver not available. Install tree_haver gem."
-          @errors << error_msg
-          @ast = nil
-          return
+        # TreeHaver handles grammar discovery and backend selection
+        # Set TREE_HAVER_BACKEND=ffi for bash (MRI/Rust have compatibility issues)
+        parser = TreeHaver.parser_for(:bash, library_path: @parser_path)
+        @ast = parser.parse(@source)
+
+        # Check for parse errors in the tree
+        if @ast&.root_node&.has_error?
+          collect_parse_errors(@ast.root_node)
         end
-
-        begin
-          # Let TreeHaver handle all backend selection and language loading
-          parser = TreeHaver::Parser.new
-
-          # Get the language - tree_haver handles automatic discovery and backend selection
-          language = if @parser_path && !@parser_path.empty? && File.exist?(@parser_path)
-            # Explicit parser path provided - use it
-            TreeHaver::Language.from_library(@parser_path, symbol: "tree_sitter_bash", name: "bash")
-          elsif TreeHaver::Language.respond_to?(:bash)
-            # Use registered bash language (auto-discovered by GrammarFinder)
-            TreeHaver::Language.bash
-          else
-            # Try to auto-register via GrammarFinder
-            if defined?(TreeHaver::GrammarFinder)
-              finder = TreeHaver::GrammarFinder.new(:bash)
-              finder.register! if finder.available?
-              TreeHaver::Language.bash if TreeHaver::Language.respond_to?(:bash)
-            end
-          end
-
-          unless language
-            error_msg = "No Bash parser available. Install tree-sitter-bash (via tree_haver) or set TREE_SITTER_BASH_PATH."
-            @errors << error_msg
-            @ast = nil
-            return
-          end
-
-          parser.language = language
-          @ast = parser.parse(@source)
-
-          # parse returns nil on ABI version mismatch or other parser issues
-          if @ast.nil?
-            @errors << "tree-sitter bash parser failed to parse. This may indicate an ABI version mismatch."
-            return
-          end
-
-          # Check for parse errors in the tree
-          if @ast.root_node&.has_error?
-            collect_parse_errors(@ast.root_node)
-          end
-        rescue Exception => e
-          @errors << "#{e.class}: #{e.message}"
-          @ast = nil
-        end
+      rescue TreeHaver::NotAvailable => e
+        @errors << e.message
+        @ast = nil
+      rescue StandardError => e
+        @errors << e.message
+        @ast = nil
       end
 
       def collect_parse_errors(node)

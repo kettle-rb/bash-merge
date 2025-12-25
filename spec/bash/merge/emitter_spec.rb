@@ -29,6 +29,36 @@ RSpec.describe Bash::Merge::Emitter do
       emitter.emit_comment("inline", inline: true)
       expect(emitter.lines.last).to eq("echo 'hello' # inline")
     end
+
+    it "does nothing for inline comment when lines is empty" do
+      emitter.emit_comment("inline", inline: true)
+      expect(emitter.lines).to be_empty
+    end
+  end
+
+  describe "#emit_leading_comments" do
+    it "emits leading comments preserving indentation" do
+      comments = [
+        {text: "First comment", indent: 0},
+        {text: "Indented comment", indent: 2},
+      ]
+      emitter.emit_leading_comments(comments)
+      expect(emitter.lines[0]).to eq("# First comment")
+      expect(emitter.lines[1]).to eq("  # Indented comment")
+    end
+
+    it "handles missing indent" do
+      comments = [{text: "No indent specified"}]
+      emitter.emit_leading_comments(comments)
+      expect(emitter.lines[0]).to eq("# No indent specified")
+    end
+  end
+
+  describe "#emit_blank_line" do
+    it "emits an empty line" do
+      emitter.emit_blank_line
+      expect(emitter.lines).to eq([""])
+    end
   end
 
   describe "#emit_shebang" do
@@ -40,6 +70,11 @@ RSpec.describe Bash::Merge::Emitter do
     it "uses /bin/bash by default" do
       emitter.emit_shebang
       expect(emitter.lines.first).to eq("#!/bin/bash")
+    end
+
+    it "accepts custom interpreter" do
+      emitter.emit_shebang("/usr/bin/env bash")
+      expect(emitter.lines.first).to eq("#!/usr/bin/env bash")
     end
   end
 
@@ -80,7 +115,7 @@ RSpec.describe Bash::Merge::Emitter do
     end
   end
 
-  describe "#emit_if_start / #emit_fi" do
+  describe "#emit_if_start / #emit_elif / #emit_else / #emit_fi" do
     it "emits an if statement" do
       emitter.emit_if_start('[ "$x" -eq 1 ]')
       emitter.emit_line('echo "yes"')
@@ -88,6 +123,44 @@ RSpec.describe Bash::Merge::Emitter do
 
       result = emitter.to_bash
       expect(result).to include('if [ "$x" -eq 1 ]; then')
+      expect(result).to include("fi")
+    end
+
+    it "emits an elif clause" do
+      emitter.emit_if_start('[ "$x" -eq 1 ]')
+      emitter.emit_line('echo "one"')
+      emitter.emit_elif('[ "$x" -eq 2 ]')
+      emitter.emit_line('echo "two"')
+      emitter.emit_fi
+
+      result = emitter.to_bash
+      expect(result).to include('elif [ "$x" -eq 2 ]; then')
+    end
+
+    it "emits an else clause" do
+      emitter.emit_if_start('[ "$x" -eq 1 ]')
+      emitter.emit_line('echo "yes"')
+      emitter.emit_else
+      emitter.emit_line('echo "no"')
+      emitter.emit_fi
+
+      result = emitter.to_bash
+      expect(result).to include("else")
+    end
+
+    it "handles complex if-elif-else chains" do
+      emitter.emit_if_start('[ "$x" -eq 1 ]')
+      emitter.emit_line('echo "one"')
+      emitter.emit_elif('[ "$x" -eq 2 ]')
+      emitter.emit_line('echo "two"')
+      emitter.emit_else
+      emitter.emit_line('echo "other"')
+      emitter.emit_fi
+
+      result = emitter.to_bash
+      expect(result).to include("if")
+      expect(result).to include("elif")
+      expect(result).to include("else")
       expect(result).to include("fi")
     end
   end
@@ -104,9 +177,54 @@ RSpec.describe Bash::Merge::Emitter do
     end
   end
 
+  describe "#emit_while_start / #emit_done" do
+    it "emits a while loop" do
+      emitter.emit_while_start("true")
+      emitter.emit_line("sleep 1")
+      emitter.emit_done
+
+      result = emitter.to_bash
+      expect(result).to include("while true; do")
+      expect(result).to include("done")
+    end
+
+    it "indents while body" do
+      emitter.emit_while_start('[ "$x" -lt 10 ]')
+      emitter.emit_line("x=$((x + 1))")
+      emitter.emit_done
+
+      expect(emitter.lines[1]).to match(/^\s+x=/)
+    end
+  end
+
+  describe "#emit_case_start / #emit_case_pattern / #emit_case_pattern_end / #emit_esac" do
+    it "emits a case statement" do
+      emitter.emit_case_start('"$1"')
+      emitter.emit_case_pattern("start")
+      emitter.emit_line('echo "starting"')
+      emitter.emit_case_pattern_end
+      emitter.emit_case_pattern("stop")
+      emitter.emit_line('echo "stopping"')
+      emitter.emit_case_pattern_end
+      emitter.emit_esac
+
+      result = emitter.to_bash
+      expect(result).to include('case "$1" in')
+      expect(result).to include("start)")
+      expect(result).to include(";;")
+      expect(result).to include("stop)")
+      expect(result).to include("esac")
+    end
+  end
+
   describe "#emit_raw_lines" do
     it "emits lines as-is" do
       emitter.emit_raw_lines(["line1\n", "line2\n"])
+      expect(emitter.lines).to eq(["line1", "line2"])
+    end
+
+    it "handles lines without newlines" do
+      emitter.emit_raw_lines(["line1", "line2"])
       expect(emitter.lines).to eq(["line1", "line2"])
     end
   end
@@ -124,6 +242,12 @@ RSpec.describe Bash::Merge::Emitter do
       emitter.emit_line("echo 'test'")
       expect(emitter.to_bash).to end_with("\n")
     end
+
+    it "handles empty output" do
+      # Empty content should still work
+      result = emitter.to_bash
+      expect(result).to eq("")
+    end
   end
 
   describe "#clear" do
@@ -133,6 +257,42 @@ RSpec.describe Bash::Merge::Emitter do
 
       expect(emitter.lines).to be_empty
       expect(emitter.indent_level).to eq(0)
+    end
+
+    it "resets indent level even when deeply nested" do
+      emitter.emit_function_start("func")
+      emitter.emit_if_start("true")
+      emitter.emit_for_start("i", "1 2")
+      expect(emitter.indent_level).to eq(3)
+
+      emitter.clear
+      expect(emitter.indent_level).to eq(0)
+    end
+  end
+
+  describe "indentation behavior" do
+    it "does not go below 0 indent level" do
+      emitter.emit_fi # Try to decrease from 0
+      expect(emitter.indent_level).to eq(0)
+    end
+
+    it "uses correct indent for nested structures" do
+      emitter.emit_function_start("outer")
+      emitter.emit_if_start("true")
+      emitter.emit_line("echo 'nested'")
+
+      # The nested echo should have 4 spaces (2 levels × 2 spaces)
+      nested_line = emitter.lines.find { |l| l.include?("nested") }
+      expect(nested_line).to start_with("    ")
+    end
+
+    it "respects custom indent size" do
+      custom = described_class.new(indent_size: 4)
+      custom.emit_function_start("func")
+      custom.emit_line("echo 'test'")
+
+      nested_line = custom.lines.find { |l| l.include?("test") }
+      expect(nested_line).to start_with("    ") # 4 spaces
     end
   end
 end

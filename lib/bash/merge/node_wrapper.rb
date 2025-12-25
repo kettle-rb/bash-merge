@@ -155,8 +155,8 @@ module Bash
       def variable_name
         return unless variable_assignment?
 
-        # Get the variable name from the left side of assignment
-        name_node = find_child_by_field("name")
+        # In bash tree-sitter, variable name is a child of type 'variable_name'
+        name_node = find_child_by_type("variable_name")
         node_text(name_node) if name_node
       end
 

@@ -45,6 +45,17 @@ RSpec.describe Bash::Merge::ConflictResolver do
 
       expect(resolver.add_template_only_nodes).to be(false)
     end
+
+    it "accepts match_refiner option" do
+      refiner = ->(_t, _d) { [] }
+      resolver = described_class.new(
+        template_analysis,
+        dest_analysis,
+        match_refiner: refiner,
+      )
+
+      expect(resolver).to be_a(described_class)
+    end
   end
 
   describe "#resolve" do
@@ -72,6 +83,244 @@ RSpec.describe Bash::Merge::ConflictResolver do
       result = Bash::Merge::MergeResult.new
 
       expect { resolver.resolve(result) }.not_to raise_error
+    end
+  end
+
+  describe "with real parser", :tree_sitter_bash do
+    let(:template_content) do
+      <<~BASH
+        #!/bin/bash
+        MY_VAR="template_value"
+        echo "template"
+      BASH
+    end
+
+    let(:dest_content) do
+      <<~BASH
+        #!/bin/bash
+        MY_VAR="dest_value"
+        echo "dest"
+        EXTRA_VAR="only_in_dest"
+      BASH
+    end
+
+    let(:template_analysis) { Bash::Merge::FileAnalysis.new(template_content) }
+    let(:dest_analysis) { Bash::Merge::FileAnalysis.new(dest_content) }
+
+    describe "with destination preference" do
+      it "preserves destination values for matching nodes" do
+        resolver = described_class.new(
+          template_analysis,
+          dest_analysis,
+          preference: :destination,
+        )
+        result = Bash::Merge::MergeResult.new
+
+        resolver.resolve(result)
+
+        content = result.to_bash
+        expect(content).to include("dest_value")
+      end
+
+      it "preserves destination-only nodes" do
+        resolver = described_class.new(
+          template_analysis,
+          dest_analysis,
+          preference: :destination,
+        )
+        result = Bash::Merge::MergeResult.new
+
+        resolver.resolve(result)
+
+        content = result.to_bash
+        expect(content).to include("EXTRA_VAR")
+      end
+    end
+
+    describe "with template preference" do
+      it "uses template values for matching nodes" do
+        resolver = described_class.new(
+          template_analysis,
+          dest_analysis,
+          preference: :template,
+        )
+        result = Bash::Merge::MergeResult.new
+
+        resolver.resolve(result)
+
+        content = result.to_bash
+        expect(content).to include("template_value")
+      end
+    end
+
+    describe "with add_template_only_nodes" do
+      let(:template_with_extra) do
+        <<~BASH
+          #!/bin/bash
+          MY_VAR="value"
+          TEMPLATE_ONLY="only_in_template"
+        BASH
+      end
+
+      let(:simple_dest) do
+        <<~BASH
+          #!/bin/bash
+          MY_VAR="value"
+        BASH
+      end
+
+      it "adds template-only nodes when enabled" do
+        template = Bash::Merge::FileAnalysis.new(template_with_extra)
+        dest = Bash::Merge::FileAnalysis.new(simple_dest)
+
+        resolver = described_class.new(
+          template,
+          dest,
+          preference: :destination,
+          add_template_only_nodes: true,
+        )
+        result = Bash::Merge::MergeResult.new
+
+        resolver.resolve(result)
+
+        content = result.to_bash
+        expect(content).to include("TEMPLATE_ONLY")
+      end
+
+      it "does not add template-only nodes when disabled" do
+        template = Bash::Merge::FileAnalysis.new(template_with_extra)
+        dest = Bash::Merge::FileAnalysis.new(simple_dest)
+
+        resolver = described_class.new(
+          template,
+          dest,
+          preference: :destination,
+          add_template_only_nodes: false,
+        )
+        result = Bash::Merge::MergeResult.new
+
+        resolver.resolve(result)
+
+        content = result.to_bash
+        expect(content).not_to include("TEMPLATE_ONLY")
+      end
+    end
+
+    describe "with freeze blocks" do
+      let(:dest_with_freeze) do
+        <<~BASH
+          #!/bin/bash
+          # bash-merge:freeze
+          SECRET="frozen_value"
+          # bash-merge:unfreeze
+          PUBLIC="public_value"
+        BASH
+      end
+
+      it "preserves freeze blocks from destination" do
+        template = Bash::Merge::FileAnalysis.new(template_content)
+        dest = Bash::Merge::FileAnalysis.new(dest_with_freeze)
+
+        resolver = described_class.new(
+          template,
+          dest,
+          preference: :template,
+        )
+        result = Bash::Merge::MergeResult.new
+
+        resolver.resolve(result)
+
+        content = result.to_bash
+        expect(content).to include("bash-merge:freeze")
+        expect(content).to include("SECRET")
+      end
+    end
+
+    describe "with functions" do
+      let(:template_with_func) do
+        <<~BASH
+          #!/bin/bash
+          my_function() {
+            echo "template version"
+          }
+        BASH
+      end
+
+      let(:dest_with_func) do
+        <<~BASH
+          #!/bin/bash
+          my_function() {
+            echo "dest version"
+          }
+        BASH
+      end
+
+      it "matches functions by name" do
+        template = Bash::Merge::FileAnalysis.new(template_with_func)
+        dest = Bash::Merge::FileAnalysis.new(dest_with_func)
+
+        resolver = described_class.new(
+          template,
+          dest,
+          preference: :destination,
+        )
+        result = Bash::Merge::MergeResult.new
+
+        resolver.resolve(result)
+
+        content = result.to_bash
+        expect(content).to include("my_function")
+        expect(content).to include("dest version")
+      end
+    end
+
+    describe "with mixed content" do
+      let(:mixed_template) do
+        <<~BASH
+          #!/bin/bash
+          VAR1="value1"
+
+          my_func() {
+            echo "in function"
+          }
+
+          if [ -n "$VAR1" ]; then
+            echo "set"
+          fi
+        BASH
+      end
+
+      let(:mixed_dest) do
+        <<~BASH
+          #!/bin/bash
+          VAR1="dest_value1"
+          VAR2="dest_only"
+
+          my_func() {
+            echo "dest function"
+          }
+        BASH
+      end
+
+      it "handles mixed content types" do
+        template = Bash::Merge::FileAnalysis.new(mixed_template)
+        dest = Bash::Merge::FileAnalysis.new(mixed_dest)
+
+        resolver = described_class.new(
+          template,
+          dest,
+          preference: :destination,
+          add_template_only_nodes: true,
+        )
+        result = Bash::Merge::MergeResult.new
+
+        resolver.resolve(result)
+
+        content = result.to_bash
+        expect(content).to include("VAR1")
+        expect(content).to include("VAR2")
+        expect(content).to include("my_func")
+      end
     end
   end
 end
