@@ -18,23 +18,25 @@ module Bash
       self.env_var_name = "BASH_MERGE_DEBUG"
       self.log_prefix = "[Bash::Merge]"
 
-      # Override log_node to handle Bash-specific node types.
-      #
-      # @param node [Object] Node to log information about
-      # @param label [String] Label for the node
-      def self.log_node(node, label: "Node")
-        return unless enabled?
+      class << self
+        # Override log_node to handle Bash-specific node types.
+        #
+        # @param node [Object] Node to log information about
+        # @param label [String] Label for the node
+        def log_node(node, label: "Node")
+          return unless enabled?
 
-        info = case node
-        when Bash::Merge::FreezeNode
-          {type: "FreezeNode", lines: "#{node.start_line}..#{node.end_line}"}
-        when Bash::Merge::NodeWrapper
-          {type: node.type.to_s, lines: "#{node.start_line}..#{node.end_line}"}
-        else
-          extract_node_info(node)
+          info = case node
+          when Bash::Merge::FreezeNode
+            {type: "FreezeNode", lines: "#{node.start_line}..#{node.end_line}"}
+          when Bash::Merge::NodeWrapper
+            {type: node.type.to_s, lines: "#{node.start_line}..#{node.end_line}"}
+          else
+            extract_node_info(node)
+          end
+
+          debug(label, info)
         end
-
-        debug(label, info)
       end
     end
   end

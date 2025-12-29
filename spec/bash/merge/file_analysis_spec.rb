@@ -20,6 +20,19 @@ RSpec.describe Bash::Merge::FileAnalysis do
       analysis = described_class.new("echo 'test'")
       expect(analysis.freeze_token).to eq("bash-merge")
     end
+
+    it "accepts signature_generator option" do
+      custom_gen = ->(node) { [:custom, node.class.name] }
+      analysis = described_class.new("echo 'test'", signature_generator: custom_gen)
+      expect(analysis).to be_a(described_class)
+    end
+
+    it "accepts additional options for forward compatibility" do
+      # Should not raise even with unknown options
+      expect {
+        described_class.new("echo 'test'", unknown_option: true, another: "value")
+      }.not_to raise_error
+    end
   end
 
   describe "#valid?" do
@@ -29,6 +42,18 @@ RSpec.describe Bash::Merge::FileAnalysis do
         analysis = described_class.new("echo 'test'", parser_path: "/nonexistent/path.so")
         expect(analysis.valid?).to be(false)
         expect(analysis.errors).not_to be_empty
+      end
+    end
+
+    context "when parser is available", :tree_sitter_bash do
+      it "returns true for valid bash" do
+        analysis = described_class.new("echo 'hello'")
+        expect(analysis.valid?).to be true
+      end
+
+      it "returns true for empty source" do
+        analysis = described_class.new("")
+        expect(analysis.valid?).to be true
       end
     end
   end
@@ -91,6 +116,19 @@ RSpec.describe Bash::Merge::FileAnalysis do
       analysis = described_class.new(source)
       expect(analysis.freeze_blocks.size).to eq(2)
     end
+
+    it "handles unmatched freeze markers" do
+      source = <<~BASH
+        #!/bin/bash
+        # bash-merge:freeze
+        SECRET="value"
+        # No unfreeze marker
+      BASH
+
+      analysis = described_class.new(source)
+      # Unmatched freeze markers should not create blocks
+      expect(analysis.freeze_blocks.size).to eq(0)
+    end
   end
 
   describe "#in_freeze_block?" do
@@ -117,6 +155,19 @@ RSpec.describe Bash::Merge::FileAnalysis do
 
       analysis = described_class.new(source)
       expect(analysis.in_freeze_block?(5)).to be(false)
+    end
+
+    it "returns true for freeze marker lines" do
+      source = <<~BASH
+        #!/bin/bash
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+      BASH
+
+      analysis = described_class.new(source)
+      expect(analysis.in_freeze_block?(2)).to be(true) # freeze marker
+      expect(analysis.in_freeze_block?(4)).to be(true) # unfreeze marker
     end
   end
 
@@ -149,6 +200,142 @@ RSpec.describe Bash::Merge::FileAnalysis do
     it "returns a CommentTracker instance" do
       analysis = described_class.new("# comment")
       expect(analysis.comment_tracker).to be_a(Bash::Merge::CommentTracker)
+    end
+  end
+
+  describe "#root_node", :tree_sitter_bash do
+    it "returns a NodeWrapper for the root" do
+      analysis = described_class.new("echo 'hello'")
+      expect(analysis.root_node).to be_a(Bash::Merge::NodeWrapper)
+    end
+
+    it "returns nil when invalid" do
+      analysis = described_class.new("echo 'hello'", parser_path: "/nonexistent/path.so")
+      expect(analysis.root_node).to be_nil
+    end
+  end
+
+  describe "#top_level_statements", :tree_sitter_bash do
+    it "returns top-level statements" do
+      source = <<~BASH
+        echo "one"
+        echo "two"
+        echo "three"
+      BASH
+      analysis = described_class.new(source)
+      statements = analysis.top_level_statements
+      expect(statements).to be_an(Array)
+      expect(statements.size).to be >= 3
+    end
+
+    it "excludes comments from statements" do
+      source = <<~BASH
+        # This is a comment
+        echo "one"
+      BASH
+      analysis = described_class.new(source)
+      statements = analysis.top_level_statements
+      expect(statements.none? { |s| s.comment? }).to be true
+    end
+
+    it "returns empty array when invalid" do
+      analysis = described_class.new("echo 'hello'", parser_path: "/nonexistent/path.so")
+      expect(analysis.top_level_statements).to eq([])
+    end
+  end
+
+  describe "#nodes and #statements", :tree_sitter_bash do
+    it "returns nodes including freeze blocks" do
+      source = <<~BASH
+        echo "before"
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+        echo "after"
+      BASH
+      analysis = described_class.new(source)
+      nodes = analysis.nodes
+      freeze_nodes = nodes.select { |n| n.is_a?(Bash::Merge::FreezeNode) }
+      expect(freeze_nodes.size).to eq(1)
+    end
+
+    it "aliases statements to nodes" do
+      analysis = described_class.new("echo 'hello'")
+      expect(analysis.statements).to eq(analysis.nodes)
+    end
+  end
+
+  describe "#fallthrough_node?", :tree_sitter_bash do
+    it "returns true for NodeWrapper instances" do
+      analysis = described_class.new("echo 'hello'")
+      node = analysis.nodes.first
+      expect(analysis.fallthrough_node?(node)).to be true
+    end
+
+    it "returns true for FreezeNode instances" do
+      source = <<~BASH
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+      BASH
+      analysis = described_class.new(source)
+      freeze_node = analysis.freeze_blocks.first
+      expect(analysis.fallthrough_node?(freeze_node)).to be true
+    end
+
+    it "returns false for other types" do
+      analysis = described_class.new("echo 'hello'")
+      expect(analysis.fallthrough_node?("not a node")).to be false
+      expect(analysis.fallthrough_node?(nil)).to be false
+      expect(analysis.fallthrough_node?(123)).to be false
+    end
+  end
+
+  describe ".find_parser_path" do
+    it "returns a string path or nil" do
+      path = described_class.find_parser_path
+      expect(path.is_a?(String) || path.nil?).to be true
+    end
+  end
+
+  describe "error handling" do
+    it "handles missing grammar gracefully" do
+      analysis = described_class.new("echo 'hello'", parser_path: "/nonexistent/path.so")
+      expect(analysis.valid?).to be false
+      expect(analysis.errors).not_to be_empty
+    end
+  end
+
+  describe "integration with freeze blocks", :tree_sitter_bash do
+    it "excludes freeze block content from regular nodes" do
+      source = <<~BASH
+        echo "before"
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+        echo "after"
+      BASH
+      analysis = described_class.new(source)
+
+      # Regular nodes should not include the SECRET assignment
+      regular_nodes = analysis.nodes.reject { |n| n.is_a?(Bash::Merge::FreezeNode) }
+      var_nodes = regular_nodes.select { |n| n.respond_to?(:variable_assignment?) && n.variable_assignment? }
+      expect(var_nodes.size).to eq(0)
+    end
+
+    it "sorts nodes by start line" do
+      source = <<~BASH
+        echo "first"
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+        echo "last"
+      BASH
+      analysis = described_class.new(source)
+      nodes = analysis.nodes
+
+      lines = nodes.map(&:start_line).compact
+      expect(lines).to eq(lines.sort)
     end
   end
 end

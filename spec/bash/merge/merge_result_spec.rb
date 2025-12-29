@@ -136,4 +136,113 @@ RSpec.describe Bash::Merge::MergeResult do
       expect(result.content).to eq(result.to_bash)
     end
   end
+
+  describe "#add_node", :tree_sitter_bash do
+    let(:source) { "echo 'hello'" }
+    let(:analysis) { Bash::Merge::FileAnalysis.new(source) }
+
+    it "adds lines from a node wrapper" do
+      node = analysis.nodes.first
+      skip "No nodes available" unless node
+
+      result.add_node(
+        node,
+        decision: described_class::DECISION_KEPT_DEST,
+        source: :destination,
+        analysis: analysis,
+      )
+
+      expect(result.lines).not_to be_empty
+    end
+
+    it "skips nodes without line information" do
+      # Create a mock node without line info
+      mock_node = double("NodeWrapper", start_line: nil, end_line: nil)
+
+      result.add_node(
+        mock_node,
+        decision: described_class::DECISION_KEPT_DEST,
+        source: :destination,
+        analysis: analysis,
+      )
+
+      expect(result.lines).to be_empty
+    end
+
+    it "skips lines that return nil from analysis" do
+      node = analysis.nodes.first
+      skip "No nodes available" unless node
+
+      # Create a mock analysis that returns nil for lines
+      mock_analysis = double("FileAnalysis", line_at: nil)
+
+      result.add_node(
+        node,
+        decision: described_class::DECISION_KEPT_DEST,
+        source: :destination,
+        analysis: mock_analysis,
+      )
+
+      expect(result.lines).to be_empty
+    end
+  end
+
+  describe "statistics tracking" do
+    it "tracks template lines" do
+      result.add_line("line", decision: described_class::DECISION_KEPT_TEMPLATE, source: :template)
+      expect(result.statistics[:template_lines]).to eq(1)
+    end
+
+    it "tracks destination lines" do
+      result.add_line("line", decision: described_class::DECISION_KEPT_DEST, source: :destination)
+      expect(result.statistics[:dest_lines]).to eq(1)
+    end
+
+    it "tracks freeze block lines" do
+      result.add_line("line", decision: described_class::DECISION_FREEZE_BLOCK, source: :destination)
+      expect(result.statistics[:freeze_preserved_lines]).to eq(1)
+    end
+
+    it "tracks merged lines for other decisions" do
+      result.add_line("line", decision: described_class::DECISION_MERGED, source: :merged)
+      expect(result.statistics[:merged_lines]).to eq(1)
+    end
+
+    it "tracks added lines as merged" do
+      result.add_line("line", decision: described_class::DECISION_ADDED, source: :template)
+      expect(result.statistics[:merged_lines]).to eq(1)
+    end
+  end
+
+  describe "#line_count" do
+    it "returns the number of lines" do
+      result.add_line("line1", decision: :kept, source: :template)
+      result.add_line("line2", decision: :kept, source: :template)
+
+      expect(result.line_count).to eq(2)
+    end
+  end
+
+  describe "#decision_summary" do
+    it "returns a hash of decision counts" do
+      result.add_line("line1", decision: described_class::DECISION_KEPT_TEMPLATE, source: :template)
+      result.add_line("line2", decision: described_class::DECISION_KEPT_DEST, source: :destination)
+      result.add_line("line3", decision: described_class::DECISION_KEPT_DEST, source: :destination)
+
+      summary = result.decision_summary
+      expect(summary).to be_a(Hash)
+      expect(summary[described_class::DECISION_KEPT_TEMPLATE]).to eq(1)
+      expect(summary[described_class::DECISION_KEPT_DEST]).to eq(2)
+    end
+  end
+
+  describe "empty content handling" do
+    it "handles empty result gracefully" do
+      expect(result.to_bash).to eq("")
+    end
+
+    it "returns empty string for content when no lines" do
+      expect(result.content).to eq("")
+    end
+  end
 end

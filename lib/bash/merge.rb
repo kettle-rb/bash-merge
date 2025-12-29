@@ -1,7 +1,33 @@
 # frozen_string_literal: true
 
 # External gems
-require "tree_sitter"
+# TreeHaver provides a unified cross-Ruby interface to tree-sitter
+require "tree_haver"
+
+# BACKEND COMPATIBILITY for Bash:
+# - FFI: Most portable and reliable with bash grammar (recommended)
+# - MRI: Has ABI incompatibility with bash grammar
+# - Rust: Has version mismatch with bash grammar
+#
+# Set TREE_HAVER_BACKEND=ffi (or mri/rust) to control backend selection.
+# When MRI loads a grammar first, FFI gets incompatible pointers (symbol conflict).
+# MRI statically links tree-sitter, FFI dynamically links libtree-sitter.so.
+
+# Register tree-sitter bash grammar
+bash_finder = TreeHaver::GrammarFinder.new(:bash)
+bash_available = bash_finder.available?
+bash_finder.register! if bash_available
+
+# Only warn if the grammar file is actually missing (not just runtime unavailable)
+# When the runtime isn't available, tree-sitter backends just won't be used,
+# which is expected behavior - no need to warn the user.
+unless bash_available
+  grammar_path = bash_finder.find_library_path
+  unless grammar_path
+    warn "WARNING: Bash grammar not available. #{bash_finder.not_found_message}"
+  end
+end
+
 require "version_gem"
 require "set"
 

@@ -2,17 +2,17 @@
 
 module Bash
   module Merge
-    # Wraps tree-sitter nodes with comment associations, line information, and signatures.
+    # Wraps TreeHaver nodes with comment associations, line information, and signatures.
     # This provides a unified interface for working with Bash AST nodes during merging.
     #
     # @example Basic usage
-    #   parser = TreeSitter::Parser.new
-    #   parser.language = TreeSitter::Language.load("bash", path)
-    #   tree = parser.parse_string(nil, source)
+    #   parser = TreeHaver::Parser.new
+    #   parser.language = TreeHaver::Language.bash
+    #   tree = parser.parse(source)
     #   wrapper = NodeWrapper.new(tree.root_node, lines: source.lines, source: source)
     #   wrapper.signature # => [:program, ...]
     class NodeWrapper
-      # @return [TreeSitter::Node] The wrapped tree-sitter node
+      # @return [TreeHaver::Node] The wrapped tree-haver node
       attr_reader :node
 
       # @return [Array<Hash>] Leading comments associated with this node
@@ -33,7 +33,7 @@ module Bash
       # @return [String] The original source string
       attr_reader :source
 
-      # @param node [TreeSitter::Node] Tree-sitter node to wrap
+      # @param node [TreeHaver::Node] tree-haver node to wrap
       # @param lines [Array<String>] Source lines for content extraction
       # @param source [String] Original source string for byte-based text extraction
       # @param leading_comments [Array<Hash>] Comments before this node
@@ -45,9 +45,15 @@ module Bash
         @leading_comments = leading_comments
         @inline_comment = inline_comment
 
-        # Extract line information from the tree-sitter node (0-indexed to 1-indexed)
-        @start_line = node.start_point.row + 1 if node.respond_to?(:start_point)
-        @end_line = node.end_point.row + 1 if node.respond_to?(:end_point)
+        # Extract line information from the tree-haver node (0-indexed to 1-indexed)
+        if node.respond_to?(:start_point)
+          point = node.start_point
+          @start_line = (point.respond_to?(:row) ? point.row : point[:row]) + 1
+        end
+        if node.respond_to?(:end_point)
+          point = node.end_point
+          @end_line = (point.respond_to?(:row) ? point.row : point[:row]) + 1
+        end
 
         # Handle edge case where end_line might be before start_line
         @end_line = @start_line if @start_line && @end_line && @end_line < @start_line
@@ -149,8 +155,8 @@ module Bash
       def variable_name
         return unless variable_assignment?
 
-        # Get the variable name from the left side of assignment
-        name_node = find_child_by_field("name")
+        # In bash tree-sitter, variable name is a child of type 'variable_name'
+        name_node = find_child_by_type("variable_name")
         node_text(name_node) if name_node
       end
 
