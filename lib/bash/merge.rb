@@ -18,9 +18,14 @@ bash_finder = TreeHaver::GrammarFinder.new(:bash)
 bash_available = bash_finder.available?
 bash_finder.register! if bash_available
 
-# Ensure grammar is available
+# Only warn if the grammar file is actually missing (not just runtime unavailable)
+# When the runtime isn't available, tree-sitter backends just won't be used,
+# which is expected behavior - no need to warn the user.
 unless bash_available
-  warn "WARNING: Bash grammar not available. #{bash_finder.not_found_message}"
+  grammar_path = bash_finder.find_library_path
+  unless grammar_path
+    warn "WARNING: Bash grammar not available. #{bash_finder.not_found_message}"
+  end
 end
 
 require "version_gem"

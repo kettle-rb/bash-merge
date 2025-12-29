@@ -13,7 +13,7 @@ RSpec.describe Bash::Merge::SmartMerger do
         expect {
           described_class.new(
             "echo 'template'",
-            "echo 'dest'"
+            "echo 'dest'",
           )
         }.to raise_error(TreeHaver::NotAvailable, /file does not exist/)
       end

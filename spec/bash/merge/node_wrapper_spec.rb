@@ -455,7 +455,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
 
     it "handles heredocs" do
-      source = <<~'BASH'
+      source = <<~BASH
         cat <<EOF
         This is a heredoc
         with multiple lines
@@ -483,4 +483,3 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 end
-
