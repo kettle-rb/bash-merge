@@ -4,12 +4,15 @@ RSpec.describe Bash::Merge::SmartMerger do
   # Note: Full integration testing requires tree-sitter-bash parser to be installed
 
   describe "#initialize" do
-    context "when parser is not available" do
+    context "when parser path is invalid via ENV" do
       before do
         stub_env("TREE_SITTER_BASH_PATH" => "/nonexistent/parser.so")
       end
 
       it "raises TreeHaver::NotAvailable for invalid parser path" do
+        # When TREE_SITTER_BASH_PATH is set to an invalid path, GrammarFinder.find_library_path
+        # raises TreeHaver::NotAvailable BEFORE parse_bash runs.
+        # This exception (which extends Exception, not StandardError) propagates unchanged.
         expect {
           described_class.new(
             "echo 'template'",

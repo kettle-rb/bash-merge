@@ -29,6 +29,7 @@ module Bash
         # Find the parser library path using TreeHaver::GrammarFinder
         #
         # @return [String, nil] Path to the parser library or nil if not found
+        # @raise [TreeHaver::NotAvailable] if ENV is set to invalid path
         def find_parser_path
           TreeHaver::GrammarFinder.new(:bash).find_library_path
         end
