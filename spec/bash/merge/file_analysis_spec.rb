@@ -45,7 +45,7 @@ RSpec.describe Bash::Merge::FileAnalysis do
       end
     end
 
-    context "when parser is available", :tree_sitter_bash do
+    context "when parser is available", :bash_grammar do
       it "returns true for valid bash" do
         analysis = described_class.new("echo 'hello'")
         expect(analysis.valid?).to be true
@@ -203,7 +203,7 @@ RSpec.describe Bash::Merge::FileAnalysis do
     end
   end
 
-  describe "#root_node", :tree_sitter_bash do
+  describe "#root_node", :bash_grammar do
     it "returns a NodeWrapper for the root" do
       analysis = described_class.new("echo 'hello'")
       expect(analysis.root_node).to be_a(Bash::Merge::NodeWrapper)
@@ -215,7 +215,7 @@ RSpec.describe Bash::Merge::FileAnalysis do
     end
   end
 
-  describe "#top_level_statements", :tree_sitter_bash do
+  describe "#top_level_statements", :bash_grammar do
     it "returns top-level statements" do
       source = <<~BASH
         echo "one"
@@ -244,7 +244,7 @@ RSpec.describe Bash::Merge::FileAnalysis do
     end
   end
 
-  describe "#nodes and #statements", :tree_sitter_bash do
+  describe "#nodes and #statements", :bash_grammar do
     it "returns nodes including freeze blocks" do
       source = <<~BASH
         echo "before"
@@ -265,7 +265,7 @@ RSpec.describe Bash::Merge::FileAnalysis do
     end
   end
 
-  describe "#fallthrough_node?", :tree_sitter_bash do
+  describe "#fallthrough_node?", :bash_grammar do
     it "returns true for NodeWrapper instances" do
       analysis = described_class.new("echo 'hello'")
       node = analysis.nodes.first
@@ -306,7 +306,7 @@ RSpec.describe Bash::Merge::FileAnalysis do
     end
   end
 
-  describe "integration with freeze blocks", :tree_sitter_bash do
+  describe "integration with freeze blocks", :bash_grammar do
     it "excludes freeze block content from regular nodes" do
       source = <<~BASH
         echo "before"

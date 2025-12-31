@@ -4,7 +4,12 @@ RSpec.describe Bash::Merge::SmartMerger do
   # Note: Full integration testing requires tree-sitter-bash parser to be installed
 
   describe "#initialize" do
-    context "when parser path is invalid via ENV" do
+    # This test requires tree-sitter-bash to be available because:
+    # 1. It tests the error path when ENV points to an invalid path
+    # 2. GrammarFinder only raises NotAvailable for invalid ENV paths when the ENV IS set
+    # 3. Without tree-sitter-bash installed, the test would fail differently
+    #    (no grammar available at all, not "invalid path")
+    context "when parser path is invalid via ENV", :bash_grammar do
       before do
         stub_env("TREE_SITTER_BASH_PATH" => "/nonexistent/parser.so")
       end
@@ -19,6 +24,22 @@ RSpec.describe Bash::Merge::SmartMerger do
             "echo 'dest'",
           )
         }.to raise_error(TreeHaver::NotAvailable, /file does not exist/)
+      end
+    end
+
+    # This test runs when tree-sitter-bash is NOT available
+    # It tests that appropriate errors are raised when no parser can be found
+    context "when no bash parser is available", :not_tree_sitter_bash do
+      it "raises TemplateParseError when parser cannot be created" do
+        # When no bash grammar is available anywhere (not in ENV, not in system paths),
+        # TreeHaver.parser_for fails and the error is caught by parse_bash,
+        # which makes the analysis invalid, triggering TemplateParseError.
+        expect {
+          described_class.new(
+            "echo 'template'",
+            "echo 'dest'",
+          )
+        }.to raise_error(Bash::Merge::TemplateParseError)
       end
     end
   end
@@ -103,7 +124,7 @@ RSpec.describe Bash::Merge::SmartMerger do
     end
   end
 
-  describe "with real parser", :tree_sitter_bash do
+  describe "with real parser", :bash_grammar do
     let(:template_content) do
       <<~BASH
         #!/bin/bash

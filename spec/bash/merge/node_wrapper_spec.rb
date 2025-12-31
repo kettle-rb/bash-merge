@@ -10,7 +10,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "when tree-sitter parser is available", :tree_sitter_bash do
+  describe "when tree-sitter parser is available", :bash_grammar do
     let(:bash_content) { "echo 'hello'" }
 
     it "creates wrapper instances from FileAnalysis" do
@@ -22,7 +22,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "#freeze_node?", :tree_sitter_bash do
+  describe "#freeze_node?", :bash_grammar do
     it "returns false for NodeWrapper instances" do
       source = "echo 'hello'"
       analysis = Bash::Merge::FileAnalysis.new(source)
@@ -33,7 +33,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "type predicates with real parsed content", :tree_sitter_bash do
+  describe "type predicates with real parsed content", :bash_grammar do
     describe "#function_definition?" do
       it "returns true for function definitions" do
         source = <<~BASH
@@ -161,7 +161,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "#function_name", :tree_sitter_bash do
+  describe "#function_name", :bash_grammar do
     it "returns the function name for function definitions" do
       source = <<~BASH
         my_awesome_function() {
@@ -182,7 +182,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "#variable_name", :tree_sitter_bash do
+  describe "#variable_name", :bash_grammar do
     it "returns the variable name for assignments" do
       source = "MY_VAR='value'"
       analysis = Bash::Merge::FileAnalysis.new(source)
@@ -199,7 +199,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "#command_name", :tree_sitter_bash do
+  describe "#command_name", :bash_grammar do
     it "returns the command name for commands" do
       source = "echo 'hello'"
       analysis = Bash::Merge::FileAnalysis.new(source)
@@ -217,7 +217,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "#children", :tree_sitter_bash do
+  describe "#children", :bash_grammar do
     it "returns wrapped child nodes" do
       source = <<~BASH
         if [ -n "$VAR" ]; then
@@ -243,7 +243,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "#signature", :tree_sitter_bash do
+  describe "#signature", :bash_grammar do
     it "generates signature for function definitions" do
       source = <<~BASH
         my_function() {
@@ -359,7 +359,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "#text and #content", :tree_sitter_bash do
+  describe "#text and #content", :bash_grammar do
     it "extracts text from nodes" do
       source = "echo 'hello world'"
       analysis = Bash::Merge::FileAnalysis.new(source)
@@ -380,7 +380,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "#start_line and #end_line", :tree_sitter_bash do
+  describe "#start_line and #end_line", :bash_grammar do
     it "provides line information" do
       source = <<~BASH
         echo "line 1"
@@ -409,7 +409,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "#type and #type?", :tree_sitter_bash do
+  describe "#type and #type?", :bash_grammar do
     it "returns the node type" do
       source = "echo 'hello'"
       analysis = Bash::Merge::FileAnalysis.new(source)
@@ -429,7 +429,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "#inspect", :tree_sitter_bash do
+  describe "#inspect", :bash_grammar do
     it "returns a debug string" do
       source = "echo 'hello'"
       analysis = Bash::Merge::FileAnalysis.new(source)
@@ -440,7 +440,7 @@ RSpec.describe Bash::Merge::NodeWrapper do
     end
   end
 
-  describe "edge cases", :tree_sitter_bash do
+  describe "edge cases", :bash_grammar do
     it "handles empty content" do
       source = ""
       analysis = Bash::Merge::FileAnalysis.new(source)

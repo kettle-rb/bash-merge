@@ -219,4 +219,3 @@ else
 fi
 
 echo "  TREE_SITTER_BASH_PATH=/usr/local/lib/libtree-sitter-bash.so"
-

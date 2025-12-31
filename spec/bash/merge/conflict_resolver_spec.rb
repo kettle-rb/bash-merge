@@ -86,7 +86,7 @@ RSpec.describe Bash::Merge::ConflictResolver do
     end
   end
 
-  describe "with real parser", :tree_sitter_bash do
+  describe "with real parser", :bash_grammar do
     let(:template_content) do
       <<~BASH
         #!/bin/bash

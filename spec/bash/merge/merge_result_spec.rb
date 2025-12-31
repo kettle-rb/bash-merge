@@ -137,7 +137,7 @@ RSpec.describe Bash::Merge::MergeResult do
     end
   end
 
-  describe "#add_node", :tree_sitter_bash do
+  describe "#add_node", :bash_grammar do
     let(:source) { "echo 'hello'" }
     let(:analysis) { Bash::Merge::FileAnalysis.new(source) }
 
