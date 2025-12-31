@@ -29,7 +29,7 @@ RSpec.describe Bash::Merge::SmartMerger do
 
     # This test runs when tree-sitter-bash is NOT available
     # It tests that appropriate errors are raised when no parser can be found
-    context "when no bash parser is available", :not_tree_sitter_bash do
+    context "when no bash parser is available", :not_bash_grammar do
       it "raises TemplateParseError when parser cannot be created" do
         # When no bash grammar is available anywhere (not in ENV, not in system paths),
         # TreeHaver.parser_for fails and the error is caught by parse_bash,
