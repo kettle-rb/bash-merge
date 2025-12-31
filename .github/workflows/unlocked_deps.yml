@@ -65,6 +65,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Install tree-sitter and bash grammar
+        uses: kettle-rb/ts-grammar-action@main
+        with:
+          grammar-bash: true
+
       - name: Setup Ruby & RubyGems
         uses: ruby/setup-ruby@v1
         with:
