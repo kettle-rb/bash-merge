@@ -20,8 +20,6 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
-- Initial release
-
 ### Changed
 
 ### Deprecated
@@ -29,6 +27,19 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Removed
 
 ### Fixed
+
+### Security
+
+## [1.0.0] - 2026-01-01
+
+- TAG: [v1.0.0][1.0.0t]
+- COVERAGE: 100.00% -- 109/109 lines in 2 files
+- BRANCH COVERAGE: 73.33% -- 22/30 branches in 2 files
+- 96.90% documented
+
+### Added
+
+- Initial release
 
 ### Security
 
