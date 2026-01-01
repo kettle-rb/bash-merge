@@ -86,6 +86,47 @@ RSpec.describe Bash::Merge::FreezeNode do
 
       expect(node1.signature).to eq(node2.signature)
     end
+
+    it "handles lines with varying whitespace" do
+      lines_with_spaces = [
+        "#!/bin/bash",
+        "# bash-merge:freeze",
+        '  SECRET="my-secret"  ',
+        "# bash-merge:unfreeze",
+        'echo "hello"',
+      ]
+      node = described_class.new(start_line: 2, end_line: 4, lines: lines_with_spaces)
+      expect(node.signature.first).to eq(:FreezeNode)
+      expect(node.signature.last).to include('SECRET="my-secret"')
+    end
+
+    it "handles lines containing empty strings after strip" do
+      lines_with_empty = [
+        "#!/bin/bash",
+        "# bash-merge:freeze",
+        "   ",
+        'SECRET="my-secret"',
+        "# bash-merge:unfreeze",
+      ]
+      node = described_class.new(start_line: 2, end_line: 5, lines: lines_with_empty)
+      expect(node.signature.first).to eq(:FreezeNode)
+      # The empty line should be excluded from the normalized content
+      expect(node.signature.last).not_to include("\n\n")
+    end
+
+    it "handles lines with nil values intermixed" do
+      # This exercises the l&.strip safe navigation when l is nil
+      lines_with_nil = [
+        "# bash-merge:freeze",
+        nil,
+        'SECRET="value"',
+        "# bash-merge:unfreeze",
+      ]
+      node = described_class.new(start_line: 1, end_line: 4, lines: lines_with_nil)
+      expect(node.signature.first).to eq(:FreezeNode)
+      # nil lines should be filtered out by compact
+      expect(node.signature.last).to include("SECRET")
+    end
   end
 
   describe "#location" do
@@ -141,6 +182,21 @@ RSpec.describe Bash::Merge::FreezeNode do
       result = freeze_node.inspect
       expect(result).to include("FreezeNode")
       expect(result).to include("2..4")
+    end
+
+    it "#inspect shows content_length when slice has content" do
+      result = freeze_node.inspect
+      # The slice should have content, so content_length should be > 0
+      expect(result).to match(/content_length=\d+/)
+      # Verify it's not showing 0 (the else branch of || 0)
+      expect(result).not_to include("content_length=0")
+    end
+
+    it "#slice returns content with non-zero length" do
+      # Explicitly test that slice returns content (covers the else branch of || 0)
+      slice_content = freeze_node.slice
+      expect(slice_content).not_to be_nil
+      expect(slice_content.length).to be > 0
     end
   end
 

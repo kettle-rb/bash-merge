@@ -271,9 +271,45 @@ RSpec.describe Bash::Merge::Emitter do
   end
 
   describe "indentation behavior" do
-    it "does not go below 0 indent level" do
+    it "does not go below 0 indent level with emit_fi" do
       emitter.emit_fi # Try to decrease from 0
       expect(emitter.indent_level).to eq(0)
+    end
+
+    it "does not go below 0 indent level with emit_function_end" do
+      emitter.emit_function_end
+      expect(emitter.indent_level).to eq(0)
+      expect(emitter.lines.last).to eq("}")
+    end
+
+    it "does not go below 0 indent level with emit_elif" do
+      emitter.emit_elif('[ "$x" -eq 2 ]')
+      expect(emitter.indent_level).to eq(1)
+      expect(emitter.lines.last).to eq('elif [ "$x" -eq 2 ]; then')
+    end
+
+    it "does not go below 0 indent level with emit_else" do
+      emitter.emit_else
+      expect(emitter.indent_level).to eq(1)
+      expect(emitter.lines.last).to eq("else")
+    end
+
+    it "does not go below 0 indent level with emit_done" do
+      emitter.emit_done
+      expect(emitter.indent_level).to eq(0)
+      expect(emitter.lines.last).to eq("done")
+    end
+
+    it "does not go below 0 indent level with emit_case_pattern_end" do
+      emitter.emit_case_pattern_end
+      expect(emitter.indent_level).to eq(0)
+      expect(emitter.lines.last).to eq(";;")
+    end
+
+    it "does not go below 0 indent level with emit_esac" do
+      emitter.emit_esac
+      expect(emitter.indent_level).to eq(0)
+      expect(emitter.lines.last).to eq("esac")
     end
 
     it "uses correct indent for nested structures" do
