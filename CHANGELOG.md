@@ -34,7 +34,7 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - TAG: [v1.0.0][1.0.0t]
 - COVERAGE: 100.00% -- 109/109 lines in 2 files
-- BRANCH COVERAGE: 73.33% -- 22/30 branches in 2 files
+- BRANCH COVERAGE: 100.00% -- 28/28 branches in 2 files
 - 96.90% documented
 
 ### Added
