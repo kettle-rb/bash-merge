@@ -33,6 +33,7 @@ env:
   K_SOUP_COV_MULTI_FORMATTERS: true
   K_SOUP_COV_COMMAND_NAME: "Test Coverage"
   # Note: LD_LIBRARY_PATH and TREE_SITTER_BASH_PATH are set by ts-grammar-action
+  TREE_HAVER_BACKEND: ffi
 
 on:
   push:

@@ -7,6 +7,7 @@ permissions:
 
 env:
   K_SOUP_COV_DO: false
+  TREE_HAVER_BACKEND: ffi
 
 on:
   push:
