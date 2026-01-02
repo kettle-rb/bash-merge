@@ -22,6 +22,11 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+- **FileAnalysis error handling**: Now rescues `TreeHaver::Error` instead of `TreeHaver::NotAvailable`
+  - `TreeHaver::Error` inherits from `Exception`, not `StandardError`
+  - `TreeHaver::NotAvailable` is a subclass of `TreeHaver::Error`, so it's also caught
+  - Fixes parse error handling on alternative Ruby engines
+
 ### Deprecated
 
 ### Removed

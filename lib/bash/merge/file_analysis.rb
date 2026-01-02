@@ -144,7 +144,9 @@ module Bash
         if @ast&.root_node&.has_error?
           collect_parse_errors(@ast.root_node)
         end
-      rescue TreeHaver::NotAvailable => e
+      rescue TreeHaver::Error => e
+        # TreeHaver::Error inherits from Exception, not StandardError.
+        # This also catches TreeHaver::NotAvailable (subclass of Error).
         @errors << e.message
         @ast = nil
       rescue StandardError => e
