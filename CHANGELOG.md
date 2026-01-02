@@ -22,6 +22,10 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+- **NodeWrapper**: Now inherits from `Ast::Merge::NodeWrapperBase`
+  - Removes ~100 lines of duplicated code (initialization, line extraction, basic methods)
+  - Keeps only Bash-specific type predicates and signature computation
+  - Adds `#node_wrapper?` method for distinguishing from `NodeTyping::Wrapper`
 - **FileAnalysis error handling**: Now rescues `TreeHaver::Error` instead of `TreeHaver::NotAvailable`
   - `TreeHaver::Error` inherits from `Exception`, not `StandardError`
   - `TreeHaver::NotAvailable` is a subclass of `TreeHaver::Error`, so it's also caught

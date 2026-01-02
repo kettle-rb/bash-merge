@@ -5,87 +5,20 @@ module Bash
     # Wraps TreeHaver nodes with comment associations, line information, and signatures.
     # This provides a unified interface for working with Bash AST nodes during merging.
     #
+    # Inherits common functionality from Ast::Merge::NodeWrapperBase:
+    # - Source context (lines, source, comments)
+    # - Line info extraction
+    # - Basic methods: #type, #type?, #text, #content, #signature
+    #
     # @example Basic usage
     #   parser = TreeHaver::Parser.new
     #   parser.language = TreeHaver::Language.bash
     #   tree = parser.parse(source)
     #   wrapper = NodeWrapper.new(tree.root_node, lines: source.lines, source: source)
     #   wrapper.signature # => [:program, ...]
-    class NodeWrapper
-      # @return [TreeHaver::Node] The wrapped tree-haver node
-      attr_reader :node
-
-      # @return [Array<Hash>] Leading comments associated with this node
-      attr_reader :leading_comments
-
-      # @return [Hash, nil] Inline/trailing comment on the same line
-      attr_reader :inline_comment
-
-      # @return [Integer] Start line (1-based)
-      attr_reader :start_line
-
-      # @return [Integer] End line (1-based)
-      attr_reader :end_line
-
-      # @return [Array<String>] Source lines
-      attr_reader :lines
-
-      # @return [String] The original source string
-      attr_reader :source
-
-      # @param node [TreeHaver::Node] tree-haver node to wrap
-      # @param lines [Array<String>] Source lines for content extraction
-      # @param source [String] Original source string for byte-based text extraction
-      # @param leading_comments [Array<Hash>] Comments before this node
-      # @param inline_comment [Hash, nil] Inline comment on the node's line
-      def initialize(node, lines:, source: nil, leading_comments: [], inline_comment: nil)
-        @node = node
-        @lines = lines
-        @source = source || lines.join("\n")
-        @leading_comments = leading_comments
-        @inline_comment = inline_comment
-
-        # Extract line information from the tree-haver node (0-indexed to 1-indexed)
-        if node.respond_to?(:start_point)
-          point = node.start_point
-          @start_line = (point.respond_to?(:row) ? point.row : point[:row]) + 1
-        end
-        if node.respond_to?(:end_point)
-          point = node.end_point
-          @end_line = (point.respond_to?(:row) ? point.row : point[:row]) + 1
-        end
-
-        # Handle edge case where end_line might be before start_line
-        @end_line = @start_line if @start_line && @end_line && @end_line < @start_line
-      end
-
-      # Generate a signature for this node for matching purposes.
-      # Signatures are used to identify corresponding nodes between template and destination.
-      #
-      # @return [Array, nil] Signature array or nil if not signaturable
-      def signature
-        compute_signature(@node)
-      end
-
-      # Check if this is a freeze node
-      # @return [Boolean]
-      def freeze_node?
-        false
-      end
-
-      # Get the node type as a symbol
-      # @return [Symbol]
-      def type
-        @node.type.to_sym
-      end
-
-      # Check if this node has a specific type
-      # @param type_name [Symbol, String] Type to check
-      # @return [Boolean]
-      def type?(type_name)
-        @node.type.to_s == type_name.to_s
-      end
-
+    #
+    # @see Ast::Merge::NodeWrapperBase
+    class NodeWrapper < Ast::Merge::NodeWrapperBase
       # Check if this is a function definition
       # @return [Boolean]
       def function_definition?
@@ -174,18 +107,6 @@ module Bash
         nil
       end
 
-      # Get children wrapped as NodeWrappers
-      # @return [Array<NodeWrapper>]
-      def children
-        return [] unless @node.respond_to?(:each)
-
-        result = []
-        @node.each do |child|
-          result << NodeWrapper.new(child, lines: @lines, source: @source)
-        end
-        result
-      end
-
       # Find a child by field name
       # @param field_name [String] Field name to look for
       # @return [TreeSitter::Node, nil]
@@ -207,36 +128,12 @@ module Bash
         nil
       end
 
-      # Get the text content for this node by extracting from source using byte positions
-      # @return [String]
-      def text
-        node_text(@node)
+      protected
+
+      # Override wrap_child to use Bash::Merge::NodeWrapper
+      def wrap_child(child)
+        NodeWrapper.new(child, lines: @lines, source: @source)
       end
-
-      # Extract text from a tree-sitter node using byte positions
-      # @param ts_node [TreeSitter::Node] The tree-sitter node
-      # @return [String]
-      def node_text(ts_node)
-        return "" unless ts_node.respond_to?(:start_byte) && ts_node.respond_to?(:end_byte)
-
-        @source[ts_node.start_byte...ts_node.end_byte] || ""
-      end
-
-      # Get the content for this node from source lines
-      # @return [String]
-      def content
-        return "" unless @start_line && @end_line
-
-        (@start_line..@end_line).map { |ln| @lines[ln - 1] }.compact.join("\n")
-      end
-
-      # String representation for debugging
-      # @return [String]
-      def inspect
-        "#<#{self.class.name} type=#{@node.type} lines=#{@start_line}..#{@end_line}>"
-      end
-
-      private
 
       def compute_signature(node)
         node_type = node.type.to_s
@@ -288,6 +185,8 @@ module Bash
           [node_type.to_sym, content_preview]
         end
       end
+
+      private
 
       def extract_command_signature_context(node)
         # Extract additional context like redirections
