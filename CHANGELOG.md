@@ -26,6 +26,10 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Removed
 
+- **Load-time grammar registration** - TreeHaver's `parser_for` now handles grammar discovery
+  and registration automatically. Removed manual `GrammarFinder` calls and warnings from
+  `lib/bash/merge.rb`.
+
 ### Fixed
 
 ### Security
