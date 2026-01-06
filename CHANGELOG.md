@@ -30,6 +30,17 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Security
 
+## [2.0.0] - 2026-01-06
+
+- TAG: [v2.0.0][2.0.0t]
+- COVERAGE: 100.00% -- 109/109 lines in 2 files
+- BRANCH COVERAGE: 100.00% -- 28/28 branches in 2 files
+- 96.46% documented
+
+### Changed
+
+- ast-merge v3.0.0 compatibility (breaking changes)
+
 ## [1.0.2] - 2026-01-02
 
 - TAG: [v1.0.2][1.0.2t]
@@ -74,7 +85,9 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Security
 
-[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/kettle-rb/bash-merge/compare/v1.0.2...v2.0.0
+[2.0.0t]: https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.0
 [1.0.2]: https://github.com/kettle-rb/bash-merge/compare/v1.0.1...v1.0.2
 [1.0.2t]: https://github.com/kettle-rb/bash-merge/releases/tag/v1.0.2
 [1.0.1]: https://github.com/kettle-rb/bash-merge/compare/v1.0.0...v1.0.1
