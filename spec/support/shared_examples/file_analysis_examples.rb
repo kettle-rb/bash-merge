@@ -1,0 +1,356 @@
+# frozen_string_literal: true
+
+# Shared examples for FileAnalysis across different backends
+#
+# These examples test FileAnalysis behavior that should be consistent
+# regardless of which tree-sitter backend is used (MRI, FFI, Rust, Java).
+
+RSpec.shared_examples "bash source parsing" do |expected_backend:|
+  describe "with valid bash source" do
+    let(:simple_bash) do
+      <<~BASH
+        #!/bin/bash
+        echo "hello"
+      BASH
+    end
+
+    it "accepts source code" do
+      analysis = described_class.new(simple_bash)
+      expect(analysis.source).to eq(simple_bash)
+    end
+
+    it "is valid" do
+      analysis = described_class.new(simple_bash)
+      expect(analysis.valid?).to be true
+    end
+
+    it "returns root_node" do
+      analysis = described_class.new(simple_bash)
+      expect(analysis.root_node).to be_a(Bash::Merge::NodeWrapper)
+    end
+  end
+end
+
+RSpec.shared_examples "initialization options" do
+  it "accepts freeze_token option" do
+    analysis = described_class.new("echo 'test'", freeze_token: "custom-token")
+    expect(analysis.freeze_token).to eq("custom-token")
+  end
+
+  it "uses default freeze token" do
+    analysis = described_class.new("echo 'test'")
+    expect(analysis.freeze_token).to eq("bash-merge")
+  end
+
+  it "accepts signature_generator option" do
+    custom_gen = ->(node) { [:custom, node.class.name] }
+    analysis = described_class.new("echo 'test'", signature_generator: custom_gen)
+    expect(analysis).to be_a(described_class)
+  end
+
+  it "accepts additional options for forward compatibility" do
+    expect {
+      described_class.new("echo 'test'", unknown_option: true, another: "value")
+    }.not_to raise_error
+  end
+end
+
+RSpec.shared_examples "invalid source handling" do
+  it "returns false with error when parser path is invalid" do
+    analysis = described_class.new("echo 'test'", parser_path: "/nonexistent/path.so")
+    expect(analysis.valid?).to be(false)
+    expect(analysis.errors).not_to be_empty
+  end
+end
+
+RSpec.shared_examples "line access" do
+  describe "line methods" do
+    it "#lines returns source split into lines" do
+      source = "line1\nline2\nline3"
+      analysis = described_class.new(source)
+      expect(analysis.lines).to eq(["line1", "line2", "line3"])
+    end
+
+    it "#line_at returns the line at the given 1-based index" do
+      source = "line1\nline2\nline3"
+      analysis = described_class.new(source)
+      expect(analysis.line_at(2)).to eq("line2")
+    end
+
+    it "#line_at returns nil for out-of-bounds index" do
+      analysis = described_class.new("line1")
+      expect(analysis.line_at(5)).to be_nil
+    end
+
+    it "#normalized_line returns stripped line content" do
+      source = "  indented  "
+      analysis = described_class.new(source)
+      expect(analysis.normalized_line(1)).to eq("indented")
+    end
+  end
+end
+
+RSpec.shared_examples "freeze block detection" do
+  describe "freeze blocks" do
+    it "extracts freeze blocks from source" do
+      source = <<~BASH
+        #!/bin/bash
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+        echo "hello"
+      BASH
+
+      analysis = described_class.new(source)
+      expect(analysis.freeze_blocks.size).to eq(1)
+    end
+
+    it "handles multiple freeze blocks" do
+      source = <<~BASH
+        #!/bin/bash
+        # bash-merge:freeze
+        SECRET1="value1"
+        # bash-merge:unfreeze
+        echo "between"
+        # bash-merge:freeze
+        SECRET2="value2"
+        # bash-merge:unfreeze
+      BASH
+
+      analysis = described_class.new(source)
+      expect(analysis.freeze_blocks.size).to eq(2)
+    end
+
+    it "handles unmatched freeze markers" do
+      source = <<~BASH
+        #!/bin/bash
+        # bash-merge:freeze
+        SECRET="value"
+        # No unfreeze marker
+      BASH
+
+      analysis = described_class.new(source)
+      expect(analysis.freeze_blocks.size).to eq(0)
+    end
+  end
+end
+
+RSpec.shared_examples "in_freeze_block? behavior" do
+  describe "#in_freeze_block?" do
+    it "returns true for lines inside freeze blocks" do
+      source = <<~BASH
+        #!/bin/bash
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+      BASH
+
+      analysis = described_class.new(source)
+      expect(analysis.in_freeze_block?(3)).to be(true)
+    end
+
+    it "returns false for lines outside freeze blocks" do
+      source = <<~BASH
+        #!/bin/bash
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+        echo "hello"
+      BASH
+
+      analysis = described_class.new(source)
+      expect(analysis.in_freeze_block?(5)).to be(false)
+    end
+
+    it "returns true for freeze marker lines" do
+      source = <<~BASH
+        #!/bin/bash
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+      BASH
+
+      analysis = described_class.new(source)
+      expect(analysis.in_freeze_block?(2)).to be(true)
+      expect(analysis.in_freeze_block?(4)).to be(true)
+    end
+  end
+end
+
+RSpec.shared_examples "freeze_block_at" do
+  describe "#freeze_block_at" do
+    it "returns the freeze block containing the line" do
+      source = <<~BASH
+        #!/bin/bash
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+      BASH
+
+      analysis = described_class.new(source)
+      block = analysis.freeze_block_at(3)
+      expect(block).to be_a(Bash::Merge::FreezeNode)
+    end
+
+    it "returns nil for lines not in freeze blocks" do
+      source = <<~BASH
+        #!/bin/bash
+        echo "hello"
+      BASH
+
+      analysis = described_class.new(source)
+      expect(analysis.freeze_block_at(2)).to be_nil
+    end
+  end
+end
+
+RSpec.shared_examples "comment tracker" do
+  describe "#comment_tracker" do
+    it "returns a CommentTracker instance" do
+      analysis = described_class.new("# comment")
+      expect(analysis.comment_tracker).to be_a(Bash::Merge::CommentTracker)
+    end
+  end
+end
+
+RSpec.shared_examples "top level statements" do
+  describe "#top_level_statements" do
+    it "returns top-level statements" do
+      source = <<~BASH
+        echo "one"
+        echo "two"
+        echo "three"
+      BASH
+      analysis = described_class.new(source)
+      statements = analysis.top_level_statements
+      expect(statements).to be_an(Array)
+      expect(statements.size).to be >= 3
+    end
+
+    it "excludes comments from statements" do
+      source = <<~BASH
+        # This is a comment
+        echo "one"
+      BASH
+      analysis = described_class.new(source)
+      statements = analysis.top_level_statements
+      expect(statements.none? { |s| s.comment? }).to be true
+    end
+
+    it "returns empty array when invalid" do
+      analysis = described_class.new("echo 'hello'", parser_path: "/nonexistent/path.so")
+      expect(analysis.top_level_statements).to eq([])
+    end
+  end
+end
+
+RSpec.shared_examples "nodes and statements" do
+  describe "#nodes and #statements" do
+    it "returns nodes including freeze blocks" do
+      source = <<~BASH
+        echo "before"
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+        echo "after"
+      BASH
+      analysis = described_class.new(source)
+      nodes = analysis.nodes
+      freeze_nodes = nodes.select { |n| n.is_a?(Bash::Merge::FreezeNode) }
+      expect(freeze_nodes.size).to eq(1)
+    end
+
+    it "aliases statements to nodes" do
+      analysis = described_class.new("echo 'hello'")
+      expect(analysis.statements).to eq(analysis.nodes)
+    end
+  end
+end
+
+RSpec.shared_examples "fallthrough_node? behavior" do
+  describe "#fallthrough_node?" do
+    it "returns true for NodeWrapper instances" do
+      analysis = described_class.new("echo 'hello'")
+      node = analysis.nodes.first
+      expect(analysis.fallthrough_node?(node)).to be true
+    end
+
+    it "returns true for FreezeNode instances" do
+      source = <<~BASH
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+      BASH
+      analysis = described_class.new(source)
+      freeze_node = analysis.freeze_blocks.first
+      expect(analysis.fallthrough_node?(freeze_node)).to be true
+    end
+
+    it "returns false for other types" do
+      analysis = described_class.new("echo 'hello'")
+      expect(analysis.fallthrough_node?("not a node")).to be false
+      expect(analysis.fallthrough_node?(nil)).to be false
+      expect(analysis.fallthrough_node?(123)).to be false
+    end
+  end
+end
+
+RSpec.shared_examples "parser path handling" do
+  describe ".find_parser_path" do
+    it "returns a string path or nil" do
+      path = described_class.find_parser_path
+      expect(path.is_a?(String) || path.nil?).to be true
+    end
+  end
+
+  describe "error handling" do
+    it "handles missing grammar gracefully" do
+      analysis = described_class.new("echo 'hello'", parser_path: "/nonexistent/path.so")
+      expect(analysis.valid?).to be false
+      expect(analysis.errors).not_to be_empty
+    end
+  end
+end
+
+RSpec.shared_examples "freeze block integration" do
+  describe "integration with freeze blocks" do
+    it "excludes freeze block content from regular nodes" do
+      source = <<~BASH
+        echo "before"
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+        echo "after"
+      BASH
+      analysis = described_class.new(source)
+
+      regular_nodes = analysis.nodes.reject { |n| n.is_a?(Bash::Merge::FreezeNode) }
+      var_nodes = regular_nodes.select { |n| n.respond_to?(:variable_assignment?) && n.variable_assignment? }
+      expect(var_nodes.size).to eq(0)
+    end
+
+    it "sorts nodes by start line" do
+      source = <<~BASH
+        echo "first"
+        # bash-merge:freeze
+        SECRET="value"
+        # bash-merge:unfreeze
+        echo "last"
+      BASH
+      analysis = described_class.new(source)
+      nodes = analysis.nodes
+
+      lines = nodes.map(&:start_line).compact
+      expect(lines).to eq(lines.sort)
+    end
+  end
+end
+
+RSpec.shared_examples "empty source handling" do
+  describe "with empty source" do
+    it "returns true for valid?" do
+      analysis = described_class.new("")
+      expect(analysis.valid?).to be true
+    end
+  end
+end
