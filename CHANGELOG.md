@@ -49,7 +49,7 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Changed
 
 - ast-merge v3.1.0, adds Ast::Merge::EmitterBase
-- tree_haver v4.0.3, adds error handling for FFI backend
+- tree_haver v4.0.4, adds error handling for FFI backend
 - major spec refactor
 
 ## [2.0.0] - 2026-01-06
