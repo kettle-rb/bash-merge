@@ -19,4 +19,3 @@ platform :mri do
     gem "kettle-soup-cover", "~> 1.0", ">= 1.0.10", require: false
   end
 end
-

@@ -164,4 +164,3 @@ module Bash
     end
   end
 end
-

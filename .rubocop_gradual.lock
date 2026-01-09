@@ -1,0 +1,10 @@
+{
+  "spec/config/debug.rb:3834056880": [
+    [2, 1, 41, "RSpec/Output: Do not write to stdout in specs.", 3485259047]
+  ],
+  "spec/support/dependency_tags.rb:1629534015": [
+    [21, 7, 46, "RSpec/Output: Do not write to stdout in specs.", 2319396202],
+    [28, 9, 26, "RSpec/Output: Do not write to stdout in specs.", 3092609368],
+    [30, 7, 47, "RSpec/Output: Do not write to stdout in specs.", 2484393813]
+  ]
+}

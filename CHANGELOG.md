@@ -20,13 +20,7 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
-- Emitter-based output
-
 ### Changed
-
-- ast-merge v3.1.0, adds Ast::Merge::EmitterBase
-- tree_haver v4.0.1, adds error handling for FFI backend
-- major spec refactor
 
 ### Deprecated
 
@@ -35,6 +29,23 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Fixed
 
 ### Security
+
+## [2.0.1] - 2026-01-08
+
+- TAG: [v2.0.1][2.0.1t]
+- COVERAGE: 100.00% -- 25/25 lines in 1 files
+- BRANCH COVERAGE: 100.00% -- 4/4 branches in 1 files
+- 96.33% documented
+
+### Added
+
+- Emitter-based output
+
+### Changed
+
+- ast-merge v3.1.0, adds Ast::Merge::EmitterBase
+- tree_haver v4.0.1, adds error handling for FFI backend
+- major spec refactor
 
 ## [2.0.0] - 2026-01-06
 
@@ -91,7 +102,9 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Security
 
-[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/kettle-rb/bash-merge/compare/v2.0.0...v2.0.1
+[2.0.1t]: https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.1
 [2.0.0]: https://github.com/kettle-rb/bash-merge/compare/v1.0.2...v2.0.0
 [2.0.0t]: https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.0
 [1.0.2]: https://github.com/kettle-rb/bash-merge/compare/v1.0.1...v1.0.2
