@@ -20,6 +20,12 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
+- FFI backend isolation for test suite
+  - Added `bin/rspec-ffi` script to run FFI specs in isolation (before MRI backend loads)
+  - Added `spec/spec_ffi_helper.rb` for FFI-specific test configuration
+  - Updated Rakefile with `ffi_specs` and `remaining_specs` tasks
+  - The `:test` task now runs FFI specs first, then remaining specs
+
 ### Changed
 
 ### Deprecated
