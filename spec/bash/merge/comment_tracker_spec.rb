@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "spec_helper"
+
 RSpec.describe Bash::Merge::CommentTracker do
   describe "#initialize" do
     it "extracts full-line comments" do

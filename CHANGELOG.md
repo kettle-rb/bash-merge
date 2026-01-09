@@ -25,8 +25,13 @@ Please file a bug if you notice a violation of semantic versioning.
   - Added `spec/spec_ffi_helper.rb` for FFI-specific test configuration
   - Updated Rakefile with `ffi_specs` and `remaining_specs` tasks
   - The `:test` task now runs FFI specs first, then remaining specs
+- Emitter-based output
 
 ### Changed
+
+- ast-merge v3.1.0, adds Ast::Merge::EmitterBase
+- tree_haver v4.0.2, adds error handling for FFI backend
+- major spec refactor
 
 ### Deprecated
 
@@ -35,23 +40,6 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Fixed
 
 ### Security
-
-## [2.0.1] - 2026-01-08
-
-- TAG: [v2.0.1][2.0.1t]
-- COVERAGE: 100.00% -- 25/25 lines in 1 files
-- BRANCH COVERAGE: 100.00% -- 4/4 branches in 1 files
-- 96.33% documented
-
-### Added
-
-- Emitter-based output
-
-### Changed
-
-- ast-merge v3.1.0, adds Ast::Merge::EmitterBase
-- tree_haver v4.0.2, adds error handling for FFI backend
-- major spec refactor
 
 ## [2.0.0] - 2026-01-06
 

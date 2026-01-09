@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "spec_helper"
+
 RSpec.describe Bash::Merge::MergeResult do
   let(:result) { described_class.new }
 

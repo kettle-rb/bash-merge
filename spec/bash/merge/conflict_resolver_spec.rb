@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "spec_helper"
+
 RSpec.describe Bash::Merge::ConflictResolver do
   # Note: Full testing requires tree-sitter-bash parser
 

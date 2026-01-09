@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "spec_helper"
+
 RSpec.describe Bash::Merge::NodeWrapper do
   # NodeWrapper requires a tree-sitter node, which requires parser availability
   # Tests tagged :tree_sitter_bash are skipped when the grammar is not available

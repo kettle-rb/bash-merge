@@ -32,8 +32,7 @@ end
 
 # Build the rspec command with FFI helper
 # CRITICAL: Use --options /dev/null to ignore .rspec which has --require spec_helper
-# CRITICAL: Use --tag ffi_backend_only BEFORE requires - this goes into ARGV which
-# dependency_tags.rb checks to determine isolated_test_mode BEFORE calling mri_backend_available?
+# Use --tag ffi_backend to trigger isolated_test_mode in dependency_tags and run FFI tests
 spec_files = ARGV.empty? ? ["spec/"] : ARGV
 cmd = [
   "bundle",
@@ -42,7 +41,7 @@ cmd = [
   "--options",
   "/dev/null",           # Bypass .rspec file entirely
   "--tag",
-  "ffi_backend_only",    # MUST be before requires - triggers isolated_test_mode
+  "ffi_backend",         # Triggers isolated_test_mode in dependency_tags
   "--require",
   "spec_helper",         # Load spec helper
   "--require",
@@ -60,4 +59,3 @@ puts "Command: #{cmd.join(" ")}"
 puts
 
 exec(*cmd)
-
