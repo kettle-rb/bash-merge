@@ -9,9 +9,6 @@ module Bash
     #   resolver = ConflictResolver.new(template_analysis, dest_analysis)
     #   resolver.resolve(result)
     class ConflictResolver < ::Ast::Merge::ConflictResolverBase
-      # Alias for backward compatibility with existing API
-      alias_method :preference, :preference
-
       # Creates a new ConflictResolver
       #
       # @param template_analysis [FileAnalysis] Analyzed template file
@@ -33,6 +30,7 @@ module Bash
           match_refiner: match_refiner,
           **options
         )
+        @emitter = Emitter.new
       end
 
       # Resolve conflicts and populate the result
@@ -43,6 +41,9 @@ module Bash
           template_nodes = @template_analysis.nodes
           dest_nodes = @dest_analysis.nodes
 
+          # Clear emitter for fresh merge
+          @emitter.clear
+
           # Build signature maps
           template_by_sig = build_signature_map(template_nodes, @template_analysis)
           dest_by_sig = build_signature_map(dest_nodes, @dest_analysis)
@@ -51,16 +52,23 @@ module Bash
           processed_template_sigs = ::Set.new
           processed_dest_sigs = ::Set.new
 
-          # Process nodes in order, preferring destination order when nodes match
-          merge_nodes(
+          # Process nodes via emitter
+          merge_nodes_to_emitter(
             template_nodes,
             dest_nodes,
             template_by_sig,
             dest_by_sig,
             processed_template_sigs,
             processed_dest_sigs,
-            result,
           )
+
+          # Transfer emitter output to result
+          emitted_content = @emitter.to_s
+          unless emitted_content.empty?
+            emitted_content.lines.each do |line|
+              result.add_line(line.chomp, decision: MergeResult::DECISION_MERGED, source: :merged)
+            end
+          end
 
           DebugLogger.debug("Conflict resolution complete", {
             template_nodes: template_nodes.size,
@@ -72,18 +80,14 @@ module Bash
 
       private
 
-      def merge_nodes(template_nodes, dest_nodes, template_by_sig, dest_by_sig, processed_template_sigs, processed_dest_sigs, result)
-        # Determine the output order based on preference
-        # We'll iterate through destination nodes first (to preserve dest order for matches)
-        # then add any template-only nodes if configured
-
+      def merge_nodes_to_emitter(template_nodes, dest_nodes, template_by_sig, dest_by_sig, processed_template_sigs, processed_dest_sigs)
         # First pass: Process destination nodes and find matches
         dest_nodes.each do |dest_node|
           dest_sig = @dest_analysis.generate_signature(dest_node)
 
           # Freeze blocks from destination are always preserved
           if freeze_node?(dest_node)
-            add_node_to_result(dest_node, result, :destination, DECISION_FREEZE_BLOCK)
+            emit_freeze_block(dest_node)
             processed_dest_sigs << dest_sig if dest_sig
             next
           end
@@ -93,18 +97,18 @@ module Bash
             template_info = template_by_sig[dest_sig].first
             template_node = template_info[:node]
 
-            # Decide which to keep based on preference
+            # Decide which to emit based on preference
             if @preference == :destination
-              add_node_to_result(dest_node, result, :destination, DECISION_KEPT_DEST)
+              emit_node(dest_node, @dest_analysis)
             else
-              add_node_to_result(template_node, result, :template, DECISION_KEPT_TEMPLATE)
+              emit_node(template_node, @template_analysis)
             end
 
             processed_dest_sigs << dest_sig
             processed_template_sigs << dest_sig
           else
             # Destination-only node - always keep
-            add_node_to_result(dest_node, result, :destination, DECISION_KEPT_DEST)
+            emit_node(dest_node, @dest_analysis)
             processed_dest_sigs << dest_sig if dest_sig
           end
         end
@@ -118,44 +122,46 @@ module Bash
           # Skip if already processed (matched with dest)
           next if template_sig && processed_template_sigs.include?(template_sig)
 
-          # Skip freeze blocks from template (they shouldn't exist, but just in case)
+          # Skip freeze blocks from template
           next if freeze_node?(template_node)
 
           # Add template-only node
-          add_node_to_result(template_node, result, :template, DECISION_ADDED)
+          emit_node(template_node, @template_analysis)
           processed_template_sigs << template_sig if template_sig
         end
       end
 
-      def add_node_to_result(node, result, source, decision)
-        if freeze_node?(node)
-          result.add_freeze_block(node)
-        elsif node.is_a?(NodeWrapper)
-          add_wrapper_to_result(node, result, source, decision)
-        else
-          DebugLogger.debug("Unknown node type", {node_type: node.class.name})
+      # Emit a single node to the emitter
+      # @param node [NodeWrapper] Node to emit
+      # @param analysis [FileAnalysis] Analysis for accessing source
+      def emit_node(node, analysis)
+        return if freeze_node?(node)
+
+        # Emit leading comments
+        if node.start_line
+          leading = analysis.comment_tracker.leading_comments_before(node.start_line)
+          leading.each do |comment|
+            @emitter.emit_tracked_comment(comment)
+          end
+        end
+
+        # Emit the node content
+        if node.start_line && node.end_line
+          lines = []
+          (node.start_line..node.end_line).each do |line_num|
+            line = analysis.line_at(line_num)
+            lines << line if line
+          end
+          @emitter.emit_raw_lines(lines)
         end
       end
 
-      def add_wrapper_to_result(wrapper, result, source, decision)
-        return unless wrapper.start_line && wrapper.end_line
-
-        analysis = (source == :template) ? @template_analysis : @dest_analysis
-
-        # Include leading comments
-        leading = analysis.comment_tracker.leading_comments_before(wrapper.start_line)
-        leading.each do |comment|
-          result.add_line(comment[:raw], decision: decision, source: source, original_line: comment[:line])
-        end
-
-        # Add the node content
-        (wrapper.start_line..wrapper.end_line).each do |line_num|
-          line = analysis.line_at(line_num)
-          next unless line
-
-          result.add_line(line.chomp, decision: decision, source: source, original_line: line_num)
-        end
+      # Emit a freeze block
+      # @param freeze_node [FreezeNode] Freeze block to emit
+      def emit_freeze_block(freeze_node)
+        @emitter.emit_raw_lines(freeze_node.lines)
       end
     end
   end
 end
+

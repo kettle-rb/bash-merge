@@ -20,7 +20,13 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
+- Emitter-based output
+
 ### Changed
+
+- ast-merge v3.1.0, adds Ast::Merge::EmitterBase
+- tree_haver v4.0.1, adds error handling for FFI backend
+- major spec refactor
 
 ### Deprecated
 
