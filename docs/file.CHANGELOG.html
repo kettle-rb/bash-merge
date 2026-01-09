@@ -72,17 +72,6 @@ Please file a bug if you notice a violation of semantic versioning.</p>
 
 <h3 id="added">Added</h3>
 
-<ul>
-  <li>FFI backend isolation for test suite
-    <ul>
-      <li>Added <code>bin/rspec-ffi</code> script to run FFI specs in isolation (before MRI backend loads)</li>
-      <li>Added <code>spec/spec_ffi_helper.rb</code> for FFI-specific test configuration</li>
-      <li>Updated Rakefile with <code>ffi_specs</code> and <code>remaining_specs</code> tasks</li>
-      <li>The <code>:test</code> task now runs FFI specs first, then remaining specs</li>
-    </ul>
-  </li>
-</ul>
-
 <h3 id="changed">Changed</h3>
 
 <h3 id="deprecated">Deprecated</h3>
@@ -93,20 +82,28 @@ Please file a bug if you notice a violation of semantic versioning.</p>
 
 <h3 id="security">Security</h3>
 
-<h2 id="201---2026-01-08">
-<a href="https://github.com/kettle-rb/bash-merge/compare/v2.0.0...v2.0.1">2.0.1</a> - 2026-01-08</h2>
+<h2 id="201---2026-01-09">
+<a href="https://github.com/kettle-rb/bash-merge/compare/v2.0.0...v2.0.1">2.0.1</a> - 2026-01-09</h2>
 
 <ul>
   <li>TAG: <a href="https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.1">v2.0.1</a>
 </li>
-  <li>COVERAGE: 100.00% – 25/25 lines in 1 files</li>
-  <li>BRANCH COVERAGE: 100.00% – 4/4 branches in 1 files</li>
+  <li>COVERAGE: 96.34% – 500/519 lines in 11 files</li>
+  <li>BRANCH COVERAGE: 76.54% – 124/162 branches in 11 files</li>
   <li>96.33% documented</li>
 </ul>
 
 <h3 id="added-1">Added</h3>
 
 <ul>
+  <li>FFI backend isolation for test suite
+    <ul>
+      <li>Added <code>bin/rspec-ffi</code> script to run FFI specs in isolation (before MRI backend loads)</li>
+      <li>Added <code>spec/spec_ffi_helper.rb</code> for FFI-specific test configuration</li>
+      <li>Updated Rakefile with <code>ffi_specs</code> and <code>remaining_specs</code> tasks</li>
+      <li>The <code>:test</code> task now runs FFI specs first, then remaining specs</li>
+    </ul>
+  </li>
   <li>Emitter-based output</li>
 </ul>
 
@@ -213,7 +210,7 @@ and registration automatically. Removed manual <code>GrammarFinder</code> calls 
 </div></div>
 
       <div id="footer">
-  Generated on Fri Jan  9 01:27:07 2026 by
+  Generated on Fri Jan  9 01:37:00 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.38 (ruby-4.0.0).
 </div>

@@ -20,6 +20,25 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [2.0.1] - 2026-01-09
+
+- TAG: [v2.0.1][2.0.1t]
+- COVERAGE: 96.34% -- 500/519 lines in 11 files
+- BRANCH COVERAGE: 76.54% -- 124/162 branches in 11 files
+- 96.33% documented
+
+### Added
+
 - FFI backend isolation for test suite
   - Added `bin/rspec-ffi` script to run FFI specs in isolation (before MRI backend loads)
   - Added `spec/spec_ffi_helper.rb` for FFI-specific test configuration
@@ -32,14 +51,6 @@ Please file a bug if you notice a violation of semantic versioning.
 - ast-merge v3.1.0, adds Ast::Merge::EmitterBase
 - tree_haver v4.0.2, adds error handling for FFI backend
 - major spec refactor
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [2.0.0] - 2026-01-06
 
