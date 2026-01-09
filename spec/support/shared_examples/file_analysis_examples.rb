@@ -21,11 +21,31 @@ RSpec.shared_examples "bash source parsing" do |expected_backend:|
 
     it "is valid" do
       analysis = described_class.new(simple_bash)
+      # Diagnostic info for CI debugging
+      unless analysis.valid?
+        warn "[DEBUG] Valid bash source analysis failed:"
+        warn "  ast.nil?: #{analysis.ast.nil?}"
+        warn "  errors: #{analysis.errors.inspect}"
+        warn "  parser_path: #{analysis.instance_variable_get(:@parser_path).inspect}"
+        warn "  TREE_SITTER_BASH_PATH: #{ENV["TREE_SITTER_BASH_PATH"].inspect}"
+        warn "  TreeHaver.effective_backend: #{TreeHaver.effective_backend}"
+        if analysis.ast&.root_node
+          warn "  root_node.type: #{analysis.ast.root_node.type}"
+          warn "  root_node.has_error?: #{analysis.ast.root_node.has_error?}"
+        end
+      end
       expect(analysis.valid?).to be true
     end
 
     it "returns root_node" do
       analysis = described_class.new(simple_bash)
+      # Diagnostic info for CI debugging
+      if analysis.root_node.nil?
+        warn "[DEBUG] root_node is nil:"
+        warn "  valid?: #{analysis.valid?}"
+        warn "  ast.nil?: #{analysis.ast.nil?}"
+        warn "  errors: #{analysis.errors.inspect}"
+      end
       expect(analysis.root_node).to be_a(Bash::Merge::NodeWrapper)
     end
   end
@@ -350,6 +370,19 @@ RSpec.shared_examples "empty source handling" do
   describe "with empty source" do
     it "returns true for valid?" do
       analysis = described_class.new("")
+      # Diagnostic info for CI debugging
+      unless analysis.valid?
+        warn "[DEBUG] Empty source analysis failed:"
+        warn "  ast.nil?: #{analysis.ast.nil?}"
+        warn "  errors: #{analysis.errors.inspect}"
+        warn "  parser_path: #{analysis.instance_variable_get(:@parser_path).inspect}"
+        warn "  TREE_SITTER_BASH_PATH: #{ENV["TREE_SITTER_BASH_PATH"].inspect}"
+        warn "  TreeHaver.effective_backend: #{TreeHaver.effective_backend}"
+        if analysis.ast&.root_node
+          warn "  root_node.type: #{analysis.ast.root_node.type}"
+          warn "  root_node.has_error?: #{analysis.ast.root_node.has_error?}"
+        end
+      end
       expect(analysis.valid?).to be true
     end
   end
