@@ -6,6 +6,9 @@
 # implementation is in tree_haver so it can be shared across all gems
 # in the TreeHaver/ast-merge family.
 #
+# For debugging, use TREE_HAVER_DEBUG=true which prints dependency
+# availability in a way that respects backend isolation (FFI vs MRI).
+#
 # @see TreeHaver::RSpec::DependencyTags
 
 require "tree_haver/rspec"
@@ -13,21 +16,3 @@ require "tree_haver/rspec"
 # Alias for convenience in existing specs
 BashMergeDependencies = TreeHaver::RSpec::DependencyTags
 
-# Additional bash-merge specific configuration
-RSpec.configure do |config|
-  # Print dependency summary if BASH_MERGE_DEBUG is set
-  config.before(:suite) do
-    if ENV["BASH_MERGE_DEBUG"]
-      puts "\n=== Bash::Merge Test Dependencies ==="
-      TreeHaver::RSpec::DependencyTags.summary.each do |dep, available|
-        status = case available
-        when true then "✓ available"
-        when false then "✗ not available"
-        else available.to_s
-        end
-        puts "  #{dep}: #{status}"
-      end
-      puts "======================================\n"
-    end
-  end
-end

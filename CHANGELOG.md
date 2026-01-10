@@ -22,6 +22,12 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+- Improved GHA workflows & rake tasks
+- **Simplified dependency_tags.rb**: Removed redundant debug code
+  - Removed `BASH_MERGE_DEBUG` env var handling (use `TREE_HAVER_DEBUG` instead)
+  - tree_haver's debug output now respects blocked backends via `compute_blocked_backends`
+  - Avoids accidentally loading MRI backend during FFI-only test runs
+
 ### Deprecated
 
 ### Removed

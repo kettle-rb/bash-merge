@@ -106,10 +106,12 @@ begin
   end
   Rake::Task[:remaining_specs].enhance([:set_remaining_command_name])
 
-  # Override the default test task to run in sequence
-  Rake::Task[:test].clear if Rake::Task.task_defined?(:test)
-  desc("Run specs with FFI tests first, then remaining tests")
-  task(test: [:ffi_specs, :remaining_specs]) # rubocop:disable Rake/DuplicateTask:
+  # kettle-dev creates an RSpec::Core::RakeTask.new(:spec) which has both
+  # prerequisites and actions. We will leave that, and the default test task, alone,
+  # and use *magic* here.
+  Rake::Task[:magic].clear if Rake::Task.task_defined?(:magic)
+  desc("Run specs with FFI tests first, then backend matrix, then remaining tests")
+  task(magic: [:ffi_specs, :remaining_specs])
 rescue LoadError
   desc("(stub) spec is unavailable")
   task(:spec) do # rubocop:disable Rake/DuplicateTask
