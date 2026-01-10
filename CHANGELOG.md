@@ -22,6 +22,23 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [2.0.2] - 2026-01-09
+
+- TAG: [v2.0.2][2.0.2t]
+- COVERAGE: 96.34% -- 500/519 lines in 11 files
+- BRANCH COVERAGE: 76.54% -- 124/162 branches in 11 files
+- 96.33% documented
+
+### Changed
+
 - tree_haver v4.0.5
   - FFI Backend improvements
   - Error handling improvements
@@ -30,14 +47,6 @@ Please file a bug if you notice a violation of semantic versioning.
   - Removed `BASH_MERGE_DEBUG` env var handling (use `TREE_HAVER_DEBUG` instead)
   - tree_haver's debug output now respects blocked backends via `compute_blocked_backends`
   - Avoids accidentally loading MRI backend during FFI-only test runs
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [2.0.1] - 2026-01-09
 
@@ -116,7 +125,9 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Security
 
-[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v2.0.2...HEAD
+[2.0.2]: https://github.com/kettle-rb/bash-merge/compare/v2.0.1...v2.0.2
+[2.0.2t]: https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.2
 [2.0.1]: https://github.com/kettle-rb/bash-merge/compare/v2.0.0...v2.0.1
 [2.0.1t]: https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.1
 [2.0.0]: https://github.com/kettle-rb/bash-merge/compare/v1.0.2...v2.0.0

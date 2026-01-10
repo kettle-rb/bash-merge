@@ -5,7 +5,7 @@ module Bash
     # Version information for Bash::Merge
     module Version
       # Current version of the bash-merge gem
-      VERSION = "2.0.1"
+      VERSION = "2.0.2"
     end
     VERSION = Version::VERSION # traditional location
   end
