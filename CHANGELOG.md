@@ -22,6 +22,9 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+- tree_haver v4.0.5
+  - FFI Backend improvements
+  - Error handling improvements
 - Improved GHA workflows & rake tasks
 - **Simplified dependency_tags.rb**: Removed redundant debug code
   - Removed `BASH_MERGE_DEBUG` env var handling (use `TREE_HAVER_DEBUG` instead)
