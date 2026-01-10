@@ -15,4 +15,3 @@ require "tree_haver/rspec"
 
 # Alias for convenience in existing specs
 BashMergeDependencies = TreeHaver::RSpec::DependencyTags
-
