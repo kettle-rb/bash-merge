@@ -30,13 +30,19 @@
 [bundler-maint-policy]: https://github.com/ruby/rubygems/blob/b1ab33a3d52310a84d16b193991af07f5a6a07c0/doc/bundler/playbooks/TEAM_CHANGES.md
 [rubygems-maint-policy]: https://github.com/ruby/rubygems/blob/b1ab33a3d52310a84d16b193991af07f5a6a07c0/doc/rubygems/POLICIES.md?plain=1#L187-L196
 [policy-fail]: https://www.reddit.com/r/ruby/comments/1ove9vp/rubycentral_hates_this_one_fact/
-[![Galtzo FLOSS Logo by Aboling0, CC BY-SA 4.0][🖼️galtzo-i]](https://discord.gg/3qme4XHNKN) [![ruby-lang Logo, Yukihiro Matsumoto, Ruby Visual Identity Team, CC BY-SA 2.5][🖼️ruby-lang-i]](https://www.ruby-lang.org/) [![kettle-rb Logo by Aboling0, CC BY-SA 4.0][🖼️kettle-rb-i]](https://github.com/kettle-rb)
 
-[🖼️galtzo-i]: https://logos.galtzo.com/assets/images/galtzo-floss/avatar-192px.svg[🖼️galtzo-discord]: https://discord.gg/3qme4XHNKN[🖼️ruby-lang-i]: https://logos.galtzo.com/assets/images/ruby-lang/avatar-192px.svg[🖼️ruby-lang]: https://www.ruby-lang.org/[🖼️kettle-rb-i]: https://logos.galtzo.com/assets/images/kettle-rb/avatar-192px.svg[🖼️kettle-rb]: https://github.com/kettle-rb
+[![Galtzo FLOSS Logo by Aboling0, CC BY-SA 4.0][🖼️galtzo-i]][🖼️galtzo-discord] [![ruby-lang Logo, Yukihiro Matsumoto, Ruby Visual Identity Team, CC BY-SA 2.5][🖼️ruby-lang-i]][🖼️ruby-lang] [![kettle-rb Logo by Aboling0, CC BY-SA 4.0][🖼️kettle-rb-i]][🖼️kettle-rb]
+
+[🖼️galtzo-i]: https://logos.galtzo.com/assets/images/galtzo-floss/avatar-192px.svg
+[🖼️galtzo-discord]: https://discord.gg/3qme4XHNKN
+[🖼️ruby-lang-i]: https://logos.galtzo.com/assets/images/ruby-lang/avatar-192px.svg
+[🖼️ruby-lang]: https://www.ruby-lang.org/
+[🖼️kettle-rb-i]: https://logos.galtzo.com/assets/images/kettle-rb/avatar-192px.svg
+[🖼️kettle-rb]: https://github.com/kettle-rb
 
 # ☯️ Bash::Merge
 
-[![Version][👽versioni]][bash-merge-gem] [![GitHub tag (latest SemVer)][⛳️tag-img]](http://github.com/kettle-rb/bash-merge/releases) [![License: MIT][📄license-img]](https://opensource.org/licenses/MIT) [![Downloads Rank][👽dl-ranki]][bash-merge-gem] [![Open Source Helpers][👽oss-helpi]](https://www.codetriage.com/kettle-rb/bash-merge) [![CodeCov Test Coverage][🏀codecovi]](https://codecov.io/gh/kettle-rb/bash-merge) [![Coveralls Test Coverage][🏀coveralls-img]](https://coveralls.io/github/kettle-rb/bash-merge?branch=main) [![QLTY Test Coverage][🏀qlty-covi]](https://qlty.sh/gh/kettle-rb/projects/bash-merge/metrics/code?sort=coverageRating) [![QLTY Maintainability][🏀qlty-mnti]](https://qlty.sh/gh/kettle-rb/projects/bash-merge) [![CI Heads][🚎3-hd-wfi]](https://github.com/kettle-rb/bash-merge/actions/workflows/heads.yml) [![CI Runtime Dependencies @ HEAD][🚎12-crh-wfi]](https://github.com/kettle-rb/bash-merge/actions/workflows/dep-heads.yml) [![CI Current][🚎11-c-wfi]][bash-merge-ci] [![CI Truffle Ruby][🚎9-t-wfi]](https://github.com/kettle-rb/bash-merge/actions/workflows/truffle.yml) [![Deps Locked][🚎13-🔒️-wfi]](https://github.com/kettle-rb/bash-merge/actions/workflows/locked_deps.yml) [![Deps Unlocked][🚎14-🔓️-wfi]](https://github.com/kettle-rb/bash-merge/actions/workflows/unlocked_deps.yml) [![CI Supported][🚎6-s-wfi]](https://github.com/kettle-rb/bash-merge/actions/workflows/supported.yml) [![CI Test Coverage][🚎2-cov-wfi]](https://github.com/kettle-rb/bash-merge/actions/workflows/coverage.yml) [![CI Style][🚎5-st-wfi]](https://github.com/kettle-rb/bash-merge/actions/workflows/style.yml) [![CodeQL][🖐codeQL-img]](https://github.com/kettle-rb/bash-merge/security/code-scanning) [![Apache SkyWalking Eyes License Compatibility Check][🚎15-🪪-wfi]](https://github.com/kettle-rb/bash-merge/actions/workflows/license-eye.yml)
+[![Version][👽versioni]][bash-merge-gem] [![GitHub tag (latest SemVer)][⛳️tag-img]][⛳️tag] [![License: MIT][📄license-img]][📄license-ref] [![Downloads Rank][👽dl-ranki]][bash-merge-gem] [![Open Source Helpers][👽oss-helpi]][👽oss-help] [![CodeCov Test Coverage][🏀codecovi]][🏀codecov] [![Coveralls Test Coverage][🏀coveralls-img]][🏀coveralls] [![QLTY Test Coverage][🏀qlty-covi]][🏀qlty-cov] [![QLTY Maintainability][🏀qlty-mnti]][🏀qlty-mnt] [![CI Heads][🚎3-hd-wfi]][🚎3-hd-wf] [![CI Runtime Dependencies @ HEAD][🚎12-crh-wfi]][🚎12-crh-wf] [![CI Current][🚎11-c-wfi]][bash-merge-ci] [![CI Truffle Ruby][🚎9-t-wfi]][🚎9-t-wf] [![Deps Locked][🚎13-🔒️-wfi]][🚎13-🔒️-wf] [![Deps Unlocked][🚎14-🔓️-wfi]][🚎14-🔓️-wf] [![CI Supported][🚎6-s-wfi]][🚎6-s-wf] [![CI Test Coverage][🚎2-cov-wfi]][🚎2-cov-wf] [![CI Style][🚎5-st-wfi]][🚎5-st-wf] [![CodeQL][🖐codeQL-img]][🖐codeQL] [![Apache SkyWalking Eyes License Compatibility Check][🚎15-🪪-wfi]][🚎15-🪪-wf]
 
 `if ci_badges.map(&:color).detect { it != "green"}` ☝️ [let me know][🖼️galtzo-discord], as I may have missed the [discord notification][🖼️galtzo-discord].
 
@@ -44,7 +50,7 @@
 
 `if ci_badges.map(&:color).all? { it == "green"}` 👇️ send money so I can do more of this. FLOSS maintenance is now my full-time job.
 
-[![OpenCollective Backers][🖇osc-backers-i]](https://opencollective.com/kettle-rb#backer) [![OpenCollective Sponsors][🖇osc-sponsors-i]](https://opencollective.com/kettle-rb#sponsor) [![Sponsor Me on Github][🖇sponsor-img]](https://github.com/sponsors/pboling) [![Liberapay Goal Progress][⛳liberapay-img]](https://liberapay.com/pboling/donate) [![Donate on PayPal][🖇paypal-img]](https://www.paypal.com/paypalme/peterboling) [![Buy me a coffee][🖇buyme-small-img]](https://www.buymeacoffee.com/pboling) [![Donate on Polar][🖇polar-img]](https://polar.sh/pboling) [![Donate at ko-fi.com][🖇kofi-img]](https://ko-fi.com/O5O86SNP4)
+[![OpenCollective Backers][🖇osc-backers-i]][🖇osc-backers] [![OpenCollective Sponsors][🖇osc-sponsors-i]][🖇osc-sponsors] [![Sponsor Me on Github][🖇sponsor-img]][🖇sponsor] [![Liberapay Goal Progress][⛳liberapay-img]][⛳liberapay] [![Donate on PayPal][🖇paypal-img]][🖇paypal] [![Buy me a coffee][🖇buyme-small-img]][🖇buyme] [![Donate on Polar][🖇polar-img]][🖇polar] [![Donate at ko-fi.com][🖇kofi-img]][🖇kofi]
 
 ## 🌻 Synopsis
 
@@ -52,20 +58,20 @@ Bash::Merge is a standalone Ruby module that intelligently merges two versions o
 
 ### Key Features
 
-  - **Tree-Sitter Powered**: Uses tree-sitter-bash for accurate AST parsing
-  - **Script-Aware**: Understands Bash syntax including functions, variables, and commands
-  - **Intelligent**: Matches functions and variable assignments by name
-  - **Comment-Preserving**: Comments are preserved in their context
-  - **Shebang Handling**: Properly handles `#!/bin/bash` and similar shebangs
-  - **Freeze Block Support**: Respects freeze markers (default: `bash-merge:freeze` / `bash-merge:unfreeze`) for merge control - customizable to match your project's conventions
-  - **Full Provenance**: Tracks origin of every node
-  - **Standalone**: Minimal dependencies - just `ast-merge` and `ruby_tree_sitter`
-  - **Customizable**:
-      - `signature_generator` - callable custom signature generators
-      - `preference` - setting of `:template`, `:destination`, or a Hash for per-node-type preferences
-      - `node_splitter` - Hash mapping node types to callables for per-node-type merge customization (see [ast-merge][ast-merge] docs)
-      - `add_template_only_nodes` - setting to retain nodes that do not exist in destination
-      - `freeze_token` - customize freeze block markers (default: `"bash-merge"`)
+- **Tree-Sitter Powered**: Uses tree-sitter-bash for accurate AST parsing
+- **Script-Aware**: Understands Bash syntax including functions, variables, and commands
+- **Intelligent**: Matches functions and variable assignments by name
+- **Comment-Preserving**: Comments are preserved in their context
+- **Shebang Handling**: Properly handles `#!/bin/bash` and similar shebangs
+- **Freeze Block Support**: Respects freeze markers (default: `bash-merge:freeze` / `bash-merge:unfreeze`) for merge control - customizable to match your project's conventions
+- **Full Provenance**: Tracks origin of every node
+- **Standalone**: Minimal dependencies - just `ast-merge` and `ruby_tree_sitter`
+- **Customizable**:
+    - `signature_generator` - callable custom signature generators
+    - `preference` - setting of `:template`, `:destination`, or a Hash for per-node-type preferences
+    - `node_splitter` - Hash mapping node types to callables for per-node-type merge customization (see [ast-merge][ast-merge] docs)
+    - `add_template_only_nodes` - setting to retain nodes that do not exist in destination
+    - `freeze_token` - customize freeze block markers (default: `"bash-merge"`)
 
 ### Supported Node Types
 
@@ -82,7 +88,7 @@ Bash::Merge is a standalone Ruby module that intelligently merges two versions o
 
 ### Example
 
-``` ruby
+```ruby
 require "bash/merge"
 
 template = File.read("template.sh")
@@ -242,16 +248,16 @@ tree_haver supports multiple parsing backends, but not all backends work on all 
 
 | Tokens to Remember | [![Gem name][⛳️name-img]][bash-merge-gem] [![Gem namespace][⛳️namespace-img]][bash-merge] |
 | --- | --- |
-| Works with JRuby | [![JRuby 10.0 Compat][💎jruby-c-i]][bash-merge-ci] [![JRuby HEAD Compat][💎jruby-headi]](https://github.com/kettle-rb/bash-merge/actions/workflows/heads.yml) |
-| Works with Truffle Ruby | [![Truffle Ruby 23.1 Compat][💎truby-23.1i]](https://github.com/kettle-rb/bash-merge/actions/workflows/truffle.yml) [![Truffle Ruby 24.1 Compat][💎truby-c-i]][bash-merge-ci] |
-| Works with MRI Ruby 3 | [![Ruby 3.2 Compat][💎ruby-3.2i]](https://github.com/kettle-rb/bash-merge/actions/workflows/supported.yml) [![Ruby 3.3 Compat][💎ruby-3.3i]](https://github.com/kettle-rb/bash-merge/actions/workflows/supported.yml) [![Ruby 3.4 Compat][💎ruby-c-i]][bash-merge-ci] [![Ruby HEAD Compat][💎ruby-headi]](https://github.com/kettle-rb/bash-merge/actions/workflows/heads.yml) |
-| Support & Community | [![Join Me on Daily.dev's RubyFriends][✉️ruby-friends-img]](https://app.daily.dev/squads/rubyfriends) [![Live Chat on Discord][✉️discord-invite-img-ftb]](https://discord.gg/3qme4XHNKN) [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]](https://www.upwork.com/freelancers/~014942e9b056abdf86?mp_source=share) [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]](https://www.codementor.io/peterboling?utm_source=github&utm_medium=button&utm_term=peterboling&utm_campaign=github) |
-| Source | [![Source on GitLab.com][📜src-gl-img]](https://gitlab.com/kettle-rb/bash-merge/) [![Source on CodeBerg.org][📜src-cb-img]](https://codeberg.org/kettle-rb/bash-merge) [![Source on Github.com][📜src-gh-img]][bash-merge] [![The best SHA: dQw4w9WgXcQ\!](https://img.shields.io/badge/KLOC-4.308-FFDD67.svg?style=for-the-badge&logo=YouTube&logoColor=blue)](https://www.youtube.com/watch?v=dQw4w9WgXcQ) |
-| Documentation | [![Current release on RubyDoc.info][📜docs-cr-rd-img]](http://rubydoc.info/gems/bash-merge) [![YARD on Galtzo.com][📜docs-head-rd-img]](https://bash-merge.galtzo.com) [![Maintainer Blog][🚂maint-blog-img]](http://www.railsbling.com/tags/bash-merge) [![GitLab Wiki][📜gl-wiki-img]](https://gitlab.com/kettle-rb/bash-merge/-/wikis/home) [![GitHub Wiki][📜gh-wiki-img]](https://github.com/kettle-rb/bash-merge/wiki) |
-| Compliance | [![License: MIT][📄license-img]](https://opensource.org/licenses/MIT) [![Compatible with Apache Software Projects: Verified by SkyWalking Eyes][📄license-compat-img]](https://dev.to/galtzo/how-to-check-license-compatibility-41h0) [![📄ilo-declaration-img][📄ilo-declaration-img]](https://www.ilo.org/declaration/lang--en/index.htm) [![Security Policy][🔐security-img]](SECURITY.md) [![Contributor Covenant 2.1][🪇conduct-img]](CODE_OF_CONDUCT.md) [![SemVer 2.0.0][📌semver-img]](https://semver.org/spec/v2.0.0.html) |
-| Style | [![Enforced Code Style Linter][💎rlts-img]](https://github.com/rubocop-lts/rubocop-lts) [![Keep-A-Changelog 1.0.0][📗keep-changelog-img]](https://keepachangelog.com/en/1.0.0/) [![Gitmoji Commits][📌gitmoji-img]](https://gitmoji.dev) [![Compatibility appraised by: appraisal2][💎appraisal2-img]](https://github.com/appraisal-rb/appraisal2) |
-| Maintainer 🎖️ | [![Follow Me on LinkedIn][💖🖇linkedin-img]](http://www.linkedin.com/in/peterboling) [![Follow Me on Ruby.Social][💖🐘ruby-mast-img]](https://ruby.social/@galtzo) [![Follow Me on Bluesky][💖🦋bluesky-img]](https://bsky.app/profile/galtzo.com) [![Contact Maintainer][🚂maint-contact-img]](http://www.railsbling.com/contact) [![My technical writing][💖💁🏼‍♂️devto-img]](https://dev.to/galtzo) |
-| `...` 💖 | [![Find Me on WellFound:][💖✌️wellfound-img]](https://wellfound.com/u/peter-boling) [![Find Me on CrunchBase][💖💲crunchbase-img]](https://www.crunchbase.com/person/peter-boling) [![My LinkTree][💖🌳linktree-img]](https://linktr.ee/galtzo) [![More About Me][💖💁🏼‍♂️aboutme-img]](https://about.me/peter.boling) [🧊][💖🧊berg] [🐙][💖🐙hub]  [🛖][💖🛖hut] [🧪][💖🧪lab] |
+| Works with JRuby | [![JRuby 10.0 Compat][💎jruby-c-i]][bash-merge-ci] [![JRuby HEAD Compat][💎jruby-headi]][🚎3-hd-wf] |
+| Works with Truffle Ruby | [![Truffle Ruby 23.1 Compat][💎truby-23.1i]][🚎9-t-wf] [![Truffle Ruby 24.1 Compat][💎truby-c-i]][bash-merge-ci] |
+| Works with MRI Ruby 3 | [![Ruby 3.2 Compat][💎ruby-3.2i]][🚎6-s-wf] [![Ruby 3.3 Compat][💎ruby-3.3i]][🚎6-s-wf] [![Ruby 3.4 Compat][💎ruby-c-i]][bash-merge-ci] [![Ruby HEAD Compat][💎ruby-headi]][🚎3-hd-wf] |
+| Support & Community | [![Join Me on Daily.dev's RubyFriends][✉️ruby-friends-img]][✉️ruby-friends] [![Live Chat on Discord][✉️discord-invite-img-ftb]][🖼️galtzo-discord] [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork] [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor] |
+| Source | [![Source on GitLab.com][📜src-gl-img]][📜src-gl] [![Source on CodeBerg.org][📜src-cb-img]][📜src-cb] [![Source on Github.com][📜src-gh-img]][bash-merge] [![The best SHA: dQw4w9WgXcQ\!](https://img.shields.io/badge/KLOC-4.308-FFDD67.svg?style=for-the-badge&logo=YouTube&logoColor=blue)][🧮kloc] |
+| Documentation | [![Current release on RubyDoc.info][📜docs-cr-rd-img]][🚎yard-current] [![YARD on Galtzo.com][📜docs-head-rd-img]][🚎yard-head] [![Maintainer Blog][🚂maint-blog-img]][🚂maint-blog] [![GitLab Wiki][📜gl-wiki-img]][📜gl-wiki] [![GitHub Wiki][📜gh-wiki-img]][📜gh-wiki] |
+| Compliance | [![License: MIT][📄license-img]][📄license-ref] [![Compatible with Apache Software Projects: Verified by SkyWalking Eyes][📄license-compat-img]][📄license-compat] [![📄ilo-declaration-img][📄ilo-declaration-img]][📄ilo-declaration] [![Security Policy][🔐security-img]][🔐security] [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct] [![SemVer 2.0.0][📌semver-img]][📌semver] |
+| Style | [![Enforced Code Style Linter][💎rlts-img]][💎rlts] [![Keep-A-Changelog 1.0.0][📗keep-changelog-img]][📗keep-changelog] [![Gitmoji Commits][📌gitmoji-img]][📌gitmoji] [![Compatibility appraised by: appraisal2][💎appraisal2-img]][💎appraisal2] |
+| Maintainer 🎖️ | [![Follow Me on LinkedIn][💖🖇linkedin-img]][💖🖇linkedin] [![Follow Me on Ruby.Social][💖🐘ruby-mast-img]][💖🐘ruby-mast] [![Follow Me on Bluesky][💖🦋bluesky-img]][💖🦋bluesky] [![Contact Maintainer][🚂maint-contact-img]][🚂maint-contact] [![My technical writing][💖💁🏼‍♂️devto-img]][💖💁🏼‍♂️devto] |
+| `...` 💖 | [![Find Me on WellFound:][💖✌️wellfound-img]][💖✌️wellfound] [![Find Me on CrunchBase][💖💲crunchbase-img]][💖💲crunchbase] [![My LinkTree][💖🌳linktree-img]][💖🌳linktree] [![More About Me][💖💁🏼‍♂️aboutme-img]][💖💁🏼‍♂️aboutme] [🧊][💖🧊berg] [🐙][💖🐙hub]  [🛖][💖🛖hut] [🧪][💖🧪lab] |
 
 ### Compatibility
 
@@ -271,13 +277,13 @@ Compatible with MRI Ruby 3.2.0+, and concordant releases of JRuby, and TruffleRu
 | 🧪 [kettle-rb/bash-merge on GitLab][📜src-gl] | The Truth | [💚][🤝gl-issues] | [💚][🤝gl-pulls] | [💚][📜gl-wiki] | 🐭 Tiny Matrix | ➖ |
 | 🧊 [kettle-rb/bash-merge on CodeBerg][📜src-cb] | An Ethical Mirror ([Donate][🤝cb-donate]) | [💚][🤝cb-issues] | [💚][🤝cb-pulls] | ➖ | ⭕️ No Matrix | ➖ |
 | 🐙 [kettle-rb/bash-merge on GitHub][📜src-gh] | Another Mirror | [💚][🤝gh-issues] | [💚][🤝gh-pulls] | [💚][📜gh-wiki] | 💯 Full Matrix | [💚][gh-discussions] |
-| 🎮️ [Discord Server][🖼️galtzo-discord] | [![Live Chat on Discord][✉️discord-invite-img-ftb]](https://discord.gg/3qme4XHNKN) | [Let's][🖼️galtzo-discord] | [talk][🖼️galtzo-discord] | [about][🖼️galtzo-discord] | [this][🖼️galtzo-discord] | [library\!][🖼️galtzo-discord] |
+| 🎮️ [Discord Server][🖼️galtzo-discord] | [![Live Chat on Discord][✉️discord-invite-img-ftb]][🖼️galtzo-discord] | [Let's][🖼️galtzo-discord] | [talk][🖼️galtzo-discord] | [about][🖼️galtzo-discord] | [this][🖼️galtzo-discord] | [library\!][🖼️galtzo-discord] |
 
 </details>
 
 [gh-discussions]: https://github.com/kettle-rb/bash-merge/discussions
 
-### Enterprise Support [![Tidelift](https://tidelift.com/badges/package/rubygems/bash-merge)](https://tidelift.com/subscription/pkg/rubygems-bash-merge?utm_source=rubygems-bash-merge&utm_medium=referral&utm_campaign=readme)
+### Enterprise Support [![Tidelift](https://tidelift.com/badges/package/rubygems/bash-merge)][🏙️entsup-tidelift]
 
 Available as part of the Tidelift Subscription.
 
@@ -286,20 +292,16 @@ Available as part of the Tidelift Subscription.
 
 The maintainers of this and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source packages you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use.
 
-[![Get help from me on Tidelift][🏙️entsup-tidelift-img]](https://tidelift.com/subscription/pkg/rubygems-bash-merge?utm_source=rubygems-bash-merge&utm_medium=referral&utm_campaign=readme)
+[![Get help from me on Tidelift][🏙️entsup-tidelift-img]][🏙️entsup-tidelift]
 
-  - 💡Subscribe for support guarantees covering *all* your FLOSS dependencies
+- 💡Subscribe for support guarantees covering *all* your FLOSS dependencies
+- 💡Tidelift is part of [Sonar][🏙️entsup-tidelift-sonar]
+- 💡Tidelift pays maintainers to maintain the software you depend on\!<br/>📊`@`Pointy Haired Boss: An [enterprise support][🏙️entsup-tidelift] subscription is "[never gonna let you down][🧮kloc]", and *supports* open source maintainers
+  Alternatively:
 
-  - 💡Tidelift is part of [Sonar][🏙️entsup-tidelift-sonar]
-
-  - 💡Tidelift pays maintainers to maintain the software you depend on\!<br/>📊`@`Pointy Haired Boss: An [enterprise support][🏙️entsup-tidelift] subscription is "[never gonna let you down][🧮kloc]", and *supports* open source maintainers
-    Alternatively:
-
-  - [![Live Chat on Discord][✉️discord-invite-img-ftb]](https://discord.gg/3qme4XHNKN)
-
-  - [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]](https://www.upwork.com/freelancers/~014942e9b056abdf86?mp_source=share)
-
-  - [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]](https://www.codementor.io/peterboling?utm_source=github&utm_medium=button&utm_term=peterboling&utm_campaign=github)
+- [![Live Chat on Discord][✉️discord-invite-img-ftb]][🖼️galtzo-discord]
+- [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork]
+- [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor]
 
 </details>
 
@@ -307,13 +309,13 @@ The maintainers of this and thousands of other packages are working with Tidelif
 
 Install the gem and add to the application's Gemfile by executing:
 
-``` console
+```console
 bundle add bash-merge
 ```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-``` console
+```console
 gem install bash-merge
 ```
 
@@ -328,13 +330,13 @@ by following the instructions below.
 
 Add my public key (if you haven’t already, expires 2045-04-29) as a trusted certificate:
 
-``` console
+```console
 gem cert --add <(curl -Ls https://raw.github.com/galtzo-floss/certs/main/pboling.pem)
 ```
 
 You only need to do that once.  Then proceed to install with:
 
-``` console
+```console
 gem install bash-merge -P HighSecurity
 ```
 
@@ -342,7 +344,7 @@ The `HighSecurity` trust profile will verify signed gems, and not allow the inst
 
 If you want to up your security game full-time:
 
-``` console
+```console
 bundle config set --global trust-policy MediumSecurity
 ```
 
@@ -364,7 +366,7 @@ Download pre-built parsers from [Faveod/tree-sitter-parsers](https://github.com/
 
 **Linux (x64):**
 
-``` console
+```console
 # Download and extract
 curl -Lo parsers.tar.gz https://github.com/Faveod/tree-sitter-parsers/releases/download/v4.10/tree-sitter-parsers-4.10-linux-x64.tar.gz
 tar -xzf parsers.tar.gz
@@ -381,14 +383,14 @@ export TREE_SITTER_BASH_PATH="$HOME/.local/lib/tree-sitter/libtree-sitter-bash.s
 
 **Debian/Ubuntu (amd64):**
 
-``` console
+```console
 curl -Lo parsers.deb https://github.com/Faveod/tree-sitter-parsers/releases/download/v4.10/tree-sitter-parsers-4.10-amd64.deb
 sudo dpkg -i parsers.deb
 ```
 
 **macOS (Apple Silicon):**
 
-``` console
+```console
 curl -Lo parsers.tar.gz https://github.com/Faveod/tree-sitter-parsers/releases/download/v4.10/tree-sitter-parsers-4.10-macos-arm64.tar.gz
 tar -xzf parsers.tar.gz
 
@@ -400,7 +402,7 @@ export TREE_SITTER_BASH_PATH="$HOME/.local/lib/tree-sitter/libtree-sitter-bash.d
 
 #### Option 2: Build from Source
 
-``` console
+```console
 git clone https://github.com/tree-sitter/tree-sitter-bash.git
 cd tree-sitter-bash
 make
@@ -415,7 +417,7 @@ Some package managers provide tree-sitter parsers:
 
 **Fedora Atomic (Silverblue, Kinoite, Bazzite, Aurora, etc.):**
 
-``` console
+```console
 # Install via rpm-ostree (requires reboot)
 rpm-ostree install libtree-sitter-bash
 
@@ -426,13 +428,13 @@ export TREE_SITTER_BASH_PATH="/usr/lib64/libtree-sitter-bash.so"
 
 **Fedora (traditional):**
 
-``` console
+```console
 sudo dnf install libtree-sitter-bash
 ```
 
 **Arch Linux:**
 
-``` console
+```console
 # Check AUR for tree-sitter-bash
 yay -S tree-sitter-bash
 ```
@@ -442,7 +444,7 @@ yay -S tree-sitter-bash
 If the parser is not in a standard location (`/usr/lib/`, `/usr/lib64/`, `/usr/local/lib/`),
 set the `TREE_SITTER_BASH_PATH` environment variable to point to the parser library:
 
-``` console
+```console
 export TREE_SITTER_BASH_PATH="/path/to/libtree-sitter-bash.so"
 ```
 
@@ -450,9 +452,9 @@ export TREE_SITTER_BASH_PATH="/path/to/libtree-sitter-bash.so"
 (e.g., `libtree-sitter-bash.so.14` instead of `libtree-sitter-bash.so`).
 If the gem can't find the parser, check for versioned files and either:
 
-  - Set `TREE_SITTER_BASH_PATH` to the full versioned path, or
-  - Create a symlink: `sudo ln -s /usr/lib64/libtree-sitter-bash.so.14 /usr/lib64/libtree-sitter-bash.so`
-    Add this to your shell profile (`.bashrc`, `.zshrc`, etc.) for persistence.
+- Set `TREE_SITTER_BASH_PATH` to the full versioned path, or
+- Create a symlink: `sudo ln -s /usr/lib64/libtree-sitter-bash.so.14 /usr/lib64/libtree-sitter-bash.so`
+  Add this to your shell profile (`.bashrc`, `.zshrc`, etc.) for persistence.
 
 ### 💎 Ruby Interface Gems
 
@@ -465,29 +467,31 @@ bindings to tree-sitter. Choose **one** of the following based on your Ruby impl
 | [tree\_stump][tree_stump] | MRI (maybe JRuby) | Rust-based bindings via Rutie |
 | [ffi][ffi] | MRI, JRuby, TruffleRuby | Generic FFI bindings (used by tree\_haver's FFI backend) |
 
-[ruby_tree_sitter]: https://github.com/Faveod/ruby_tree_sitter[tree_stump]: https://github.com/nickstenning/tree_stump[ffi]: https://github.com/ffi/ffi
+[ruby_tree_sitter]: https://github.com/Faveod/ruby_tree_sitter
+[tree_stump]: https://github.com/nickstenning/tree_stump
+[ffi]: https://github.com/ffi/ffi
 
 #### For MRI Ruby (Recommended)
 
-``` console
+```console
 gem install ruby_tree_sitter
 ```
 
 Or add to your Gemfile:
 
-``` ruby
+```ruby
 gem "ruby_tree_sitter", "~> 2.0"
 ```
 
 #### For JRuby or TruffleRuby
 
-``` console
+```console
 gem install ffi
 ```
 
 Or add to your Gemfile:
 
-``` ruby
+```ruby
 gem "ffi"
 ```
 
@@ -499,7 +503,7 @@ you must use the FFI backend.
 
 ## ⚙️ Configuration
 
-``` ruby
+```ruby
 merger = Bash::Merge::SmartMerger.new(
   template_content,
   dest_content,
@@ -528,7 +532,7 @@ merger = Bash::Merge::SmartMerger.new(
 
 ### Simple Merge
 
-``` ruby
+```ruby
 require "bash/merge"
 
 # Template defines the structure
@@ -589,7 +593,7 @@ puts result.to_bash
 
 Freeze blocks protect sections from being overwritten during merge:
 
-``` bash
+```bash
 #!/bin/bash
 
 # Configuration
@@ -613,7 +617,7 @@ Content between `# bash-merge:freeze` and `# bash-merge:unfreeze` markers is pre
 
 ### Adding Template-Only Nodes
 
-``` ruby
+```ruby
 merger = Bash::Merge::SmartMerger.new(
   template,
   destination,
@@ -680,9 +684,10 @@ If you work at a company that uses my work, please encourage them to support me 
 
 I’m developing a new library, [floss\_funding][🖇floss-funding-gem], designed to empower open-source developers like myself to get paid for the work we do, in a sustainable way. Please give it a look.
 
-**[Floss-Funding.dev][🖇floss-funding.dev]: 👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing. 💡 Easily disabled nags**
+**[Floss-Funding.dev]
+[🖇floss-funding.dev]: 👉️ No network calls. 👉️ No tracking. 👉️ No oversight. 👉️ Minimal crypto hashing. 💡 Easily disabled nags**
 
-[![OpenCollective Backers][🖇osc-backers-i]](https://opencollective.com/kettle-rb#backer) [![OpenCollective Sponsors][🖇osc-sponsors-i]](https://opencollective.com/kettle-rb#sponsor) [![Sponsor Me on Github][🖇sponsor-img]](https://github.com/sponsors/pboling) [![Liberapay Goal Progress][⛳liberapay-img]](https://liberapay.com/pboling/donate) [![Donate on PayPal][🖇paypal-img]](https://www.paypal.com/paypalme/peterboling) [![Buy me a coffee][🖇buyme-small-img]](https://www.buymeacoffee.com/pboling) [![Donate on Polar][🖇polar-img]](https://polar.sh/pboling) [![Donate to my FLOSS efforts at ko-fi.com][🖇kofi-img]](https://ko-fi.com/O5O86SNP4) [![Donate to my FLOSS efforts using Patreon][🖇patreon-img]](https://patreon.com/galtzo)
+[![OpenCollective Backers][🖇osc-backers-i]][🖇osc-backers] [![OpenCollective Sponsors][🖇osc-sponsors-i]][🖇osc-sponsors] [![Sponsor Me on Github][🖇sponsor-img]][🖇sponsor] [![Liberapay Goal Progress][⛳liberapay-img]][⛳liberapay] [![Donate on PayPal][🖇paypal-img]][🖇paypal] [![Buy me a coffee][🖇buyme-small-img]][🖇buyme] [![Donate on Polar][🖇polar-img]][🖇polar] [![Donate to my FLOSS efforts at ko-fi.com][🖇kofi-img]][🖇kofi] [![Donate to my FLOSS efforts using Patreon][🖇patreon-img]][🖇patreon]
 
 ## 🔐 Security
 
@@ -694,7 +699,7 @@ If you need some ideas of where to help, you could work on adding more code cove
 or if it is already 💯 (see [below](#code-coverage)) check [reek](REEK), [issues][🤝gh-issues], or [PRs][🤝gh-pulls],
 or use the gem and think about how it could be better.
 
-We [![Keep A Changelog][📗keep-changelog-img]](https://keepachangelog.com/en/1.0.0/) so if you make changes, remember to update it.
+We [![Keep A Changelog][📗keep-changelog-img]][📗keep-changelog] so if you make changes, remember to update it.
 
 See [CONTRIBUTING.md][🤝contributing] for more detailed instructions.
 
@@ -704,20 +709,20 @@ See [CONTRIBUTING.md][🤝contributing].
 
 ### Code Coverage
 
-[![Coverage Graph][🏀codecov-g]](https://codecov.io/gh/kettle-rb/bash-merge)
+[![Coverage Graph][🏀codecov-g]][🏀codecov]
 
-[![Coveralls Test Coverage][🏀coveralls-img]](https://coveralls.io/github/kettle-rb/bash-merge?branch=main)
+[![Coveralls Test Coverage][🏀coveralls-img]][🏀coveralls]
 
-[![QLTY Test Coverage][🏀qlty-covi]](https://qlty.sh/gh/kettle-rb/projects/bash-merge/metrics/code?sort=coverageRating)
+[![QLTY Test Coverage][🏀qlty-covi]][🏀qlty-cov]
 
 ### 🪇 Code of Conduct
 
 Everyone interacting with this project's codebases, issue trackers,
-chat rooms and mailing lists agrees to follow the [![Contributor Covenant 2.1][🪇conduct-img]](CODE_OF_CONDUCT.md).
+chat rooms and mailing lists agrees to follow the [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct].
 
 ## 🌈 Contributors
 
-[![Contributors][🖐contributors-img]](https://github.com/kettle-rb/bash-merge/graphs/contributors)
+[![Contributors][🖐contributors-img]][🖐contributors]
 
 Made with [contributors-img][🖐contrib-rocks].
 
@@ -738,7 +743,7 @@ Also see GitLab Contributors: <https://gitlab.com/kettle-rb/bash-merge/-/graphs/
 
 ## 📌 Versioning
 
-This Library adheres to [![Semantic Versioning 2.0.0][📌semver-img]](https://semver.org/spec/v2.0.0.html).
+This Library adheres to [![Semantic Versioning 2.0.0][📌semver-img]][📌semver].
 Violations of this scheme should be reported as bugs.
 Specifically, if a minor or patch version is released that breaks backward compatibility,
 a new version should be immediately released that restores compatibility.
@@ -754,7 +759,7 @@ the [Pessimistic Version Constraint][📌pvc] with two digits of precision.
 
 For example:
 
-``` ruby
+```ruby
 spec.add_dependency("bash-merge", "~> 1.0")
 ```
 
@@ -767,7 +772,7 @@ is a *breaking change* to an API, and for that reason the bike shedding is endle
 To get a better understanding of how SemVer is intended to work over a project's lifetime,
 read this article from the creator of SemVer:
 
-  - ["Major Version Numbers are Not Sacred"][📌major-versions-not-sacred]
+- ["Major Version Numbers are Not Sacred"][📌major-versions-not-sacred]
 
 </details>
 
@@ -776,7 +781,7 @@ See [CHANGELOG.md][📌changelog] for a list of releases.
 ## 📄 License
 
 The gem is available as open source under the terms of
-the [MIT License][📄license] [![License: MIT][📄license-img]](https://opensource.org/licenses/MIT).
+the [MIT License][📄license] [![License: MIT][📄license-img]][📄license-ref].
 See [LICENSE.txt][📄license] for the official [Copyright Notice][📄copyright-notice-explainer].
 
 ### © Copyright
@@ -804,14 +809,191 @@ Please consider sponsoring me or the project.
 
 To join the community or get help 👇️ Join the Discord.
 
-[![Live Chat on Discord][✉️discord-invite-img-ftb]](https://discord.gg/3qme4XHNKN)
+[![Live Chat on Discord][✉️discord-invite-img-ftb]][🖼️galtzo-discord]
 
 To say "thanks\!" ☝️ Join the Discord or 👇️ send money.
 
-[![Sponsor kettle-rb/bash-merge on Open Source Collective][🖇osc-all-bottom-img]](https://opencollective.com/kettle-rb) 💌 [![Sponsor me on GitHub Sponsors][🖇sponsor-bottom-img]](https://github.com/sponsors/pboling) 💌 [![Sponsor me on Liberapay][⛳liberapay-bottom-img]](https://liberapay.com/pboling/donate) 💌 [![Donate on PayPal][🖇paypal-bottom-img]](https://www.paypal.com/paypalme/peterboling)
+[![Sponsor kettle-rb/bash-merge on Open Source Collective][🖇osc-all-bottom-img]][🖇osc] 💌 [![Sponsor me on GitHub Sponsors][🖇sponsor-bottom-img]][🖇sponsor] 💌 [![Sponsor me on Liberapay][⛳liberapay-bottom-img]][⛳liberapay] 💌 [![Donate on PayPal][🖇paypal-bottom-img]][🖇paypal]
 
 ### Please give the project a star ⭐ ♥.
 
 Thanks for RTFM. ☺️
 
-[⛳liberapay-img]: https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&color=a51611&style=flat[⛳liberapay-bottom-img]: https://img.shields.io/liberapay/goal/pboling.svg?style=for-the-badge&logo=liberapay&color=a51611[⛳liberapay]: https://liberapay.com/pboling/donate[🖇osc-all-img]: https://img.shields.io/opencollective/all/kettle-rb[🖇osc-sponsors-img]: https://img.shields.io/opencollective/sponsors/kettle-rb[🖇osc-backers-img]: https://img.shields.io/opencollective/backers/kettle-rb[🖇osc-backers]: https://opencollective.com/kettle-rb#backer[🖇osc-backers-i]: https://opencollective.com/kettle-rb/backers/badge.svg?style=flat[🖇osc-sponsors]: https://opencollective.com/kettle-rb#sponsor[🖇osc-sponsors-i]: https://opencollective.com/kettle-rb/sponsors/badge.svg?style=flat[🖇osc-all-bottom-img]: https://img.shields.io/opencollective/all/kettle-rb?style=for-the-badge[🖇osc-sponsors-bottom-img]: https://img.shields.io/opencollective/sponsors/kettle-rb?style=for-the-badge[🖇osc-backers-bottom-img]: https://img.shields.io/opencollective/backers/kettle-rb?style=for-the-badge[🖇osc]: https://opencollective.com/kettle-rb[🖇sponsor-img]: https://img.shields.io/badge/Sponsor_Me!-pboling.svg?style=social&logo=github[🖇sponsor-bottom-img]: https://img.shields.io/badge/Sponsor_Me!-pboling-blue?style=for-the-badge&logo=github[🖇sponsor]: https://github.com/sponsors/pboling[🖇polar-img]: https://img.shields.io/badge/polar-donate-a51611.svg?style=flat[🖇polar]: https://polar.sh/pboling[🖇kofi-img]: https://img.shields.io/badge/ko--fi-%E2%9C%93-a51611.svg?style=flat[🖇kofi]: https://ko-fi.com/O5O86SNP4[🖇patreon-img]: https://img.shields.io/badge/patreon-donate-a51611.svg?style=flat[🖇patreon]: https://patreon.com/galtzo[🖇buyme-small-img]: https://img.shields.io/badge/buy_me_a_coffee-%E2%9C%93-a51611.svg?style=flat[🖇buyme-img]: https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20latte&emoji=&slug=pboling&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff[🖇buyme]: https://www.buymeacoffee.com/pboling[🖇paypal-img]: https://img.shields.io/badge/donate-paypal-a51611.svg?style=flat&logo=paypal[🖇paypal-bottom-img]: https://img.shields.io/badge/donate-paypal-a51611.svg?style=for-the-badge&logo=paypal&color=0A0A0A[🖇paypal]: https://www.paypal.com/paypalme/peterboling[🖇floss-funding.dev]: https://floss-funding.dev[🖇floss-funding-gem]: https://github.com/galtzo-floss/floss_funding[✉️discord-invite]: https://discord.gg/3qme4XHNKN[✉️discord-invite-img-ftb]: https://img.shields.io/discord/1373797679469170758?style=for-the-badge&logo=discord[✉️ruby-friends-img]: https://img.shields.io/badge/daily.dev-%F0%9F%92%8E_Ruby_Friends-0A0A0A?style=for-the-badge&logo=dailydotdev&logoColor=white[✉️ruby-friends]: https://app.daily.dev/squads/rubyfriends[✇bundle-group-pattern]: https://gist.github.com/pboling/4564780[⛳️gem-namespace]: https://github.com/kettle-rb/bash-merge[⛳️namespace-img]: https://img.shields.io/badge/namespace-Bash::Merge-3C2D2D.svg?style=square&logo=ruby&logoColor=white[⛳️gem-name]: https://bestgems.org/gems/bash-merge[⛳️name-img]: https://img.shields.io/badge/name-bash--merge-3C2D2D.svg?style=square&logo=rubygems&logoColor=red[⛳️tag-img]: https://img.shields.io/github/tag/kettle-rb/bash-merge.svg[⛳️tag]: http://github.com/kettle-rb/bash-merge/releases[🚂maint-blog]: http://www.railsbling.com/tags/bash-merge[🚂maint-blog-img]: https://img.shields.io/badge/blog-railsbling-0093D0.svg?style=for-the-badge&logo=rubyonrails&logoColor=orange[🚂maint-contact]: http://www.railsbling.com/contact[🚂maint-contact-img]: https://img.shields.io/badge/Contact-Maintainer-0093D0.svg?style=flat&logo=rubyonrails&logoColor=red[💖🖇linkedin]: http://www.linkedin.com/in/peterboling[💖🖇linkedin-img]: https://img.shields.io/badge/PeterBoling-LinkedIn-0B66C2?style=flat&logo=newjapanprowrestling[💖✌️wellfound]: https://wellfound.com/u/peter-boling[💖✌️wellfound-img]: https://img.shields.io/badge/peter--boling-orange?style=flat&logo=wellfound[💖💲crunchbase]: https://www.crunchbase.com/person/peter-boling[💖💲crunchbase-img]: https://img.shields.io/badge/peter--boling-purple?style=flat&logo=crunchbase[💖🐘ruby-mast]: https://ruby.social/@galtzo[💖🐘ruby-mast-img]: https://img.shields.io/mastodon/follow/109447111526622197?domain=https://ruby.social&style=flat&logo=mastodon&label=Ruby%20@galtzo[💖🦋bluesky]: https://bsky.app/profile/galtzo.com[💖🦋bluesky-img]: https://img.shields.io/badge/@galtzo.com-0285FF?style=flat&logo=bluesky&logoColor=white[💖🌳linktree]: https://linktr.ee/galtzo[💖🌳linktree-img]: https://img.shields.io/badge/galtzo-purple?style=flat&logo=linktree[💖💁🏼‍♂️devto]: https://dev.to/galtzo[💖💁🏼‍♂️devto-img]: https://img.shields.io/badge/dev.to-0A0A0A?style=flat&logo=devdotto&logoColor=white[💖💁🏼‍♂️aboutme]: https://about.me/peter.boling[💖💁🏼‍♂️aboutme-img]: https://img.shields.io/badge/about.me-0A0A0A?style=flat&logo=aboutme&logoColor=white[💖🧊berg]: https://codeberg.org/pboling[💖🐙hub]: https://github.org/pboling[💖🛖hut]: https://sr.ht/~galtzo/[💖🧪lab]: https://gitlab.com/pboling[👨🏼‍🏫expsup-upwork]: https://www.upwork.com/freelancers/~014942e9b056abdf86?mp_source=share[👨🏼‍🏫expsup-upwork-img]: https://img.shields.io/badge/UpWork-13544E?style=for-the-badge&logo=Upwork&logoColor=white[👨🏼‍🏫expsup-codementor]: https://www.codementor.io/peterboling?utm_source=github&utm_medium=button&utm_term=peterboling&utm_campaign=github[👨🏼‍🏫expsup-codementor-img]: https://img.shields.io/badge/CodeMentor-Get_Help-1abc9c?style=for-the-badge&logo=CodeMentor&logoColor=white[🏙️entsup-tidelift]: https://tidelift.com/subscription/pkg/rubygems-bash-merge?utm_source=rubygems-bash-merge&utm_medium=referral&utm_campaign=readme[🏙️entsup-tidelift-img]: https://img.shields.io/badge/Tidelift_and_Sonar-Enterprise_Support-FD3456?style=for-the-badge&logo=sonar&logoColor=white[🏙️entsup-tidelift-sonar]: https://blog.tidelift.com/tidelift-joins-sonar[💁🏼‍♂️peterboling]: http://www.peterboling.com[🚂railsbling]: http://www.railsbling.com[📜src-gl-img]: https://img.shields.io/badge/GitLab-FBA326?style=for-the-badge&logo=Gitlab&logoColor=orange[📜src-gl]: https://gitlab.com/kettle-rb/bash-merge/[📜src-cb-img]: https://img.shields.io/badge/CodeBerg-4893CC?style=for-the-badge&logo=CodeBerg&logoColor=blue[📜src-cb]: https://codeberg.org/kettle-rb/bash-merge[📜src-gh-img]: https://img.shields.io/badge/GitHub-238636?style=for-the-badge&logo=Github&logoColor=green[📜src-gh]: https://github.com/kettle-rb/bash-merge[📜docs-cr-rd-img]: https://img.shields.io/badge/RubyDoc-Current_Release-943CD2?style=for-the-badge&logo=readthedocs&logoColor=white[📜docs-head-rd-img]: https://img.shields.io/badge/YARD_on_Galtzo.com-HEAD-943CD2?style=for-the-badge&logo=readthedocs&logoColor=white[📜gl-wiki]: https://gitlab.com/kettle-rb/bash-merge/-/wikis/home[📜gh-wiki]: https://github.com/kettle-rb/bash-merge/wiki[📜gl-wiki-img]: https://img.shields.io/badge/wiki-examples-943CD2.svg?style=for-the-badge&logo=gitlab&logoColor=white[📜gh-wiki-img]: https://img.shields.io/badge/wiki-examples-943CD2.svg?style=for-the-badge&logo=github&logoColor=white[👽dl-rank]: https://bestgems.org/gems/bash-merge[👽dl-ranki]: https://img.shields.io/gem/rd/bash-merge.svg[👽oss-help]: https://www.codetriage.com/kettle-rb/bash-merge[👽oss-helpi]: https://www.codetriage.com/kettle-rb/bash-merge/badges/users.svg[👽version]: https://bestgems.org/gems/bash-merge[👽versioni]: https://img.shields.io/gem/v/bash-merge.svg[🏀qlty-mnt]: https://qlty.sh/gh/kettle-rb/projects/bash-merge[🏀qlty-mnti]: https://qlty.sh/gh/kettle-rb/projects/bash-merge/maintainability.svg[🏀qlty-cov]: https://qlty.sh/gh/kettle-rb/projects/bash-merge/metrics/code?sort=coverageRating[🏀qlty-covi]: https://qlty.sh/gh/kettle-rb/projects/bash-merge/coverage.svg[🏀codecov]: https://codecov.io/gh/kettle-rb/bash-merge[🏀codecovi]: https://codecov.io/gh/kettle-rb/bash-merge/graph/badge.svg[🏀coveralls]: https://coveralls.io/github/kettle-rb/bash-merge?branch=main[🏀coveralls-img]: https://coveralls.io/repos/github/kettle-rb/bash-merge/badge.svg?branch=main[🖐codeQL]: https://github.com/kettle-rb/bash-merge/security/code-scanning[🖐codeQL-img]: https://github.com/kettle-rb/bash-merge/actions/workflows/codeql-analysis.yml/badge.svg[🚎2-cov-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/coverage.yml[🚎2-cov-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/coverage.yml/badge.svg[🚎3-hd-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/heads.yml[🚎3-hd-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/heads.yml/badge.svg[🚎5-st-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/style.yml[🚎5-st-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/style.yml/badge.svg[🚎6-s-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/supported.yml[🚎6-s-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/supported.yml/badge.svg[🚎9-t-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/truffle.yml[🚎9-t-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/truffle.yml/badge.svg[🚎11-c-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/current.yml[🚎11-c-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/current.yml/badge.svg[🚎12-crh-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/dep-heads.yml[🚎12-crh-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/dep-heads.yml/badge.svg[🚎13-🔒️-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/locked_deps.yml[🚎13-🔒️-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/locked_deps.yml/badge.svg[🚎14-🔓️-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/unlocked_deps.yml[🚎14-🔓️-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/unlocked_deps.yml/badge.svg[🚎15-🪪-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/license-eye.yml[🚎15-🪪-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/license-eye.yml/badge.svg[💎ruby-3.2i]: https://img.shields.io/badge/Ruby-3.2-CC342D?style=for-the-badge&logo=ruby&logoColor=white[💎ruby-3.3i]: https://img.shields.io/badge/Ruby-3.3-CC342D?style=for-the-badge&logo=ruby&logoColor=white[💎ruby-c-i]: https://img.shields.io/badge/Ruby-current-CC342D?style=for-the-badge&logo=ruby&logoColor=green[💎ruby-headi]: https://img.shields.io/badge/Ruby-HEAD-CC342D?style=for-the-badge&logo=ruby&logoColor=blue[💎truby-23.1i]: https://img.shields.io/badge/Truffle_Ruby-23.1-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink[💎truby-c-i]: https://img.shields.io/badge/Truffle_Ruby-current-34BCB1?style=for-the-badge&logo=ruby&logoColor=green[💎truby-headi]: https://img.shields.io/badge/Truffle_Ruby-HEAD-34BCB1?style=for-the-badge&logo=ruby&logoColor=blue[💎jruby-c-i]: https://img.shields.io/badge/JRuby-current-FBE742?style=for-the-badge&logo=ruby&logoColor=green[💎jruby-headi]: https://img.shields.io/badge/JRuby-HEAD-FBE742?style=for-the-badge&logo=ruby&logoColor=blue[🤝gh-issues]: https://github.com/kettle-rb/bash-merge/issues[🤝gh-pulls]: https://github.com/kettle-rb/bash-merge/pulls[🤝gl-issues]: https://gitlab.com/kettle-rb/bash-merge/-/issues[🤝gl-pulls]: https://gitlab.com/kettle-rb/bash-merge/-/merge_requests[🤝cb-issues]: https://codeberg.org/kettle-rb/bash-merge/issues[🤝cb-pulls]: https://codeberg.org/kettle-rb/bash-merge/pulls[🤝cb-donate]: https://donate.codeberg.org/[🤝contributing]: CONTRIBUTING.md[🏀codecov-g]: https://codecov.io/gh/kettle-rb/bash-merge/graphs/tree.svg[🖐contrib-rocks]: https://contrib.rocks[🖐contributors]: https://github.com/kettle-rb/bash-merge/graphs/contributors[🖐contributors-img]: https://contrib.rocks/image?repo=kettle-rb/bash-merge[🚎contributors-gl]: https://gitlab.com/kettle-rb/bash-merge/-/graphs/main[🪇conduct]: CODE_OF_CONDUCT.md[🪇conduct-img]: https://img.shields.io/badge/Contributor_Covenant-2.1-259D6C.svg[📌pvc]: http://guides.rubygems.org/patterns/#pessimistic-version-constraint[📌semver]: https://semver.org/spec/v2.0.0.html[📌semver-img]: https://img.shields.io/badge/semver-2.0.0-259D6C.svg?style=flat[📌semver-breaking]: https://github.com/semver/semver/issues/716#issuecomment-869336139[📌major-versions-not-sacred]: https://tom.preston-werner.com/2022/05/23/major-version-numbers-are-not-sacred.html[📌changelog]: CHANGELOG.md[📗keep-changelog]: https://keepachangelog.com/en/1.0.0/[📗keep-changelog-img]: https://img.shields.io/badge/keep--a--changelog-1.0.0-34495e.svg?style=flat[📌gitmoji]: https://gitmoji.dev[📌gitmoji-img]: https://img.shields.io/badge/gitmoji_commits-%20%F0%9F%98%9C%20%F0%9F%98%8D-34495e.svg?style=flat-square[🧮kloc]: https://www.youtube.com/watch?v=dQw4w9WgXcQ[🧮kloc-img]: https://img.shields.io/badge/KLOC-0.519-FFDD67.svg?style=for-the-badge&logo=YouTube&logoColor=blue[🔐security]: SECURITY.md[🔐security-img]: https://img.shields.io/badge/security-policy-259D6C.svg?style=flat[📄copyright-notice-explainer]: https://opensource.stackexchange.com/questions/5778/why-do-licenses-such-as-the-mit-license-specify-a-single-year[📄license]: LICENSE.txt[📄license-ref]: https://opensource.org/licenses/MIT[📄license-img]: https://img.shields.io/badge/License-MIT-259D6C.svg[📄license-compat]: https://dev.to/galtzo/how-to-check-license-compatibility-41h0[📄license-compat-img]: https://img.shields.io/badge/Apache_Compatible:_Category_A-%E2%9C%93-259D6C.svg?style=flat&logo=Apache[📄ilo-declaration]: https://www.ilo.org/declaration/lang--en/index.htm[📄ilo-declaration-img]: https://img.shields.io/badge/ILO_Fundamental_Principles-✓-259D6C.svg?style=flat[🚎yard-current]: http://rubydoc.info/gems/bash-merge[🚎yard-head]: https://bash-merge.galtzo.com[💎stone_checksums]: https://github.com/galtzo-floss/stone_checksums[💎SHA_checksums]: https://gitlab.com/kettle-rb/bash-merge/-/tree/main/checksums[💎rlts]: https://github.com/rubocop-lts/rubocop-lts[💎rlts-img]: https://img.shields.io/badge/code_style_&_linting-rubocop--lts-34495e.svg?plastic&logo=ruby&logoColor=white[💎appraisal2]: https://github.com/appraisal-rb/appraisal2[💎appraisal2-img]: https://img.shields.io/badge/appraised_by-appraisal2-34495e.svg?plastic&logo=ruby&logoColor=white[💎d-in-dvcs]: https://railsbling.com/posts/dvcs/put_the_d_in_dvcs/[ts-jsonc]: https://gitlab.com/WhyNotHugo/tree-sitter-jsonc[dotenv]: https://github.com/bkeepers/dotenv
+[⛳liberapay-img]: https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&color=a51611&style=flat
+[⛳liberapay-bottom-img]: https://img.shields.io/liberapay/goal/pboling.svg?style=for-the-badge&logo=liberapay&color=a51611
+[⛳liberapay]: https://liberapay.com/pboling/donate
+[🖇osc-all-img]: https://img.shields.io/opencollective/all/kettle-rb
+[🖇osc-sponsors-img]: https://img.shields.io/opencollective/sponsors/kettle-rb
+[🖇osc-backers-img]: https://img.shields.io/opencollective/backers/kettle-rb
+[🖇osc-backers]: https://opencollective.com/kettle-rb#backer
+[🖇osc-backers-i]: https://opencollective.com/kettle-rb/backers/badge.svg?style=flat
+[🖇osc-sponsors]: https://opencollective.com/kettle-rb#sponsor
+[🖇osc-sponsors-i]: https://opencollective.com/kettle-rb/sponsors/badge.svg?style=flat
+[🖇osc-all-bottom-img]: https://img.shields.io/opencollective/all/kettle-rb?style=for-the-badge
+[🖇osc-sponsors-bottom-img]: https://img.shields.io/opencollective/sponsors/kettle-rb?style=for-the-badge
+[🖇osc-backers-bottom-img]: https://img.shields.io/opencollective/backers/kettle-rb?style=for-the-badge
+[🖇osc]: https://opencollective.com/kettle-rb
+[🖇sponsor-img]: https://img.shields.io/badge/Sponsor_Me!-pboling.svg?style=social&logo=github
+[🖇sponsor-bottom-img]: https://img.shields.io/badge/Sponsor_Me!-pboling-blue?style=for-the-badge&logo=github
+[🖇sponsor]: https://github.com/sponsors/pboling
+[🖇polar-img]: https://img.shields.io/badge/polar-donate-a51611.svg?style=flat
+[🖇polar]: https://polar.sh/pboling
+[🖇kofi-img]: https://img.shields.io/badge/ko--fi-%E2%9C%93-a51611.svg?style=flat
+[🖇kofi]: https://ko-fi.com/O5O86SNP4
+[🖇patreon-img]: https://img.shields.io/badge/patreon-donate-a51611.svg?style=flat
+[🖇patreon]: https://patreon.com/galtzo
+[🖇buyme-small-img]: https://img.shields.io/badge/buy_me_a_coffee-%E2%9C%93-a51611.svg?style=flat
+[🖇buyme-img]: https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20latte&emoji=&slug=pboling&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff
+[🖇buyme]: https://www.buymeacoffee.com/pboling
+[🖇paypal-img]: https://img.shields.io/badge/donate-paypal-a51611.svg?style=flat&logo=paypal
+[🖇paypal-bottom-img]: https://img.shields.io/badge/donate-paypal-a51611.svg?style=for-the-badge&logo=paypal&color=0A0A0A
+[🖇paypal]: https://www.paypal.com/paypalme/peterboling
+[🖇floss-funding.dev]: https://floss-funding.dev
+[🖇floss-funding-gem]: https://github.com/galtzo-floss/floss_funding
+[✉️discord-invite]: https://discord.gg/3qme4XHNKN
+[✉️discord-invite-img-ftb]: https://img.shields.io/discord/1373797679469170758?style=for-the-badge&logo=discord
+[✉️ruby-friends-img]: https://img.shields.io/badge/daily.dev-%F0%9F%92%8E_Ruby_Friends-0A0A0A?style=for-the-badge&logo=dailydotdev&logoColor=white
+[✉️ruby-friends]: https://app.daily.dev/squads/rubyfriends
+[✇bundle-group-pattern]: https://gist.github.com/pboling/4564780
+[⛳️gem-namespace]: https://github.com/kettle-rb/bash-merge
+[⛳️namespace-img]: https://img.shields.io/badge/namespace-Bash::Merge-3C2D2D.svg?style=square&logo=ruby&logoColor=white
+[⛳️gem-name]: https://bestgems.org/gems/bash-merge
+[⛳️name-img]: https://img.shields.io/badge/name-bash--merge-3C2D2D.svg?style=square&logo=rubygems&logoColor=red
+[⛳️tag-img]: https://img.shields.io/github/tag/kettle-rb/bash-merge.svg
+[⛳️tag]: http://github.com/kettle-rb/bash-merge/releases
+[🚂maint-blog]: http://www.railsbling.com/tags/bash-merge
+[🚂maint-blog-img]: https://img.shields.io/badge/blog-railsbling-0093D0.svg?style=for-the-badge&logo=rubyonrails&logoColor=orange
+[🚂maint-contact]: http://www.railsbling.com/contact
+[🚂maint-contact-img]: https://img.shields.io/badge/Contact-Maintainer-0093D0.svg?style=flat&logo=rubyonrails&logoColor=red
+[💖🖇linkedin]: http://www.linkedin.com/in/peterboling
+[💖🖇linkedin-img]: https://img.shields.io/badge/PeterBoling-LinkedIn-0B66C2?style=flat&logo=newjapanprowrestling
+[💖✌️wellfound]: https://wellfound.com/u/peter-boling
+[💖✌️wellfound-img]: https://img.shields.io/badge/peter--boling-orange?style=flat&logo=wellfound
+[💖💲crunchbase]: https://www.crunchbase.com/person/peter-boling
+[💖💲crunchbase-img]: https://img.shields.io/badge/peter--boling-purple?style=flat&logo=crunchbase
+[💖🐘ruby-mast]: https://ruby.social/@galtzo
+[💖🐘ruby-mast-img]: https://img.shields.io/mastodon/follow/109447111526622197?domain=https://ruby.social&style=flat&logo=mastodon&label=Ruby%20@galtzo
+[💖🦋bluesky]: https://bsky.app/profile/galtzo.com
+[💖🦋bluesky-img]: https://img.shields.io/badge/@galtzo.com-0285FF?style=flat&logo=bluesky&logoColor=white
+[💖🌳linktree]: https://linktr.ee/galtzo
+[💖🌳linktree-img]: https://img.shields.io/badge/galtzo-purple?style=flat&logo=linktree
+[💖💁🏼‍♂️devto]: https://dev.to/galtzo
+[💖💁🏼‍♂️devto-img]: https://img.shields.io/badge/dev.to-0A0A0A?style=flat&logo=devdotto&logoColor=white
+[💖💁🏼‍♂️aboutme]: https://about.me/peter.boling
+[💖💁🏼‍♂️aboutme-img]: https://img.shields.io/badge/about.me-0A0A0A?style=flat&logo=aboutme&logoColor=white
+[💖🧊berg]: https://codeberg.org/pboling
+[💖🐙hub]: https://github.org/pboling
+[💖🛖hut]: https://sr.ht/~galtzo/
+[💖🧪lab]: https://gitlab.com/pboling
+[👨🏼‍🏫expsup-upwork]: https://www.upwork.com/freelancers/~014942e9b056abdf86?mp_source=share
+[👨🏼‍🏫expsup-upwork-img]: https://img.shields.io/badge/UpWork-13544E?style=for-the-badge&logo=Upwork&logoColor=white
+[👨🏼‍🏫expsup-codementor]: https://www.codementor.io/peterboling?utm_source=github&utm_medium=button&utm_term=peterboling&utm_campaign=github
+[👨🏼‍🏫expsup-codementor-img]: https://img.shields.io/badge/CodeMentor-Get_Help-1abc9c?style=for-the-badge&logo=CodeMentor&logoColor=white
+[🏙️entsup-tidelift]: https://tidelift.com/subscription/pkg/rubygems-bash-merge?utm_source=rubygems-bash-merge&utm_medium=referral&utm_campaign=readme
+[🏙️entsup-tidelift-img]: https://img.shields.io/badge/Tidelift_and_Sonar-Enterprise_Support-FD3456?style=for-the-badge&logo=sonar&logoColor=white
+[🏙️entsup-tidelift-sonar]: https://blog.tidelift.com/tidelift-joins-sonar
+[💁🏼‍♂️peterboling]: http://www.peterboling.com
+[🚂railsbling]: http://www.railsbling.com
+[📜src-gl-img]: https://img.shields.io/badge/GitLab-FBA326?style=for-the-badge&logo=Gitlab&logoColor=orange
+[📜src-gl]: https://gitlab.com/kettle-rb/bash-merge/
+[📜src-cb-img]: https://img.shields.io/badge/CodeBerg-4893CC?style=for-the-badge&logo=CodeBerg&logoColor=blue
+[📜src-cb]: https://codeberg.org/kettle-rb/bash-merge
+[📜src-gh-img]: https://img.shields.io/badge/GitHub-238636?style=for-the-badge&logo=Github&logoColor=green
+[📜src-gh]: https://github.com/kettle-rb/bash-merge
+[📜docs-cr-rd-img]: https://img.shields.io/badge/RubyDoc-Current_Release-943CD2?style=for-the-badge&logo=readthedocs&logoColor=white
+[📜docs-head-rd-img]: https://img.shields.io/badge/YARD_on_Galtzo.com-HEAD-943CD2?style=for-the-badge&logo=readthedocs&logoColor=white
+[📜gl-wiki]: https://gitlab.com/kettle-rb/bash-merge/-/wikis/home
+[📜gh-wiki]: https://github.com/kettle-rb/bash-merge/wiki
+[📜gl-wiki-img]: https://img.shields.io/badge/wiki-examples-943CD2.svg?style=for-the-badge&logo=gitlab&logoColor=white
+[📜gh-wiki-img]: https://img.shields.io/badge/wiki-examples-943CD2.svg?style=for-the-badge&logo=github&logoColor=white
+[👽dl-rank]: https://bestgems.org/gems/bash-merge
+[👽dl-ranki]: https://img.shields.io/gem/rd/bash-merge.svg
+[👽oss-help]: https://www.codetriage.com/kettle-rb/bash-merge
+[👽oss-helpi]: https://www.codetriage.com/kettle-rb/bash-merge/badges/users.svg
+[👽version]: https://bestgems.org/gems/bash-merge
+[👽versioni]: https://img.shields.io/gem/v/bash-merge.svg
+[🏀qlty-mnt]: https://qlty.sh/gh/kettle-rb/projects/bash-merge
+[🏀qlty-mnti]: https://qlty.sh/gh/kettle-rb/projects/bash-merge/maintainability.svg
+[🏀qlty-cov]: https://qlty.sh/gh/kettle-rb/projects/bash-merge/metrics/code?sort=coverageRating
+[🏀qlty-covi]: https://qlty.sh/gh/kettle-rb/projects/bash-merge/coverage.svg
+[🏀codecov]: https://codecov.io/gh/kettle-rb/bash-merge
+[🏀codecovi]: https://codecov.io/gh/kettle-rb/bash-merge/graph/badge.svg
+[🏀coveralls]: https://coveralls.io/github/kettle-rb/bash-merge?branch=main
+[🏀coveralls-img]: https://coveralls.io/repos/github/kettle-rb/bash-merge/badge.svg?branch=main
+[🖐codeQL]: https://github.com/kettle-rb/bash-merge/security/code-scanning
+[🖐codeQL-img]: https://github.com/kettle-rb/bash-merge/actions/workflows/codeql-analysis.yml/badge.svg
+[🚎2-cov-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/coverage.yml
+[🚎2-cov-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/coverage.yml/badge.svg
+[🚎3-hd-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/heads.yml
+[🚎3-hd-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/heads.yml/badge.svg
+[🚎5-st-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/style.yml
+[🚎5-st-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/style.yml/badge.svg
+[🚎6-s-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/supported.yml
+[🚎6-s-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/supported.yml/badge.svg
+[🚎9-t-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/truffle.yml
+[🚎9-t-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/truffle.yml/badge.svg
+[🚎11-c-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/current.yml
+[🚎11-c-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/current.yml/badge.svg
+[🚎12-crh-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/dep-heads.yml
+[🚎12-crh-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/dep-heads.yml/badge.svg
+[🚎13-🔒️-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/locked_deps.yml
+[🚎13-🔒️-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/locked_deps.yml/badge.svg
+[🚎14-🔓️-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/unlocked_deps.yml
+[🚎14-🔓️-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/unlocked_deps.yml/badge.svg
+[🚎15-🪪-wf]: https://github.com/kettle-rb/bash-merge/actions/workflows/license-eye.yml
+[🚎15-🪪-wfi]: https://github.com/kettle-rb/bash-merge/actions/workflows/license-eye.yml/badge.svg
+[💎ruby-3.2i]: https://img.shields.io/badge/Ruby-3.2-CC342D?style=for-the-badge&logo=ruby&logoColor=white
+[💎ruby-3.3i]: https://img.shields.io/badge/Ruby-3.3-CC342D?style=for-the-badge&logo=ruby&logoColor=white
+[💎ruby-c-i]: https://img.shields.io/badge/Ruby-current-CC342D?style=for-the-badge&logo=ruby&logoColor=green
+[💎ruby-headi]: https://img.shields.io/badge/Ruby-HEAD-CC342D?style=for-the-badge&logo=ruby&logoColor=blue
+[💎truby-23.1i]: https://img.shields.io/badge/Truffle_Ruby-23.1-34BCB1?style=for-the-badge&logo=ruby&logoColor=pink
+[💎truby-c-i]: https://img.shields.io/badge/Truffle_Ruby-current-34BCB1?style=for-the-badge&logo=ruby&logoColor=green
+[💎truby-headi]: https://img.shields.io/badge/Truffle_Ruby-HEAD-34BCB1?style=for-the-badge&logo=ruby&logoColor=blue
+[💎jruby-c-i]: https://img.shields.io/badge/JRuby-current-FBE742?style=for-the-badge&logo=ruby&logoColor=green
+[💎jruby-headi]: https://img.shields.io/badge/JRuby-HEAD-FBE742?style=for-the-badge&logo=ruby&logoColor=blue
+[🤝gh-issues]: https://github.com/kettle-rb/bash-merge/issues
+[🤝gh-pulls]: https://github.com/kettle-rb/bash-merge/pulls
+[🤝gl-issues]: https://gitlab.com/kettle-rb/bash-merge/-/issues
+[🤝gl-pulls]: https://gitlab.com/kettle-rb/bash-merge/-/merge_requests
+[🤝cb-issues]: https://codeberg.org/kettle-rb/bash-merge/issues
+[🤝cb-pulls]: https://codeberg.org/kettle-rb/bash-merge/pulls
+[🤝cb-donate]: https://donate.codeberg.org/
+[🤝contributing]: CONTRIBUTING.md
+[🏀codecov-g]: https://codecov.io/gh/kettle-rb/bash-merge/graphs/tree.svg
+[🖐contrib-rocks]: https://contrib.rocks
+[🖐contributors]: https://github.com/kettle-rb/bash-merge/graphs/contributors
+[🖐contributors-img]: https://contrib.rocks/image?repo=kettle-rb/bash-merge
+[🚎contributors-gl]: https://gitlab.com/kettle-rb/bash-merge/-/graphs/main
+[🪇conduct]: CODE_OF_CONDUCT.md
+[🪇conduct-img]: https://img.shields.io/badge/Contributor_Covenant-2.1-259D6C.svg
+[📌pvc]: http://guides.rubygems.org/patterns/#pessimistic-version-constraint
+[📌semver]: https://semver.org/spec/v2.0.0.html
+[📌semver-img]: https://img.shields.io/badge/semver-2.0.0-259D6C.svg?style=flat
+[📌semver-breaking]: https://github.com/semver/semver/issues/716#issuecomment-869336139
+[📌major-versions-not-sacred]: https://tom.preston-werner.com/2022/05/23/major-version-numbers-are-not-sacred.html
+[📌changelog]: CHANGELOG.md
+[📗keep-changelog]: https://keepachangelog.com/en/1.0.0/
+[📗keep-changelog-img]: https://img.shields.io/badge/keep--a--changelog-1.0.0-34495e.svg?style=flat
+[📌gitmoji]: https://gitmoji.dev
+[📌gitmoji-img]: https://img.shields.io/badge/gitmoji_commits-%20%F0%9F%98%9C%20%F0%9F%98%8D-34495e.svg?style=flat-square
+[🧮kloc]: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+[🧮kloc-img]: https://img.shields.io/badge/KLOC-0.519-FFDD67.svg?style=for-the-badge&logo=YouTube&logoColor=blue
+[🔐security]: SECURITY.md
+[🔐security-img]: https://img.shields.io/badge/security-policy-259D6C.svg?style=flat
+[📄copyright-notice-explainer]: https://opensource.stackexchange.com/questions/5778/why-do-licenses-such-as-the-mit-license-specify-a-single-year
+[📄license]: LICENSE.txt
+[📄license-ref]: https://opensource.org/licenses/MIT
+[📄license-img]: https://img.shields.io/badge/License-MIT-259D6C.svg
+[📄license-compat]: https://dev.to/galtzo/how-to-check-license-compatibility-41h0
+[📄license-compat-img]: https://img.shields.io/badge/Apache_Compatible:_Category_A-%E2%9C%93-259D6C.svg?style=flat&logo=Apache
+[📄ilo-declaration]: https://www.ilo.org/declaration/lang--en/index.htm
+[📄ilo-declaration-img]: https://img.shields.io/badge/ILO_Fundamental_Principles-✓-259D6C.svg?style=flat
+[🚎yard-current]: http://rubydoc.info/gems/bash-merge
+[🚎yard-head]: https://bash-merge.galtzo.com
+[💎stone_checksums]: https://github.com/galtzo-floss/stone_checksums
+[💎SHA_checksums]: https://gitlab.com/kettle-rb/bash-merge/-/tree/main/checksums
+[💎rlts]: https://github.com/rubocop-lts/rubocop-lts
+[💎rlts-img]: https://img.shields.io/badge/code_style_&_linting-rubocop--lts-34495e.svg?plastic&logo=ruby&logoColor=white
+[💎appraisal2]: https://github.com/appraisal-rb/appraisal2
+[💎appraisal2-img]: https://img.shields.io/badge/appraised_by-appraisal2-34495e.svg?plastic&logo=ruby&logoColor=white
+[💎d-in-dvcs]: https://railsbling.com/posts/dvcs/put_the_d_in_dvcs/
