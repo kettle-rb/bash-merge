@@ -22,9 +22,6 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
-- ast-merge v4.0.1
-- tree_haver v5.0.1
-
 ### Deprecated
 
 ### Removed
@@ -32,6 +29,18 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Fixed
 
 ### Security
+
+## [2.0.3] - 2026-01-11
+
+- TAG: [v2.0.3][2.0.3t]
+- COVERAGE: 96.16% -- 501/521 lines in 11 files
+- BRANCH COVERAGE: 76.22% -- 125/164 branches in 11 files
+- 96.33% documented
+
+### Changed
+
+- ast-merge v4.0.2
+- tree_haver v5.0.1
 
 ## [2.0.2] - 2026-01-09
 
@@ -128,7 +137,9 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Security
 
-[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v2.0.2...HEAD
+[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v2.0.3...HEAD
+[2.0.3]: https://github.com/kettle-rb/bash-merge/compare/v2.0.2...v2.0.3
+[2.0.3t]: https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.3
 [2.0.2]: https://github.com/kettle-rb/bash-merge/compare/v2.0.1...v2.0.2
 [2.0.2t]: https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.2
 [2.0.1]: https://github.com/kettle-rb/bash-merge/compare/v2.0.0...v2.0.1

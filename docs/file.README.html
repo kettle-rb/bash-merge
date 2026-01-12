@@ -109,6 +109,7 @@
 <p><code>if ci_badges.map(&amp;:color).detect { it != "green"}</code> ☝️ <a href="https://discord.gg/3qme4XHNKN">let me know</a>, as I may have missed the <a href="https://discord.gg/3qme4XHNKN">discord notification</a>.</p>
 
 <hr>
+
 <p><code>if ci_badges.map(&amp;:color).all? { it == "green"}</code> 👇️ send money so I can do more of this. FLOSS maintenance is now my full-time job.</p>
 
 <p><a href="https://opencollective.com/kettle-rb#backer"><img src="https://opencollective.com/kettle-rb/backers/badge.svg?style=flat" alt="OpenCollective Backers"></a> <a href="https://opencollective.com/kettle-rb#sponsor"><img src="https://opencollective.com/kettle-rb/sponsors/badge.svg?style=flat" alt="OpenCollective Sponsors"></a> <a href="https://github.com/sponsors/pboling"><img src="https://img.shields.io/badge/Sponsor_Me!-pboling.svg?style=social&amp;logo=github" alt="Sponsor Me on Github"></a> <a href="https://liberapay.com/pboling/donate"><img src="https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&amp;color=a51611&amp;style=flat" alt="Liberapay Goal Progress"></a> <a href="https://www.paypal.com/paypalme/peterboling"><img src="https://img.shields.io/badge/donate-paypal-a51611.svg?style=flat&amp;logo=paypal" alt="Donate on PayPal"></a> <a href="https://www.buymeacoffee.com/pboling"><img src="https://img.shields.io/badge/buy_me_a_coffee-%E2%9C%93-a51611.svg?style=flat" alt="Buy me a coffee"></a> <a href="https://polar.sh/pboling"><img src="https://img.shields.io/badge/polar-donate-a51611.svg?style=flat" alt="Donate on Polar"></a> <a href="https://ko-fi.com/O5O86SNP4"><img src="https://img.shields.io/badge/ko--fi-%E2%9C%93-a51611.svg?style=flat" alt="Donate at ko-fi.com"></a></p>
@@ -149,12 +150,12 @@
       <li>
 <code>add_template_only_nodes</code> - setting to retain nodes that do not exist in destination</li>
       <li>
-<code>freeze_token</code> - customize freeze block markers (default: <code>"bash-merge"</code>)
-        <h3 id="supported-node-types">Supported Node Types</h3>
-      </li>
+<code>freeze_token</code> - customize freeze block markers (default: <code>"bash-merge"</code>)</li>
     </ul>
   </li>
 </ul>
+
+<h3 id="supported-node-types">Supported Node Types</h3>
 
 <table>
   <thead>
@@ -229,6 +230,9 @@ File.write(&quot;merged.sh&quot;, result.to_bash)
   <thead>
     <tr>
       <th>Gem</th>
+      <th>Version</th>
+      <th>CI</th>
+      <th> </th>
       <th>Language<br>/ Format</th>
       <th>Parser Backend(s)</th>
       <th>Description</th>
@@ -237,94 +241,133 @@ File.write(&quot;merged.sh&quot;, result.to_bash)
   <tbody>
     <tr>
       <td><a href="https://github.com/kettle-rb/tree_haver">tree_haver</a></td>
+      <td><a href="https://bestgems.org/gems/tree_haver"><img src="https://img.shields.io/gem/v/tree_haver.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/tree_haver/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/tree_haver/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>Multi</td>
-      <td>MRI C, Rust, FFI, Java, Prism, Psych, Commonmarker, Markly, Citrus</td>
+      <td>MRI C, Rust, FFI, Java, Prism, Psych, Commonmarker, Markly, Citrus, Parslet</td>
       <td>
 <strong>Foundation</strong>: Cross-Ruby adapter for parsing libraries (like Faraday for HTTP)</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/ast-merge">ast-merge</a></td>
+      <td><a href="https://bestgems.org/gems/ast-merge"><img src="https://img.shields.io/gem/v/ast-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/ast-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/ast-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>Text</td>
       <td>internal</td>
       <td>
 <strong>Infrastructure</strong>: Shared base classes and merge logic for all <code>*-merge</code> gems</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/bash-merge">bash-merge</a></td>
+      <td><a href="https://bestgems.org/gems/bash-merge"><img src="https://img.shields.io/gem/v/bash-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/bash-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/bash-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>Bash</td>
       <td>
 <a href="https://github.com/tree-sitter/tree-sitter-bash">tree-sitter-bash</a> (via tree_haver)</td>
       <td>Smart merge for Bash scripts</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/commonmarker-merge">commonmarker-merge</a></td>
+      <td><a href="https://bestgems.org/gems/commonmarker-merge"><img src="https://img.shields.io/gem/v/commonmarker-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/commonmarker-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/commonmarker-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>Markdown</td>
       <td>
 <a href="https://github.com/gjtorikian/commonmarker">Commonmarker</a> (via tree_haver)</td>
       <td>Smart merge for Markdown (CommonMark via comrak Rust)</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/dotenv-merge">dotenv-merge</a></td>
+      <td><a href="https://bestgems.org/gems/dotenv-merge"><img src="https://img.shields.io/gem/v/dotenv-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/dotenv-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/dotenv-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>Dotenv</td>
       <td>internal</td>
       <td>Smart merge for <code>.env</code> files</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/json-merge">json-merge</a></td>
+      <td><a href="https://bestgems.org/gems/json-merge"><img src="https://img.shields.io/gem/v/json-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/json-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/json-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>JSON</td>
       <td>
 <a href="https://github.com/tree-sitter/tree-sitter-json">tree-sitter-json</a> (via tree_haver)</td>
       <td>Smart merge for JSON files</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/jsonc-merge">jsonc-merge</a></td>
+      <td><a href="https://bestgems.org/gems/jsonc-merge"><img src="https://img.shields.io/gem/v/jsonc-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/jsonc-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/jsonc-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>JSONC</td>
       <td>
 <a href="https://gitlab.com/WhyNotHugo/tree-sitter-jsonc">tree-sitter-jsonc</a> (via tree_haver)</td>
       <td>⚠️ Proof of concept; Smart merge for JSON with Comments</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/markdown-merge">markdown-merge</a></td>
+      <td><a href="https://bestgems.org/gems/markdown-merge"><img src="https://img.shields.io/gem/v/markdown-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/markdown-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/markdown-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>Markdown</td>
       <td>
 <a href="https://github.com/gjtorikian/commonmarker">Commonmarker</a> / <a href="https://github.com/ioquatix/markly">Markly</a> (via tree_haver)</td>
       <td>
 <strong>Foundation</strong>: Shared base for Markdown mergers with inner code block merging</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/markly-merge">markly-merge</a></td>
+      <td><a href="https://bestgems.org/gems/markly-merge"><img src="https://img.shields.io/gem/v/markly-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/markly-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/markly-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>Markdown</td>
       <td>
 <a href="https://github.com/ioquatix/markly">Markly</a> (via tree_haver)</td>
       <td>Smart merge for Markdown (CommonMark via cmark-gfm C)</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/prism-merge">prism-merge</a></td>
+      <td><a href="https://bestgems.org/gems/prism-merge"><img src="https://img.shields.io/gem/v/prism-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/prism-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/prism-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>Ruby</td>
       <td>
 <a href="https://github.com/ruby/prism">Prism</a> (<code>prism</code> std lib gem)</td>
       <td>Smart merge for Ruby source files</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/psych-merge">psych-merge</a></td>
+      <td><a href="https://bestgems.org/gems/psych-merge"><img src="https://img.shields.io/gem/v/psych-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/psych-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/psych-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>YAML</td>
       <td>
 <a href="https://github.com/ruby/psych">Psych</a> (<code>psych</code> std lib gem)</td>
       <td>Smart merge for YAML files</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/rbs-merge">rbs-merge</a></td>
+      <td><a href="https://bestgems.org/gems/rbs-merge"><img src="https://img.shields.io/gem/v/rbs-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/rbs-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/rbs-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>RBS</td>
       <td>
 <a href="https://github.com/joker1007/tree-sitter-rbs">tree-sitter-bash</a> (via tree_haver), <a href="https://github.com/ruby/rbs">RBS</a> (<code>rbs</code> std lib gem)</td>
       <td>Smart merge for Ruby type signatures</td>
+      <td> </td>
     </tr>
     <tr>
       <td><a href="https://github.com/kettle-rb/toml-merge">toml-merge</a></td>
+      <td><a href="https://bestgems.org/gems/toml-merge"><img src="https://img.shields.io/gem/v/toml-merge.svg" alt="Version"></a></td>
+      <td><a href="https://github.com/kettle-rb/toml-merge/actions/workflows/current.yml"><img src="https://github.com/kettle-rb/toml-merge/actions/workflows/current.yml/badge.svg" alt="Version"></a></td>
       <td>TOML</td>
       <td>
-<a href="https://github.com/emancu/toml-rb">Citrus + toml-rb</a> (default, via tree_haver), <a href="https://github.com/tree-sitter-grammars/tree-sitter-toml">tree-sitter-toml</a> (via tree_haver)</td>
+<a href="https://github.com/jm/toml">Parslet + toml</a>, <a href="https://github.com/emancu/toml-rb">Citrus + toml-rb</a>, <a href="https://github.com/tree-sitter-grammars/tree-sitter-toml">tree-sitter-toml</a> (all via tree_haver)</td>
       <td>Smart merge for TOML files</td>
+      <td> </td>
     </tr>
   </tbody>
 </table>
@@ -395,7 +438,14 @@ File.write(&quot;merged.sh&quot;, result.to_bash)
       <td style="text-align: center">✅</td>
       <td style="text-align: center">✅</td>
       <td style="text-align: center">✅</td>
-      <td>Pure Ruby, no native dependencies</td>
+      <td>Pure Ruby PEG parser, no native dependencies</td>
+    </tr>
+    <tr>
+      <td><strong>Parslet</strong></td>
+      <td style="text-align: center">✅</td>
+      <td style="text-align: center">✅</td>
+      <td style="text-align: center">✅</td>
+      <td>Pure Ruby PEG parser, no native dependencies</td>
     </tr>
     <tr>
       <td><strong>Commonmarker</strong></td>
@@ -622,26 +672,18 @@ File.write(&quot;merged.sh&quot;, result.to_bash)
   <p><a href="https://tidelift.com/subscription/pkg/rubygems-bash-merge?utm_source=rubygems-bash-merge&amp;utm_medium=referral&amp;utm_campaign=readme"><img src="https://img.shields.io/badge/Tidelift_and_Sonar-Enterprise_Support-FD3456?style=for-the-badge&amp;logo=sonar&amp;logoColor=white" alt="Get help from me on Tidelift"></a></p>
 
   <ul>
-    <li>
-      <p>💡Subscribe for support guarantees covering <em>all</em> your FLOSS dependencies</p>
-    </li>
-    <li>
-      <p>💡Tidelift is part of <a href="https://blog.tidelift.com/tidelift-joins-sonar">Sonar</a></p>
-    </li>
+    <li>💡Subscribe for support guarantees covering <em>all</em> your FLOSS dependencies</li>
+    <li>💡Tidelift is part of <a href="https://blog.tidelift.com/tidelift-joins-sonar">Sonar</a>
+</li>
     <li>
       <p>💡Tidelift pays maintainers to maintain the software you depend on!<br>📊<code>@</code>Pointy Haired Boss: An <a href="https://tidelift.com/subscription/pkg/rubygems-bash-merge?utm_source=rubygems-bash-merge&amp;utm_medium=referral&amp;utm_campaign=readme">enterprise support</a> subscription is “<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">never gonna let you down</a>”, and <em>supports</em> open source maintainers
 Alternatively:</p>
     </li>
-    <li>
-      <p><a href="https://discord.gg/3qme4XHNKN"><img src="https://img.shields.io/discord/1373797679469170758?style=for-the-badge&amp;logo=discord" alt="Live Chat on Discord"></a></p>
-    </li>
-    <li>
-      <p><a href="https://www.upwork.com/freelancers/~014942e9b056abdf86?mp_source=share"><img src="https://img.shields.io/badge/UpWork-13544E?style=for-the-badge&amp;logo=Upwork&amp;logoColor=white" alt="Get help from me on Upwork"></a></p>
-    </li>
-    <li>
-      <p><a href="https://www.codementor.io/peterboling?utm_source=github&amp;utm_medium=button&amp;utm_term=peterboling&amp;utm_campaign=github"><img src="https://img.shields.io/badge/CodeMentor-Get_Help-1abc9c?style=for-the-badge&amp;logo=CodeMentor&amp;logoColor=white" alt="Get help from me on Codementor"></a></p>
-    </li>
+    <li><a href="https://discord.gg/3qme4XHNKN"><img src="https://img.shields.io/discord/1373797679469170758?style=for-the-badge&amp;logo=discord" alt="Live Chat on Discord"></a></li>
+    <li><a href="https://www.upwork.com/freelancers/~014942e9b056abdf86?mp_source=share"><img src="https://img.shields.io/badge/UpWork-13544E?style=for-the-badge&amp;logo=Upwork&amp;logoColor=white" alt="Get help from me on Upwork"></a></li>
+    <li><a href="https://www.codementor.io/peterboling?utm_source=github&amp;utm_medium=button&amp;utm_term=peterboling&amp;utm_campaign=github"><img src="https://img.shields.io/badge/CodeMentor-Get_Help-1abc9c?style=for-the-badge&amp;logo=CodeMentor&amp;logoColor=white" alt="Get help from me on Codementor"></a></li>
   </ul>
+
 </details>
 
 <h2 id="-installation">✨ Installation</h2>
@@ -699,6 +741,7 @@ Bash syntax parsing capabilities.</p>
 <p>Download pre-built parsers from <a href="https://github.com/Faveod/tree-sitter-parsers/releases">Faveod/tree-sitter-parsers</a>:</p>
 
 <p><strong>Linux (x64):</strong></p>
+
 <pre class="code language-console"><code class="language-console"># Download and extract
 curl -Lo parsers.tar.gz https://github.com/Faveod/tree-sitter-parsers/releases/download/v4.10/tree-sitter-parsers-4.10-linux-x64.tar.gz
 tar -xzf parsers.tar.gz
@@ -714,11 +757,13 @@ export TREE_SITTER_BASH_PATH=&quot;$HOME/.local/lib/tree-sitter/libtree-sitter-b
 </code></pre>
 
 <p><strong>Debian/Ubuntu (amd64):</strong></p>
+
 <pre class="code language-console"><code class="language-console">curl -Lo parsers.deb https://github.com/Faveod/tree-sitter-parsers/releases/download/v4.10/tree-sitter-parsers-4.10-amd64.deb
 sudo dpkg -i parsers.deb
 </code></pre>
 
 <p><strong>macOS (Apple Silicon):</strong></p>
+
 <pre class="code language-console"><code class="language-console">curl -Lo parsers.tar.gz https://github.com/Faveod/tree-sitter-parsers/releases/download/v4.10/tree-sitter-parsers-4.10-macos-arm64.tar.gz
 tar -xzf parsers.tar.gz
 
@@ -743,6 +788,7 @@ sudo cp libtree-sitter-bash.dylib /usr/local/lib/  # macOS
 <p>Some package managers provide tree-sitter parsers:</p>
 
 <p><strong>Fedora Atomic (Silverblue, Kinoite, Bazzite, Aurora, etc.):</strong></p>
+
 <pre class="code language-console"><code class="language-console"># Install via rpm-ostree (requires reboot)
 rpm-ostree install libtree-sitter-bash
 
@@ -752,10 +798,12 @@ export TREE_SITTER_BASH_PATH=&quot;/usr/lib64/libtree-sitter-bash.so&quot;
 </code></pre>
 
 <p><strong>Fedora (traditional):</strong></p>
+
 <pre class="code language-console"><code class="language-console">sudo dnf install libtree-sitter-bash
 </code></pre>
 
 <p><strong>Arch Linux:</strong></p>
+
 <pre class="code language-console"><code class="language-console"># Check AUR for tree-sitter-bash
 yay -S tree-sitter-bash
 </code></pre>
@@ -771,13 +819,14 @@ set the <code>TREE_SITTER_BASH_PATH</code> environment variable to point to the 
 <p><strong>Note:</strong> Some distributions install the library with a version number suffix<br>
 (e.g., <code>libtree-sitter-bash.so.14</code> instead of <code>libtree-sitter-bash.so</code>).<br>
 If the gem can’t find the parser, check for versioned files and either:</p>
+
 <ul>
   <li>Set <code>TREE_SITTER_BASH_PATH</code> to the full versioned path, or</li>
   <li>Create a symlink: <code>sudo ln -s /usr/lib64/libtree-sitter-bash.so.14 /usr/lib64/libtree-sitter-bash.so</code><br>
-Add this to your shell profile (<code>.bashrc</code>, <code>.zshrc</code>, etc.) for persistence.
-    <h3 id="-ruby-interface-gems">💎 Ruby Interface Gems</h3>
-  </li>
+Add this to your shell profile (<code>.bashrc</code>, <code>.zshrc</code>, etc.) for persistence.</li>
 </ul>
+
+<h3 id="-ruby-interface-gems">💎 Ruby Interface Gems</h3>
 
 <p>In addition to the tree-sitter parser library, you need a Ruby gem that provides<br>
 bindings to tree-sitter. Choose <strong>one</strong> of the following based on your Ruby implementation:</p>
@@ -996,8 +1045,10 @@ and <a href="https://tidelift.com/subscription/pkg/rubygems-bash-merge?utm_sourc
 <p>NOTE: <a href="https://github.com/kettle-rb/bash-merge/blob/main/exe/kettle-readme-backers">kettle-readme-backers</a> updates this list every day, automatically.</p>
 
 <!-- OPENCOLLECTIVE-INDIVIDUALS:START -->
-<p>No backers yet. Be the first!<br>
-<!-- OPENCOLLECTIVE-INDIVIDUALS:END --></p>
+
+<p>No backers yet. Be the first!</p>
+
+<!-- OPENCOLLECTIVE-INDIVIDUALS:END -->
 
 <h3 id="open-collective-for-organizations">Open Collective for Organizations</h3>
 
@@ -1006,8 +1057,10 @@ and <a href="https://tidelift.com/subscription/pkg/rubygems-bash-merge?utm_sourc
 <p>NOTE: <a href="https://github.com/kettle-rb/bash-merge/blob/main/exe/kettle-readme-backers">kettle-readme-backers</a> updates this list every day, automatically.</p>
 
 <!-- OPENCOLLECTIVE-ORGANIZATIONS:START -->
-<p>No sponsors yet. Be the first!<br>
-<!-- OPENCOLLECTIVE-ORGANIZATIONS:END --></p>
+
+<p>No sponsors yet. Be the first!</p>
+
+<!-- OPENCOLLECTIVE-ORGANIZATIONS:END -->
 
 <h3 id="another-way-to-support-open-source">Another way to support open-source</h3>
 
@@ -1108,6 +1161,7 @@ read this article from the creator of SemVer:</p>
   <ul>
     <li><a href="https://tom.preston-werner.com/2022/05/23/major-version-numbers-are-not-sacred.html">“Major Version Numbers are Not Sacred”</a></li>
   </ul>
+
 </details>
 
 <p>See <a href="file.CHANGELOG.html" title="CHANGELOG.md">CHANGELOG.md</a> for a list of releases.</p>
@@ -1156,7 +1210,7 @@ Please consider sponsoring me or the project.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Fri Jan  9 17:49:15 2026 by
+  Generated on Mon Jan 12 06:05:52 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.38 (ruby-4.0.0).
 </div>
