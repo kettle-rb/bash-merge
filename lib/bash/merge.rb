@@ -113,6 +113,18 @@ module Bash
   end
 end
 
+# Register with ast-merge's MergeGemRegistry for RSpec dependency tags
+# Only register if MergeGemRegistry is loaded (i.e., in test environment)
+if defined?(Ast::Merge::RSpec::MergeGemRegistry)
+  Ast::Merge::RSpec::MergeGemRegistry.register(
+    :bash_merge,
+    require_path: "bash/merge",
+    merger_class: "Bash::Merge::SmartMerger",
+    test_source: "#!/bin/bash\necho hello",
+    category: :code,
+  )
+end
+
 Bash::Merge::Version.class_eval do
   extend VersionGem::Basic
 end

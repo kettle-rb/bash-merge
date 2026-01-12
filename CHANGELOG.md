@@ -22,6 +22,9 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+- ast-merge v4.0.1
+- tree_haver v5.0.1
+
 ### Deprecated
 
 ### Removed
