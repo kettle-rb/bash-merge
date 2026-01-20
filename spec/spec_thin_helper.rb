@@ -8,6 +8,7 @@ require "kettle/test/rspec"
 
 # Internal ENV config
 require_relative "config/debug"
+require_relative "config/tree_haver"
 
 # Config for development dependencies of this library
 # i.e., not configured by this library
@@ -26,11 +27,8 @@ end
 # this library
 require "bash/merge"
 
-# Support files (dependency tags loaded here - AFTER library so TreeHaver is available)
+# Support files
 Dir[File.join(__dir__, "support", "**", "*.rb")].each { |f| require f }
-
-# Load shared examples
-Dir[File.join(__dir__, "support", "shared_examples", "**", "*.rb")].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.before do
