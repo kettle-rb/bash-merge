@@ -81,8 +81,8 @@ Gem::Specification.new do |spec|
   # Listed files are the relative paths from bindir above.
   spec.executables = []
 
-  # Parser - tree_haver provides unified tree-sitter & citrus interface
-  spec.add_dependency("tree_haver", "~> 5.0", ">= 5.0.1")               # ruby >= 3.2.0
+  # Parser - tree_haver provides unified AST interfaces for tree-sitter, citrus, parslet & more
+  spec.add_dependency("tree_haver", "~> 5.0", ">= 5.0.2")               # ruby >= 3.2.0
   # NOTE: tree-sitter-bash parser must be installed separately via your package manager
   #       e.g., `apt install libtree-sitter-bash-dev` or built from source
   # A ruby interface for tree-sitter must also be installed.
