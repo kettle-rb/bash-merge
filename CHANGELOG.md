@@ -22,9 +22,6 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
-- Upgrade to [ast-merge v4.0.3](https://github.com/kettle-rb/ast-merge/releases/tag/v4.0.3)
-- Upgrade to [tree_haver v5.0.2](https://github.com/kettle-rb/tree_haver/releases/tag/v5.0.2)
-
 ### Deprecated
 
 ### Removed
@@ -32,6 +29,18 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Fixed
 
 ### Security
+
+## [2.0.4] - 2026-01-20
+
+- TAG: [v2.0.4][2.0.4t]
+- COVERAGE: 100.00% -- 25/25 lines in 1 files
+- BRANCH COVERAGE: 100.00% -- 4/4 branches in 1 files
+- 96.33% documented
+
+### Changed
+
+- Upgrade to [ast-merge v4.0.3](https://github.com/kettle-rb/ast-merge/releases/tag/v4.0.3)
+- Upgrade to [tree_haver v5.0.2](https://github.com/kettle-rb/tree_haver/releases/tag/v5.0.2)
 
 ## [2.0.3] - 2026-01-11
 
@@ -140,7 +149,9 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Security
 
-[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v2.0.3...HEAD
+[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v2.0.4...HEAD
+[2.0.4]: https://github.com/kettle-rb/bash-merge/compare/v2.0.3...v2.0.4
+[2.0.4t]: https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.4
 [2.0.3]: https://github.com/kettle-rb/bash-merge/compare/v2.0.2...v2.0.3
 [2.0.3t]: https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.3
 [2.0.2]: https://github.com/kettle-rb/bash-merge/compare/v2.0.1...v2.0.2
