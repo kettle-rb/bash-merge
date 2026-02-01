@@ -43,8 +43,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
-- tree_haver v5.0.3
-- ast-merge v4.0.5
+- Upgrade to [ast-merge v4.0.5](https://github.com/kettle-rb/ast-merge/releases/tag/v4.0.5)
+- Upgrade to [tree_haver v5.0.3](https://github.com/kettle-rb/tree_haver/releases/tag/v5.0.3)
 
 ## [2.0.4] - 2026-01-20
 
