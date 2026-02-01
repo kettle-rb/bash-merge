@@ -176,6 +176,7 @@ module Bash
           @dest_analysis,
           preference: @preference,
           add_template_only_nodes: @add_template_only_nodes,
+          node_typing: @node_typing,
         )
       end
 

@@ -1,9 +1,44 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "ast/merge/rspec/shared_examples"
 
 RSpec.describe Bash::Merge::ConflictResolver do
   # Note: Full testing requires tree-sitter-bash parser
+  it_behaves_like "Ast::Merge::ConflictResolverBase" do
+    let(:conflict_resolver_class) { described_class }
+    let(:strategy) { :batch }
+    let(:build_conflict_resolver) do
+      ->(preference:, template_analysis:, dest_analysis:, **opts) {
+        described_class.new(
+          template_analysis,
+          dest_analysis,
+          preference: preference,
+          add_template_only_nodes: opts.fetch(:add_template_only_nodes, false),
+        )
+      }
+    end
+    let(:build_mock_analysis) do
+      -> { double("MockAnalysis") }
+    end
+  end
+
+  it_behaves_like "Ast::Merge::ConflictResolverBase batch strategy" do
+    let(:conflict_resolver_class) { described_class }
+    let(:build_conflict_resolver) do
+      ->(preference:, template_analysis:, dest_analysis:, **opts) {
+        described_class.new(
+          template_analysis,
+          dest_analysis,
+          preference: preference,
+          add_template_only_nodes: opts.fetch(:add_template_only_nodes, false),
+        )
+      }
+    end
+    let(:build_mock_analysis) do
+      -> { double("MockAnalysis") }
+    end
+  end
 
   describe "#initialize" do
     let(:template_analysis) { instance_double(Bash::Merge::FileAnalysis, nodes: [], generate_signature: nil) }
@@ -152,6 +187,34 @@ RSpec.describe Bash::Merge::ConflictResolver do
 
         content = result.to_bash
         expect(content).to include("template_value")
+      end
+    end
+
+    describe "with per-node-type preference" do
+      it "uses template values for typed nodes and destination for others" do
+        node_typing = {
+          "NodeWrapper" => lambda { |node|
+            if node.variable_assignment? && node.variable_name == "MY_VAR"
+              Ast::Merge::NodeTyping.with_merge_type(node, :tracked_var)
+            else
+              node
+            end
+          },
+        }
+
+        resolver = described_class.new(
+          template_analysis,
+          dest_analysis,
+          preference: {default: :destination, tracked_var: :template},
+          node_typing: node_typing,
+        )
+        result = Bash::Merge::MergeResult.new
+
+        resolver.resolve(result)
+
+        content = result.to_bash
+        expect(content).to include('MY_VAR="template_value"')
+        expect(content).to include('EXTRA_VAR="only_in_dest"')
       end
     end
 
