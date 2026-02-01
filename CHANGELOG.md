@@ -20,12 +20,7 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
-- ConflictResolver now applies per-node-type preferences via `node_typing`.
-
 ### Changed
-
-- tree_haver v5.0.3
-- ast-merge v4.0.5
 
 ### Deprecated
 
@@ -34,6 +29,22 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Fixed
 
 ### Security
+
+## [2.0.5] - 2026-02-01
+
+- TAG: [v2.0.5][2.0.5t]
+- COVERAGE: 96.10% -- 518/539 lines in 11 files
+- BRANCH COVERAGE: 74.72% -- 133/178 branches in 11 files
+- 96.33% documented
+
+### Added
+
+- ConflictResolver now applies per-node-type preferences via `node_typing`.
+
+### Changed
+
+- tree_haver v5.0.3
+- ast-merge v4.0.5
 
 ## [2.0.4] - 2026-01-20
 
@@ -154,7 +165,9 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Security
 
-[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v2.0.4...HEAD
+[Unreleased]: https://github.com/kettle-rb/bash-merge/compare/v2.0.5...HEAD
+[2.0.5]: https://github.com/kettle-rb/bash-merge/compare/v2.0.4...v2.0.5
+[2.0.5t]: https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.5
 [2.0.4]: https://github.com/kettle-rb/bash-merge/compare/v2.0.3...v2.0.4
 [2.0.4t]: https://github.com/kettle-rb/bash-merge/releases/tag/v2.0.4
 [2.0.3]: https://github.com/kettle-rb/bash-merge/compare/v2.0.2...v2.0.3
