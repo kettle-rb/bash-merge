@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: README
-
+  
     &mdash; Documentation by YARD 0.9.38
-
+  
 </title>
 
   <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -35,14 +35,14 @@
     <div id="main" tabindex="-1">
       <div id="header">
         <div id="menu">
-
-    <a href="_index.html">Index</a> &raquo;
+  
+    <a href="_index.html">Index</a> &raquo; 
     <span class="title">File: README</span>
-
+  
 </div>
 
         <div id="search">
-
+  
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
 
@@ -52,7 +52,7 @@
           <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
         </svg>
     </a>
-
+  
 </div>
         <div class="clear"></div>
       </div>
@@ -766,49 +766,49 @@ you must use the FFI backend.</p>
 # Template defines the structure
 template = &lt;&lt;~BASH
   #!/bin/bash
-
+  
   # Configuration
   APP_NAME=&quot;myapp&quot;
   DEBUG=false
-
+  
   # Main function
   main() {
     echo &quot;Starting $APP_NAME&quot;
     setup
     run
   }
-
+  
   setup() {
     echo &quot;Setting up...&quot;
   }
-
+  
   run() {
     echo &quot;Running...&quot;
   }
-
+  
   main &quot;$@&quot;
 BASH
 
 # Destination has customizations
 destination = &lt;&lt;~BASH
   #!/bin/bash
-
+  
   # Configuration
   APP_NAME=&quot;myapp-custom&quot;
   DEBUG=true
   LOG_FILE=&quot;/var/log/myapp.log&quot;
-
+  
   # Main function with custom logging
   main() {
     echo &quot;Starting $APP_NAME&quot; | tee -a &quot;$LOG_FILE&quot;
     setup
     run
   }
-
+  
   setup() {
     echo &quot;Custom setup...&quot;
   }
-
+  
   main &quot;$@&quot;
 BASH
 
@@ -1053,7 +1053,7 @@ Please consider sponsoring me or the project.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Thu Feb 19 04:36:40 2026 by
+  Generated on Thu Feb 19 09:34:31 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.38 (ruby-4.0.1).
 </div>
