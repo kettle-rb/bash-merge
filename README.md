@@ -49,16 +49,16 @@ Bash::Merge is a standalone Ruby module that intelligently merges two versions o
 
 ### Supported Node Types
 
-| Node Type | Signature Format | Matching Behavior |
-| --- | --- | --- |
-| Function Definition | `[:function, name]` | Functions match by name |
-| Variable Assignment | `[:assignment, name]` | Variables match by name |
-| Command | `[:command, name, args...]` | Commands match by name and arguments |
-| Comment | `[:comment, text]` | Comments preserved in context |
-| Pipeline | `[:pipeline, commands...]` | Pipelines match by command sequence |
-| If Statement | `[:if, condition_sig]` | Conditionals match by condition signature |
-| For Loop | `[:for, variable]` | For loops match by loop variable |
-| While Loop | `[:while, condition_sig]` | While loops match by condition signature |
+| Node Type           | Signature Format            | Matching Behavior                         |
+|---------------------|-----------------------------|-------------------------------------------|
+| Function Definition | `[:function, name]`         | Functions match by name                   |
+| Variable Assignment | `[:assignment, name]`       | Variables match by name                   |
+| Command             | `[:command, name, args...]` | Commands match by name and arguments      |
+| Comment             | `[:comment, text]`          | Comments preserved in context             |
+| Pipeline            | `[:pipeline, commands...]`  | Pipelines match by command sequence       |
+| If Statement        | `[:if, condition_sig]`      | Conditionals match by condition signature |
+| For Loop            | `[:for, variable]`          | For loops match by loop variable          |
+| While Loop          | `[:while, condition_sig]`   | While loops match by condition signature  |
 
 ### Example
 
@@ -223,38 +223,38 @@ tree_haver supports multiple parsing backends, but not all backends work on all 
 
 ## 💡 Info you can shake a stick at
 
-| Tokens to Remember | [![Gem name][⛳️name-img]][bash-merge-gem] [![Gem namespace][⛳️namespace-img]][bash-merge] |
-| --- | --- |
-| Works with JRuby | [![JRuby 10.0 Compat][💎jruby-c-i]][bash-merge-ci] [![JRuby HEAD Compat][💎jruby-headi]][🚎3-hd-wf] |
-| Works with Truffle Ruby | [![Truffle Ruby 23.1 Compat][💎truby-23.1i]][🚎9-t-wf] [![Truffle Ruby 24.1 Compat][💎truby-c-i]][bash-merge-ci] |
-| Works with MRI Ruby 3 | [![Ruby 3.2 Compat][💎ruby-3.2i]][🚎6-s-wf] [![Ruby 3.3 Compat][💎ruby-3.3i]][🚎6-s-wf] [![Ruby 3.4 Compat][💎ruby-c-i]][bash-merge-ci] [![Ruby HEAD Compat][💎ruby-headi]][🚎3-hd-wf] |
-| Support & Community | [![Join Me on Daily.dev's RubyFriends][✉️ruby-friends-img]][✉️ruby-friends] [![Live Chat on Discord][✉️discord-invite-img-ftb]][🖼️galtzo-discord] [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork] [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor] |
-| Source | [![Source on GitLab.com][📜src-gl-img]][📜src-gl] [![Source on CodeBerg.org][📜src-cb-img]][📜src-cb] [![Source on Github.com][📜src-gh-img]][bash-merge] [![The best SHA: dQw4w9WgXcQ\!](https://img.shields.io/badge/KLOC-4.308-FFDD67.svg?style=for-the-badge&logo=YouTube&logoColor=blue)][🧮kloc] |
-| Documentation | [![Current release on RubyDoc.info][📜docs-cr-rd-img]][🚎yard-current] [![YARD on Galtzo.com][📜docs-head-rd-img]][🚎yard-head] [![Maintainer Blog][🚂maint-blog-img]][🚂maint-blog] [![GitLab Wiki][📜gl-wiki-img]][📜gl-wiki] [![GitHub Wiki][📜gh-wiki-img]][📜gh-wiki] |
-| Compliance | [![License: MIT][📄license-img]][📄license-ref] [![Compatible with Apache Software Projects: Verified by SkyWalking Eyes][📄license-compat-img]][📄license-compat] [![📄ilo-declaration-img][📄ilo-declaration-img]][📄ilo-declaration] [![Security Policy][🔐security-img]][🔐security] [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct] [![SemVer 2.0.0][📌semver-img]][📌semver] |
-| Style | [![Enforced Code Style Linter][💎rlts-img]][💎rlts] [![Keep-A-Changelog 1.0.0][📗keep-changelog-img]][📗keep-changelog] [![Gitmoji Commits][📌gitmoji-img]][📌gitmoji] [![Compatibility appraised by: appraisal2][💎appraisal2-img]][💎appraisal2] |
-| Maintainer 🎖️ | [![Follow Me on LinkedIn][💖🖇linkedin-img]][💖🖇linkedin] [![Follow Me on Ruby.Social][💖🐘ruby-mast-img]][💖🐘ruby-mast] [![Follow Me on Bluesky][💖🦋bluesky-img]][💖🦋bluesky] [![Contact Maintainer][🚂maint-contact-img]][🚂maint-contact] [![My technical writing][💖💁🏼‍♂️devto-img]][💖💁🏼‍♂️devto] |
-| `...` 💖 | [![Find Me on WellFound:][💖✌️wellfound-img]][💖✌️wellfound] [![Find Me on CrunchBase][💖💲crunchbase-img]][💖💲crunchbase] [![My LinkTree][💖🌳linktree-img]][💖🌳linktree] [![More About Me][💖💁🏼‍♂️aboutme-img]][💖💁🏼‍♂️aboutme] [🧊][💖🧊berg] [🐙][💖🐙hub]  [🛖][💖🛖hut] [🧪][💖🧪lab] |
+| Tokens to Remember      | [![Gem name][⛳️name-img]][bash-merge-gem] [![Gem namespace][⛳️namespace-img]][bash-merge]                                                                                                                                                                                                                                                                                                  |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Works with JRuby        | [![JRuby 10.0 Compat][💎jruby-c-i]][bash-merge-ci] [![JRuby HEAD Compat][💎jruby-headi]][🚎3-hd-wf]                                                                                                                                                                                                                                                                                        |
+| Works with Truffle Ruby | [![Truffle Ruby 23.1 Compat][💎truby-23.1i]][🚎9-t-wf] [![Truffle Ruby 24.1 Compat][💎truby-c-i]][bash-merge-ci]                                                                                                                                                                                                                                                                           |
+| Works with MRI Ruby 3   | [![Ruby 3.2 Compat][💎ruby-3.2i]][🚎6-s-wf] [![Ruby 3.3 Compat][💎ruby-3.3i]][🚎6-s-wf] [![Ruby 3.4 Compat][💎ruby-c-i]][bash-merge-ci] [![Ruby HEAD Compat][💎ruby-headi]][🚎3-hd-wf]                                                                                                                                                                                                     |
+| Support & Community     | [![Join Me on Daily.dev's RubyFriends][✉️ruby-friends-img]][✉️ruby-friends] [![Live Chat on Discord][✉️discord-invite-img-ftb]][🖼️galtzo-discord] [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork] [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor]                                                             |
+| Source                  | [![Source on GitLab.com][📜src-gl-img]][📜src-gl] [![Source on CodeBerg.org][📜src-cb-img]][📜src-cb] [![Source on Github.com][📜src-gh-img]][bash-merge] [![The best SHA: dQw4w9WgXcQ\!](https://img.shields.io/badge/KLOC-4.308-FFDD67.svg?style=for-the-badge&logo=YouTube&logoColor=blue)][🧮kloc]                                                                                     |
+| Documentation           | [![Current release on RubyDoc.info][📜docs-cr-rd-img]][🚎yard-current] [![YARD on Galtzo.com][📜docs-head-rd-img]][🚎yard-head] [![Maintainer Blog][🚂maint-blog-img]][🚂maint-blog] [![GitLab Wiki][📜gl-wiki-img]][📜gl-wiki] [![GitHub Wiki][📜gh-wiki-img]][📜gh-wiki]                                                                                                                 |
+| Compliance              | [![License: MIT][📄license-img]][📄license-ref] [![Compatible with Apache Software Projects: Verified by SkyWalking Eyes][📄license-compat-img]][📄license-compat] [![📄ilo-declaration-img][📄ilo-declaration-img]][📄ilo-declaration] [![Security Policy][🔐security-img]][🔐security] [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct] [![SemVer 2.0.0][📌semver-img]][📌semver] |
+| Style                   | [![Enforced Code Style Linter][💎rlts-img]][💎rlts] [![Keep-A-Changelog 1.0.0][📗keep-changelog-img]][📗keep-changelog] [![Gitmoji Commits][📌gitmoji-img]][📌gitmoji] [![Compatibility appraised by: appraisal2][💎appraisal2-img]][💎appraisal2]                                                                                                                                         |
+| Maintainer 🎖️          | [![Follow Me on LinkedIn][💖🖇linkedin-img]][💖🖇linkedin] [![Follow Me on Ruby.Social][💖🐘ruby-mast-img]][💖🐘ruby-mast] [![Follow Me on Bluesky][💖🦋bluesky-img]][💖🦋bluesky] [![Contact Maintainer][🚂maint-contact-img]][🚂maint-contact] [![My technical writing][💖💁🏼‍♂️devto-img]][💖💁🏼‍♂️devto]                                                                             |
+| `...` 💖                | [![Find Me on WellFound:][💖✌️wellfound-img]][💖✌️wellfound] [![Find Me on CrunchBase][💖💲crunchbase-img]][💖💲crunchbase] [![My LinkTree][💖🌳linktree-img]][💖🌳linktree] [![More About Me][💖💁🏼‍♂️aboutme-img]][💖💁🏼‍♂️aboutme] [🧊][💖🧊berg] [🐙][💖🐙hub]  [🛖][💖🛖hut] [🧪][💖🧪lab]                                                                                          |
 
 ### Compatibility
 
 Compatible with MRI Ruby 3.2.0+, and concordant releases of JRuby, and TruffleRuby.
 
-| 🚚 *Amazing* test matrix was brought to you by | 🔎 appraisal2 🔎 and the color 💚 green 💚 |
-| --- | --- |
-| 👟 Check it out\! | ✨ [github.com/appraisal-rb/appraisal2][💎appraisal2] ✨ |
+| 🚚 *Amazing* test matrix was brought to you by | 🔎 appraisal2 🔎 and the color 💚 green 💚             |
+|------------------------------------------------|--------------------------------------------------------|
+| 👟 Check it out\!                              | ✨ [github.com/appraisal-rb/appraisal2][💎appraisal2] ✨ |
 
 ### Federated DVCS
 
 <details markdown="1">
   <summary>Find this repo on federated forges (Coming soon!)</summary>
 
-| Federated [DVCS][💎d-in-dvcs] Repository | Status | Issues | PRs | Wiki | CI | Discussions |
-| --- | --- | --- | --- | --- | --- | --- |
-| 🧪 [kettle-rb/bash-merge on GitLab][📜src-gl] | The Truth | [💚][🤝gl-issues] | [💚][🤝gl-pulls] | [💚][📜gl-wiki] | 🐭 Tiny Matrix | ➖ |
-| 🧊 [kettle-rb/bash-merge on CodeBerg][📜src-cb] | An Ethical Mirror ([Donate][🤝cb-donate]) | [💚][🤝cb-issues] | [💚][🤝cb-pulls] | ➖ | ⭕️ No Matrix | ➖ |
-| 🐙 [kettle-rb/bash-merge on GitHub][📜src-gh] | Another Mirror | [💚][🤝gh-issues] | [💚][🤝gh-pulls] | [💚][📜gh-wiki] | 💯 Full Matrix | [💚][gh-discussions] |
-| 🎮️ [Discord Server][🖼️galtzo-discord] | [![Live Chat on Discord][✉️discord-invite-img-ftb]][🖼️galtzo-discord] | [Let's][🖼️galtzo-discord] | [talk][🖼️galtzo-discord] | [about][🖼️galtzo-discord] | [this][🖼️galtzo-discord] | [library\!][🖼️galtzo-discord] |
+| Federated [DVCS][💎d-in-dvcs] Repository        | Status                                                                 | Issues                     | PRs                       | Wiki                       | CI                        | Discussions                    |
+|-------------------------------------------------|------------------------------------------------------------------------|----------------------------|---------------------------|----------------------------|---------------------------|--------------------------------|
+| 🧪 [kettle-rb/bash-merge on GitLab][📜src-gl]   | The Truth                                                              | [💚][🤝gl-issues]          | [💚][🤝gl-pulls]          | [💚][📜gl-wiki]            | 🐭 Tiny Matrix            | ➖                              |
+| 🧊 [kettle-rb/bash-merge on CodeBerg][📜src-cb] | An Ethical Mirror ([Donate][🤝cb-donate])                              | [💚][🤝cb-issues]          | [💚][🤝cb-pulls]          | ➖                          | ⭕️ No Matrix              | ➖                              |
+| 🐙 [kettle-rb/bash-merge on GitHub][📜src-gh]   | Another Mirror                                                         | [💚][🤝gh-issues]          | [💚][🤝gh-pulls]          | [💚][📜gh-wiki]            | 💯 Full Matrix            | [💚][gh-discussions]           |
+| 🎮️ [Discord Server][🖼️galtzo-discord]         | [![Live Chat on Discord][✉️discord-invite-img-ftb]][🖼️galtzo-discord] | [Let's][🖼️galtzo-discord] | [talk][🖼️galtzo-discord] | [about][🖼️galtzo-discord] | [this][🖼️galtzo-discord] | [library\!][🖼️galtzo-discord] |
 
 </details>
 
@@ -438,11 +438,11 @@ If the gem can't find the parser, check for versioned files and either:
 In addition to the tree-sitter parser library, you need a Ruby gem that provides
 bindings to tree-sitter. Choose **one** of the following based on your Ruby implementation:
 
-| Gem | Ruby Support | Description |
-| --- | --- | --- |
-| [ruby\_tree\_sitter][ruby_tree_sitter] | MRI only | C extension bindings (recommended for MRI) |
-| [tree\_stump][tree_stump] | MRI (maybe JRuby) | Rust-based bindings via Rutie |
-| [ffi][ffi] | MRI, JRuby, TruffleRuby | Generic FFI bindings (used by tree\_haver's FFI backend) |
+| Gem                                    | Ruby Support            | Description                                              |
+|----------------------------------------|-------------------------|----------------------------------------------------------|
+| [ruby\_tree\_sitter][ruby_tree_sitter] | MRI only                | C extension bindings (recommended for MRI)               |
+| [tree\_stump][tree_stump]              | MRI (maybe JRuby)       | Rust-based bindings via Rutie                            |
+| [ffi][ffi]                             | MRI, JRuby, TruffleRuby | Generic FFI bindings (used by tree\_haver's FFI backend) |
 
 [ruby_tree_sitter]: https://github.com/Faveod/ruby_tree_sitter
 [tree_stump]: https://github.com/joker1007/tree_stump
