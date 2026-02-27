@@ -31,11 +31,10 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
-- ConflictResolver / SmartMerger no longer collapses nodes that share the same signature.
+- SmartMerger no longer collapses nodes that share the same signature.
   Multiple nodes with identical signatures (e.g., two `echo "Foo"` lines, or `PATH_add exe`
   and `PATH_add bin`) are now matched 1:1 in order via cursor-based positional matching,
-  instead of being treated as a single node. SmartMerger now performs merge logic inline
-  (following prism-merge's paradigm) rather than delegating to ConflictResolver.
+  instead of being treated as a single node.
 
 ### Security
 
