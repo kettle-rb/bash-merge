@@ -28,6 +28,7 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "freeze blocks"
     it_behaves_like "custom freeze token"
     it_behaves_like "function merging"
+    it_behaves_like "duplicate command signatures"
     it_behaves_like "complex scripts"
   end
 
@@ -54,6 +55,7 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "freeze blocks"
     it_behaves_like "custom freeze token"
     it_behaves_like "function merging"
+    it_behaves_like "duplicate command signatures"
     it_behaves_like "complex scripts"
   end
 
@@ -80,6 +82,7 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "freeze blocks"
     it_behaves_like "custom freeze token"
     it_behaves_like "function merging"
+    it_behaves_like "duplicate command signatures"
     it_behaves_like "complex scripts"
   end
 
@@ -106,6 +109,7 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "freeze blocks"
     it_behaves_like "custom freeze token"
     it_behaves_like "function merging"
+    it_behaves_like "duplicate command signatures"
     it_behaves_like "complex scripts"
   end
 
@@ -132,6 +136,7 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "freeze blocks"
     it_behaves_like "custom freeze token"
     it_behaves_like "function merging"
+    it_behaves_like "duplicate command signatures"
     it_behaves_like "complex scripts"
   end
 end

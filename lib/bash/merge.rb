@@ -48,7 +48,6 @@ module Bash
   #
   # @see SmartMerger Main entry point for merge operations
   # @see FileAnalysis Analyzes Bash structure
-  # @see ConflictResolver Resolves content conflicts
   module Merge
     # Base error class for Bash::Merge
     # Inherits from Ast::Merge::Error for consistency across merge gems.
@@ -108,7 +107,6 @@ module Bash
     autoload :FileAnalysis, "bash/merge/file_analysis"
     autoload :MergeResult, "bash/merge/merge_result"
     autoload :NodeWrapper, "bash/merge/node_wrapper"
-    autoload :ConflictResolver, "bash/merge/conflict_resolver"
     autoload :SmartMerger, "bash/merge/smart_merger"
   end
 end

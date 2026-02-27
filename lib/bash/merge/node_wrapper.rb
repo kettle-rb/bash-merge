@@ -153,9 +153,14 @@ module Bash
           name = variable_name
           [:variable_assignment, name]
         when "command"
-          # Commands identified by their command name
+          # Commands identified by their command name and arguments.
+          # Arguments are included so that `PATH_add exe` and `PATH_add bin`
+          # get distinct signatures, while `echo "hello"` repeated twice gets
+          # the same signature — the resolver handles positional matching for
+          # nodes with identical signatures.
           name = command_name
-          [:command, name, extract_command_signature_context(node)]
+          args = extract_command_arguments(node)
+          [:command, name, args, extract_command_signature_context(node)]
         when "if_statement"
           # If statements identified by their condition pattern
           condition = extract_condition_pattern(node)
@@ -197,6 +202,33 @@ module Bash
           end
         end
         redirections.empty? ? nil : redirections.sort
+      end
+
+      # Extract argument words from a command node.
+      # Returns the argument text values (everything after the command name).
+      #
+      # @param node [Object] A tree-sitter command node
+      # @return [Array<String>, nil] Argument values, or nil if none
+      def extract_command_arguments(node)
+        args = []
+        found_command_name = false
+        node.each do |child|
+          type_s = child.type.to_s
+          # Skip comments and redirections
+          next if %w[comment file_redirect heredoc_redirect].include?(type_s)
+
+          if !found_command_name && %w[word command_name].include?(type_s)
+            # First word/command_name is the command itself, skip it
+            found_command_name = true
+            next
+          end
+
+          # Everything after the command name is an argument
+          if found_command_name
+            args << node_text(child)
+          end
+        end
+        args.empty? ? nil : args
       end
 
       def extract_condition_pattern(node)

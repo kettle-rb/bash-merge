@@ -23,7 +23,6 @@ spec/
 │   ├── file_analysis_spec.rb            # Runs shared examples on all backends
 │   ├── smart_merger_spec.rb             # Runs shared examples on all backends
 │   ├── comment_tracker_spec.rb          # Unit tests for CommentTracker
-│   ├── conflict_resolver_spec.rb        # Unit tests for ConflictResolver
 │   ├── merge_result_spec.rb             # Unit tests for MergeResult
 │   └── ...                               # Other unit test files
 ```
@@ -149,4 +148,3 @@ end
 ## Non-Backend-Dependent Tests
 
 For classes that don't depend on tree-sitter backends (like CommentTracker, MergeResult, etc.), regular unit test files in `spec/bash/merge/` are fine. They don't need shared examples or backend contexts.
-

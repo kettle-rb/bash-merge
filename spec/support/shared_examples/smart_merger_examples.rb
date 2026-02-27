@@ -427,6 +427,159 @@ RSpec.shared_examples "function merging" do
   end
 end
 
+RSpec.shared_examples "duplicate command signatures" do
+  describe "commands with same name but different arguments" do
+    let(:template_with_duplicate_commands) do
+      <<~BASH
+        #!/bin/bash
+        # Run any command in this project's bin/ without the bin/ prefix
+        PATH_add exe
+        PATH_add bin
+      BASH
+    end
+
+    let(:dest_with_export) do
+      <<~BASH
+        #!/bin/bash
+        export FOO=bar
+      BASH
+    end
+
+    it "preserves all template-only commands with add_template_only_nodes: true" do
+      merger = described_class.new(
+        template_with_duplicate_commands,
+        dest_with_export,
+        preference: :destination,
+        add_template_only_nodes: true,
+      )
+      result = merger.merge
+
+      expect(result).to include("PATH_add exe")
+      expect(result).to include("PATH_add bin")
+      expect(result).to include("export FOO=bar")
+    end
+
+    it "does not collapse two distinct commands into one" do
+      merger = described_class.new(
+        template_with_duplicate_commands,
+        dest_with_export,
+        preference: :destination,
+        add_template_only_nodes: true,
+      )
+      result = merger.merge
+
+      # Both PATH_add lines must appear as separate lines
+      path_add_lines = result.lines.select { |l| l.strip.start_with?("PATH_add") }
+      expect(path_add_lines.length).to eq(2)
+    end
+
+    it "preserves duplicate commands in a self-merge" do
+      merger = described_class.new(
+        template_with_duplicate_commands,
+        template_with_duplicate_commands,
+        preference: :destination,
+      )
+      result = merger.merge
+
+      expect(result).to include("PATH_add exe")
+      expect(result).to include("PATH_add bin")
+    end
+
+    context "with echo commands" do
+      let(:template_with_echos) do
+        <<~BASH
+          #!/bin/bash
+          echo "hello"
+          echo "world"
+        BASH
+      end
+
+      let(:empty_dest) do
+        <<~BASH
+          #!/bin/bash
+        BASH
+      end
+
+      it "preserves all echo commands with different arguments" do
+        merger = described_class.new(
+          template_with_echos,
+          empty_dest,
+          preference: :destination,
+          add_template_only_nodes: true,
+        )
+        result = merger.merge
+
+        expect(result).to include('echo "hello"')
+        expect(result).to include('echo "world"')
+      end
+    end
+  end
+
+  describe "identical commands (same name, same arguments)" do
+    it "preserves both identical lines from template as template-only additions" do
+      template = "sleep 1\nsleep 1\n"
+      dest = "echo \"Foo\"\n"
+
+      result = described_class.new(
+        template, dest,
+        preference: :destination,
+        add_template_only_nodes: true,
+      ).merge
+
+      sleep_count = result.lines.count { |l| l.strip == "sleep 1" }
+      expect(sleep_count).to eq(2), "Expected 2 'sleep 1' lines, got #{sleep_count}. Result:\n#{result}"
+      expect(result).to include('echo "Foo"')
+    end
+
+    it "preserves dest duplicates when template is a subset" do
+      template = "echo \"Foo\"\necho \"Foo\"\n"
+      dest = "echo \"Foo\"\necho \"Foo\"\necho \"Bar\"\necho \"Bar\"\n"
+
+      result = described_class.new(
+        template, dest,
+        preference: :destination,
+      ).merge
+
+      foo_count = result.lines.count { |l| l.strip == 'echo "Foo"' }
+      bar_count = result.lines.count { |l| l.strip == 'echo "Bar"' }
+      expect(foo_count).to eq(2), "Expected 2 'echo Foo' lines, got #{foo_count}. Result:\n#{result}"
+      expect(bar_count).to eq(2), "Expected 2 'echo Bar' lines, got #{bar_count}. Result:\n#{result}"
+    end
+
+    it "adds new template lines beyond shared duplicates" do
+      template = "echo \"Foo\"\necho \"Foo\"\necho \"Bar\"\necho \"Bar\"\necho \"Fizz\"\necho \"Buzz\"\n"
+      dest = "echo \"Foo\"\necho \"Foo\"\necho \"Bar\"\necho \"Bar\"\n"
+
+      result = described_class.new(
+        template, dest,
+        preference: :destination,
+        add_template_only_nodes: true,
+      ).merge
+
+      foo_count = result.lines.count { |l| l.strip == 'echo "Foo"' }
+      bar_count = result.lines.count { |l| l.strip == 'echo "Bar"' }
+      expect(foo_count).to eq(2)
+      expect(bar_count).to eq(2)
+      expect(result).to include('echo "Fizz"')
+      expect(result).to include('echo "Buzz"')
+    end
+
+    it "self-merge is identity for files with duplicates" do
+      content = "echo \"Foo\"\necho \"Foo\"\necho \"Bar\"\n"
+
+      result = described_class.new(
+        content, content,
+        preference: :destination,
+      ).merge
+
+      foo_count = result.lines.count { |l| l.strip == 'echo "Foo"' }
+      bar_count = result.lines.count { |l| l.strip == 'echo "Bar"' }
+      expect(foo_count).to eq(2), "Self-merge lost a duplicate 'echo Foo'. Result:\n#{result}"
+      expect(bar_count).to eq(1)
+    end
+  end
+end
+
 RSpec.shared_examples "complex scripts" do
   let(:complex_template) do
     <<~BASH

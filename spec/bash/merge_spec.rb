@@ -58,9 +58,6 @@ RSpec.describe Bash::Merge do
       expect(Bash::Merge::NodeWrapper).to be_a(Class)
     end
 
-    it "autoloads ConflictResolver" do
-      expect(Bash::Merge::ConflictResolver).to be_a(Class)
-    end
 
     it "autoloads SmartMerger" do
       expect(Bash::Merge::SmartMerger).to be_a(Class)
