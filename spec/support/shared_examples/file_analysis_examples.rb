@@ -233,6 +233,72 @@ RSpec.shared_examples "comment tracker" do
   end
 end
 
+RSpec.shared_examples "shared comment capability" do
+  describe "shared comment capability" do
+    let(:commented_source) do
+      <<~BASH
+        #!/usr/bin/env bash
+        # preamble
+
+        echo "hello" # inline hello
+        # trailing
+      BASH
+    end
+
+    it "exposes shared comment capability and nodes" do
+      analysis = described_class.new(commented_source)
+
+      expect(analysis.comment_capability.source_augmented?).to be true
+      expect(analysis.comment_nodes.map(&:line_number)).to eq([2, 4, 5])
+      expect(analysis.comment_node_at(4)&.text).to include("inline hello")
+    end
+
+    it "builds attachments and document-boundary regions via augmenter" do
+      analysis = described_class.new(commented_source)
+      owner = analysis.top_level_statements.first
+
+      attachment = analysis.comment_attachment_for(owner)
+      expect(attachment.leading_region.nodes.map(&:line_number)).to eq([2])
+      expect(attachment.inline_region.nodes.map(&:line_number)).to eq([4])
+
+      augmenter = analysis.comment_augmenter(owners: analysis.statements)
+      expect(augmenter.preamble_region).to be_nil
+      expect(augmenter.postlude_region.nodes.map(&:line_number)).to eq([5])
+    end
+  end
+end
+
+RSpec.shared_examples "conservative inline comment capability" do
+  describe "conservative inline comment capability" do
+    it "tracks inline comment attachments for simple command and assignment shapes" do
+      source = <<~BASH
+        echo "hello" # command docs
+        APP_MODE="production" # assignment docs
+      BASH
+
+      analysis = described_class.new(source)
+      command_owner = analysis.top_level_statements.find(&:command?)
+      assignment_owner = analysis.top_level_statements.find(&:variable_assignment?)
+
+      expect(analysis.comment_attachment_for(command_owner).inline_region.nodes.map(&:line_number)).to eq([1])
+      expect(analysis.comment_attachment_for(assignment_owner).inline_region.nodes.map(&:line_number)).to eq([2])
+      expect(analysis.comment_nodes.map(&:line_number)).to eq([1, 2])
+    end
+
+    it "ignores quoted hash characters when building inline regions" do
+      source = <<~BASH
+        echo "# not a comment"
+        APP_PATH="#/srv/app"
+      BASH
+
+      analysis = described_class.new(source)
+
+      expect(analysis.comment_nodes).to be_empty
+      expect(analysis.top_level_statements.all? { |statement| analysis.comment_attachment_for(statement).inline_region.nil? }).to be(true)
+    end
+  end
+end
+
 RSpec.shared_examples "top level statements" do
   describe "#top_level_statements" do
     it "returns top-level statements" do

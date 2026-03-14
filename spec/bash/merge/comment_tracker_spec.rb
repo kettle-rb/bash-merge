@@ -35,6 +35,32 @@ RSpec.describe Bash::Merge::CommentTracker do
       expect(tracker.comments.size).to eq(1)
       expect(tracker.comments.first[:full_line]).to be(false)
     end
+
+    it "detects inline comments for simple assignments" do
+      source = <<~BASH
+        APP_MODE="production" # deployment mode
+      BASH
+
+      tracker = described_class.new(source)
+      expect(tracker.comments.size).to eq(1)
+      expect(tracker.comments.first).to include(
+        text: "deployment mode",
+        full_line: false,
+        raw: "# deployment mode",
+      )
+    end
+
+    it "ignores hash characters inside quoted strings and escaped hashes" do
+      source = <<~BASH
+        echo "# not a comment"
+        echo ' # also not a comment'
+        APP_PATH="#/srv/app"
+        echo \\#still-text
+      BASH
+
+      tracker = described_class.new(source)
+      expect(tracker.comments).to be_empty
+    end
   end
 
   describe "#comment_at" do
@@ -148,6 +174,25 @@ RSpec.describe Bash::Merge::CommentTracker do
       if inline
         expect(inline[:full_line]).to be(false)
       end
+    end
+
+    it "returns inline comment hash for simple assignment lines" do
+      source = <<~BASH
+        APP_MODE="test" # environment toggle
+      BASH
+      tracker = described_class.new(source)
+      expect(tracker.inline_comment_at(1)).to include(
+        text: "environment toggle",
+        raw: "# environment toggle",
+      )
+    end
+
+    it "returns nil when the only hash characters are inside quotes" do
+      source = <<~BASH
+        echo "# not a comment"
+      BASH
+      tracker = described_class.new(source)
+      expect(tracker.inline_comment_at(1)).to be_nil
     end
 
     it "returns nil for full-line comments" do

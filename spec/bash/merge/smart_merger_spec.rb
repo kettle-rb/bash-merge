@@ -30,6 +30,11 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "function merging"
     it_behaves_like "duplicate command signatures"
     it_behaves_like "complex scripts"
+    it_behaves_like "document boundary comments"
+    it_behaves_like "matched leading comments"
+    it_behaves_like "removed node leading comments"
+    it_behaves_like "conservative inline comments"
+    it_behaves_like "removed node inline comments"
   end
 
   # ============================================================
@@ -57,6 +62,11 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "function merging"
     it_behaves_like "duplicate command signatures"
     it_behaves_like "complex scripts"
+    it_behaves_like "document boundary comments"
+    it_behaves_like "matched leading comments"
+    it_behaves_like "removed node leading comments"
+    it_behaves_like "conservative inline comments"
+    it_behaves_like "removed node inline comments"
   end
 
   # ============================================================
@@ -84,6 +94,11 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "function merging"
     it_behaves_like "duplicate command signatures"
     it_behaves_like "complex scripts"
+    it_behaves_like "document boundary comments"
+    it_behaves_like "matched leading comments"
+    it_behaves_like "removed node leading comments"
+    it_behaves_like "conservative inline comments"
+    it_behaves_like "removed node inline comments"
   end
 
   # ============================================================
@@ -111,6 +126,11 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "function merging"
     it_behaves_like "duplicate command signatures"
     it_behaves_like "complex scripts"
+    it_behaves_like "document boundary comments"
+    it_behaves_like "matched leading comments"
+    it_behaves_like "removed node leading comments"
+    it_behaves_like "conservative inline comments"
+    it_behaves_like "removed node inline comments"
   end
 
   # ============================================================
@@ -138,5 +158,10 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "function merging"
     it_behaves_like "duplicate command signatures"
     it_behaves_like "complex scripts"
+    it_behaves_like "document boundary comments"
+    it_behaves_like "matched leading comments"
+    it_behaves_like "removed node leading comments"
+    it_behaves_like "conservative inline comments"
+    it_behaves_like "removed node inline comments"
   end
 end

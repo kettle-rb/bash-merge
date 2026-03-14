@@ -49,6 +49,10 @@ RSpec.shared_examples "configuration options" do
     expect(described_class.instance_method(:initialize).parameters.flatten).to include(:add_template_only_nodes)
   end
 
+  it "accepts remove_template_missing_nodes" do
+    expect(described_class.instance_method(:initialize).parameters.flatten).to include(:remove_template_missing_nodes)
+  end
+
   it "accepts freeze_token" do
     expect(described_class.instance_method(:initialize).parameters.flatten).to include(:freeze_token)
   end
@@ -111,6 +115,10 @@ RSpec.shared_examples "accessors" do
 
   it "exposes add_template_only_nodes" do
     expect(described_class.instance_methods).to include(:add_template_only_nodes)
+  end
+
+  it "exposes remove_template_missing_nodes" do
+    expect(described_class.instance_methods).to include(:remove_template_missing_nodes)
   end
 
   it "exposes freeze_token" do
@@ -647,6 +655,308 @@ RSpec.shared_examples "complex scripts" do
       expect(result).to include("myapp-custom")
       expect(result).to include("debug")
       expect(result).to include("CUSTOM LOG")
+    end
+  end
+end
+
+RSpec.shared_examples "document boundary comments" do
+  describe "document boundary comments" do
+    it "preserves destination shebang, header comments, and footer comments by default" do
+      template_content = <<~BASH
+        #!/usr/bin/env bash
+        # Template header
+
+        echo "template"
+        # Template footer
+      BASH
+
+      dest_content = <<~BASH
+        #!/usr/bin/env bash
+        # Destination header
+
+        echo "dest"
+        # Destination footer
+      BASH
+
+      merger = described_class.new(template_content, dest_content)
+
+      expect(merger.merge).to eq(dest_content)
+    end
+
+    it "uses the preferred template document boundaries when template content wins" do
+      template_content = <<~BASH
+        #!/usr/bin/env bash
+        # Template header
+
+        MODE="template"
+        # Template footer
+      BASH
+
+      dest_content = <<~BASH
+        #!/bin/bash
+        # Destination header
+
+        MODE="dest"
+        # Destination footer
+      BASH
+
+      merger = described_class.new(template_content, dest_content, preference: :template)
+
+      expect(merger.merge).to eq(template_content)
+    end
+
+    it "preserves comment-only destination files" do
+      template_content = <<~BASH
+        #!/usr/bin/env bash
+        echo "template"
+      BASH
+
+      dest_content = <<~BASH
+        #!/usr/bin/env bash
+        # Destination docs
+        # More destination docs
+      BASH
+
+      merger = described_class.new(template_content, dest_content)
+
+      expect(merger.merge).to eq(dest_content)
+    end
+  end
+end
+
+RSpec.shared_examples "matched leading comments" do
+  describe "matched leading comments" do
+    it "preserves destination leading comments for a matched function when template content wins" do
+      template_content = <<~BASH
+        deploy() {
+          echo "template deploy"
+        }
+      BASH
+
+      dest_content = <<~BASH
+        # Destination deploy docs
+        deploy() {
+          echo "destination deploy"
+        }
+      BASH
+
+      merger = described_class.new(template_content, dest_content, preference: :template)
+
+      expect(merger.merge).to eq(<<~BASH)
+        # Destination deploy docs
+        deploy() {
+          echo "template deploy"
+        }
+      BASH
+    end
+
+    it "preserves destination leading comments for a matched assignment when template content wins" do
+      template_content = <<~BASH
+        APP_MODE="template"
+      BASH
+
+      dest_content = <<~BASH
+        # Destination app mode docs
+        APP_MODE="destination"
+      BASH
+
+      merger = described_class.new(template_content, dest_content, preference: :template)
+
+      expect(merger.merge).to eq(<<~BASH)
+        # Destination app mode docs
+        APP_MODE="template"
+      BASH
+    end
+
+    it "keeps template leading comments when the template already documents the matched node" do
+      template_content = <<~BASH
+        # Template deploy docs
+        deploy() {
+          echo "template deploy"
+        }
+      BASH
+
+      dest_content = <<~BASH
+        # Destination deploy docs
+        deploy() {
+          echo "destination deploy"
+        }
+      BASH
+
+      merger = described_class.new(template_content, dest_content, preference: :template)
+
+      expect(merger.merge).to eq(template_content)
+    end
+  end
+end
+
+RSpec.shared_examples "removed node leading comments" do
+  describe "removed node leading comments" do
+    it "preserves leading comments for a removed destination-only function when removal is enabled" do
+      template_content = <<~BASH
+        echo "template"
+      BASH
+
+      dest_content = <<~BASH
+        echo "template"
+
+        # Destination cleanup docs
+        cleanup() {
+          echo "destination cleanup"
+        }
+      BASH
+
+      merger = described_class.new(
+        template_content,
+        dest_content,
+        remove_template_missing_nodes: true,
+      )
+
+      expect(merger.merge).to eq(<<~BASH)
+        echo "template"
+
+        # Destination cleanup docs
+      BASH
+    end
+
+    it "preserves leading comments for a removed destination-only assignment when removal is enabled" do
+      template_content = <<~BASH
+        echo "template"
+      BASH
+
+      dest_content = <<~BASH
+        echo "template"
+
+        # Destination env docs
+        APP_MODE="destination"
+      BASH
+
+      merger = described_class.new(
+        template_content,
+        dest_content,
+        remove_template_missing_nodes: true,
+      )
+
+      expect(merger.merge).to eq(<<~BASH)
+        echo "template"
+
+        # Destination env docs
+      BASH
+    end
+
+    it "keeps destination-only nodes when removal is disabled" do
+      template_content = <<~BASH
+        echo "template"
+      BASH
+
+      dest_content = <<~BASH
+        echo "template"
+
+        # Destination cleanup docs
+        cleanup() {
+          echo "destination cleanup"
+        }
+      BASH
+
+      merger = described_class.new(template_content, dest_content, remove_template_missing_nodes: false)
+
+      expect(merger.merge).to eq(dest_content)
+    end
+  end
+end
+
+RSpec.shared_examples "conservative inline comments" do
+  describe "conservative inline comments" do
+    it "preserves a destination inline comment on a simple command when destination content is kept" do
+      template_content = <<~BASH
+        echo "template"
+      BASH
+
+      dest_content = <<~BASH
+        echo "destination" # destination echo docs
+      BASH
+
+      merger = described_class.new(template_content, dest_content)
+
+      expect(merger.merge).to eq(dest_content)
+    end
+
+    it "preserves a destination inline comment for a matched template-preferred assignment" do
+      template_content = <<~BASH
+        APP_MODE="template"
+      BASH
+
+      dest_content = <<~BASH
+        APP_MODE="destination" # destination app mode docs
+      BASH
+
+      merger = described_class.new(template_content, dest_content, preference: :template)
+
+      expect(merger.merge).to eq(<<~BASH)
+        APP_MODE="template" # destination app mode docs
+      BASH
+    end
+
+    it "keeps the template inline comment when the template already documents the matched node" do
+      template_content = <<~BASH
+        APP_MODE="template" # template app mode docs
+      BASH
+
+      dest_content = <<~BASH
+        APP_MODE="destination" # destination app mode docs
+      BASH
+
+      merger = described_class.new(template_content, dest_content, preference: :template)
+
+      expect(merger.merge).to eq(template_content)
+    end
+  end
+end
+
+RSpec.shared_examples "removed node inline comments" do
+  describe "removed node inline comments" do
+    it "promotes a removed destination-only command inline comment when removal is enabled" do
+      template_content = <<~BASH
+        echo "template"
+      BASH
+
+      dest_content = <<~BASH
+        echo "template"
+        echo "destination" # destination cleanup docs
+      BASH
+
+      merger = described_class.new(
+        template_content,
+        dest_content,
+        remove_template_missing_nodes: true,
+      )
+
+      expect(merger.merge).to eq(<<~BASH)
+        echo "template"
+        # destination cleanup docs
+      BASH
+    end
+
+    it "promotes a removed destination-only assignment inline comment when removal is enabled" do
+      template_content = <<~BASH
+        echo "template"
+      BASH
+
+      dest_content = <<~BASH
+        echo "template"
+        APP_MODE="destination" # destination env docs
+      BASH
+
+      merger = described_class.new(
+        template_content,
+        dest_content,
+        remove_template_missing_nodes: true,
+      )
+
+      expect(merger.merge).to eq(<<~BASH)
+        echo "template"
+        # destination env docs
+      BASH
     end
   end
 end

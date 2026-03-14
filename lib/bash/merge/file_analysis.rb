@@ -75,6 +75,63 @@ module Bash
         @errors.empty? && !@ast.nil?
       end
 
+      # Get shared comment capability information for this analysis.
+      #
+      # @return [Ast::Merge::Comment::Capability]
+      def comment_capability
+        @comment_capability ||= comment_tracker.augment(owners: []).capability
+      end
+
+      # Get all tracked comments converted to shared Ast::Merge comment nodes.
+      #
+      # @return [Array<Ast::Merge::Comment::Line>]
+      def comment_nodes
+        comment_tracker.comment_nodes
+      end
+
+      # Get a shared Ast::Merge comment node at a specific line.
+      #
+      # @param line_num [Integer] 1-based line number
+      # @return [Ast::Merge::Comment::Line, nil]
+      def comment_node_at(line_num)
+        comment_tracker.comment_node_at(line_num)
+      end
+
+      # Get comments in a line range converted to a shared comment region.
+      #
+      # @param range [Range] Range of 1-based line numbers
+      # @param kind [Symbol] Region kind (:leading, :inline, :orphan, etc.)
+      # @param full_line_only [Boolean] Whether to keep only full-line comments
+      # @return [Ast::Merge::Comment::Region]
+      def comment_region_for_range(range, kind:, full_line_only: false)
+        comment_tracker.comment_region_for_range(
+          range,
+          kind: kind,
+          full_line_only: full_line_only,
+        )
+      end
+
+      # Build a passive shared comment attachment for an owner.
+      #
+      # @param owner [Object] Structural owner for the attachment
+      # @param options [Hash] Additional metadata / lookup overrides
+      # @return [Ast::Merge::Comment::Attachment]
+      def comment_attachment_for(owner, **options)
+        comment_tracker.comment_attachment_for(owner, **options)
+      end
+
+      # Build a passive shared comment augmenter for this analysis.
+      #
+      # @param owners [Array<#start_line,#end_line>, nil] Owners used for attachment inference
+      # @param options [Hash] Additional augmenter options
+      # @return [Ast::Merge::Comment::Augmenter]
+      def comment_augmenter(owners: nil, **options)
+        comment_tracker.augment(
+          owners: owners || comment_augmenter_default_owners,
+          **options
+        )
+      end
+
       # The base module uses 'statements' - provide both names for compatibility
       # @return [Array<NodeWrapper, FreezeNodeBase>]
       def statements
@@ -133,6 +190,10 @@ module Bash
       end
 
       private
+
+      def comment_augmenter_default_owners
+        statements.select { |statement| statement.respond_to?(:start_line) && statement.respond_to?(:end_line) }
+      end
 
       def parse_bash
         # TreeHaver handles grammar discovery and backend selection

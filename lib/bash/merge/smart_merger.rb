@@ -60,6 +60,7 @@ module Bash
         signature_generator: nil,
         preference: :destination,
         add_template_only_nodes: false,
+        remove_template_missing_nodes: false,
         freeze_token: nil,
         match_refiner: nil,
         regions: nil,
@@ -67,6 +68,8 @@ module Bash
         node_typing: nil,
         **options
       )
+        @remove_template_missing_nodes = remove_template_missing_nodes
+
         super(
           template_content,
           dest_content,
@@ -81,6 +84,8 @@ module Bash
           **options
         )
       end
+
+      attr_reader :remove_template_missing_nodes
 
       # Perform the merge and return the result as a Bash string.
       #
@@ -184,6 +189,8 @@ module Bash
 
         emitter = Emitter.new
 
+        emit_root_boundary_to(emitter, :preamble)
+
         # Build signature maps: sig → [{node:, index:}, ...]
         template_by_sig = build_indexed_signature_map(template_nodes, @template_analysis)
 
@@ -227,11 +234,11 @@ module Bash
               emit_preferred(emitter, template_node, dest_node)
             else
               # All template copies of this signature consumed — keep dest copy
-              emit_node_to(emitter, dest_node, @dest_analysis)
+              handle_destination_only_node(emitter, dest_node)
             end
           else
             # Destination-only node — always keep
-            emit_node_to(emitter, dest_node, @dest_analysis)
+            handle_destination_only_node(emitter, dest_node)
           end
         end
 
@@ -244,6 +251,8 @@ module Bash
             emit_node_to(emitter, template_node, @template_analysis)
           end
         end
+
+        emit_root_boundary_to(emitter, :postlude)
 
         # Transfer emitter output to result
         emitted_content = emitter.to_s
@@ -278,14 +287,157 @@ module Bash
         map
       end
 
+      def emit_root_boundary_to(emitter, kind)
+        lines = root_boundary_lines_for(kind, preferred_root_boundary_analysis)
+        return if lines.empty?
+
+        emitter.emit_raw_lines(lines)
+      end
+
+      def handle_destination_only_node(emitter, dest_node)
+        if remove_template_missing_nodes
+          emit_leading_segment_to(emitter, dest_node, @dest_analysis)
+          emit_promoted_inline_comment_to(emitter, dest_node, @dest_analysis)
+        else
+          emit_node_to(emitter, dest_node, @dest_analysis)
+        end
+      end
+
+      def preferred_root_boundary_analysis
+        pref = @preference.is_a?(Hash) ? (@preference[:default] || :destination) : @preference
+        pref == :template ? @template_analysis : @dest_analysis
+      end
+
+      def root_boundary_lines_for(kind, analysis)
+        return [] unless analysis&.respond_to?(:statements)
+        return analysis.lines.dup if kind == :preamble && Array(analysis.statements).empty? && analysis.respond_to?(:lines) && analysis.lines.any?
+
+        statements = Array(analysis.statements).select do |statement|
+          statement.respond_to?(:start_line) && statement.respond_to?(:end_line) && statement.start_line && statement.end_line
+        end
+        return [] if statements.empty?
+
+        case kind
+        when :preamble
+          first_statement = statements.min_by(&:start_line)
+          start_line = emission_start_line_for(first_statement, analysis)
+          return [] unless start_line && start_line > 1
+
+          (1...start_line).filter_map { |line_number| analysis.line_at(line_number) }
+        when :postlude
+          last_line = statements.map(&:end_line).compact.max
+          return [] unless last_line && analysis.respond_to?(:lines)
+          return [] if last_line >= analysis.lines.length
+
+          ((last_line + 1)..analysis.lines.length).filter_map { |line_number| analysis.line_at(line_number) }
+        else
+          []
+        end
+      end
+
+      def emission_start_line_for(node, analysis)
+        return unless node.respond_to?(:start_line) && node.start_line
+
+        attachment = analysis.comment_attachment_for(node)
+        leading_region = attachment&.leading_region
+        start_line = if leading_region&.respond_to?(:start_line) && leading_region.start_line
+          leading_region.start_line
+        else
+          leading_comments = analysis.comment_tracker.leading_comments_before(node.start_line)
+          leading_comments.first&.fetch(:line, nil) || node.start_line
+        end
+
+        while start_line > 1 && analysis.line_at(start_line - 1)&.strip == ""
+          start_line -= 1
+        end
+
+        start_line
+      end
+
       # Emit the preferred version of a matched node pair.
       def emit_preferred(emitter, template_node, dest_node)
         pref = preference_for_pair(template_node, dest_node)
         if pref == :destination
           emit_node_to(emitter, dest_node, @dest_analysis)
         else
-          emit_node_to(emitter, template_node, @template_analysis)
+          comment_source_node, comment_source_analysis = preferred_comment_source_for(template_node, dest_node)
+          inline_comment = preferred_inline_comment_for(template_node, dest_node)
+          emit_node_to(
+            emitter,
+            template_node,
+            @template_analysis,
+            comment_source_node: comment_source_node,
+            comment_source_analysis: comment_source_analysis,
+            inline_comment: inline_comment,
+          )
         end
+      end
+
+      def preferred_comment_source_for(template_node, dest_node)
+        return [template_node, @template_analysis] if node_has_leading_comments?(template_node, @template_analysis)
+        return [dest_node, @dest_analysis] if node_has_leading_comments?(dest_node, @dest_analysis)
+
+        [template_node, @template_analysis]
+      end
+
+      def node_has_leading_comments?(node, analysis)
+        attachment = analysis.comment_attachment_for(node)
+        leading_region = attachment&.leading_region
+        return false unless leading_region&.respond_to?(:nodes)
+
+        leading_region.nodes.any? do |comment_node|
+          comment_node.respond_to?(:comment?) ? comment_node.comment? : true
+        end
+      end
+
+      def preferred_inline_comment_for(template_node, dest_node)
+        return unless safe_inline_comment_transfer?(template_node, dest_node)
+
+        template_inline_comment = inline_comment_for(template_node, @template_analysis)
+        return if template_inline_comment
+
+        inline_comment_for(dest_node, @dest_analysis)
+      end
+
+      def inline_comment_for(node, analysis)
+        return unless node.respond_to?(:end_line) && node.end_line
+
+        analysis.comment_tracker.inline_comment_at(node.end_line)
+      end
+
+      def safe_inline_comment_transfer?(template_node, dest_node)
+        single_line_node?(template_node) &&
+          single_line_node?(dest_node) &&
+          safe_inline_comment_node?(template_node) &&
+          safe_inline_comment_node?(dest_node)
+      end
+
+      def single_line_node?(node)
+        node.respond_to?(:start_line) &&
+          node.respond_to?(:end_line) &&
+          node.start_line &&
+          node.end_line &&
+          node.start_line == node.end_line
+      end
+
+      def safe_inline_comment_node?(node)
+        (node.respond_to?(:command?) && node.command?) ||
+          (node.respond_to?(:variable_assignment?) && node.variable_assignment?)
+      end
+
+      def emit_promoted_inline_comment_to(emitter, node, analysis)
+        inline_comment = inline_comment_for(node, analysis)
+        return unless inline_comment && single_line_node?(node) && safe_inline_comment_node?(node)
+
+        line = promoted_inline_comment_line_for(node, analysis, inline_comment)
+        emitter.emit_raw_lines([line]) if line
+      end
+
+      def promoted_inline_comment_line_for(node, analysis, inline_comment)
+        raw_line = analysis.line_at(node.start_line)
+        return unless raw_line
+
+        "#{raw_line[/\A\s*/]}#{inline_comment[:raw].sub(/\A\s+/, "")}"
       end
 
       # Determine preference for a matched pair, respecting per-type overrides.
@@ -309,20 +461,31 @@ module Bash
       end
 
       # Emit a single node (with its leading comments) to an emitter.
-      def emit_node_to(emitter, node, analysis)
-        # Emit leading comments
-        if node.start_line
-          leading = analysis.comment_tracker.leading_comments_before(node.start_line)
-          leading.each do |comment|
-            emitter.emit_tracked_comment(comment)
-          end
-        end
-
+      def emit_node_to(emitter, node, analysis, comment_source_node: node, comment_source_analysis: analysis, inline_comment: nil)
         # Emit the node content
         if node.start_line && node.end_line
+          emit_leading_segment_to(emitter, comment_source_node, comment_source_analysis)
           lines = (node.start_line..node.end_line).filter_map { |ln| analysis.line_at(ln) }
-          emitter.emit_raw_lines(lines)
+          emitter.emit_raw_lines(apply_inline_comment(lines, inline_comment))
         end
+      end
+
+      def apply_inline_comment(lines, inline_comment)
+        return lines if inline_comment.nil? || lines.empty?
+
+        updated_lines = lines.dup
+        updated_lines[-1] = "#{updated_lines[-1].rstrip} #{inline_comment[:raw].sub(/\A\s+/, "")}"
+        updated_lines
+      end
+
+      def emit_leading_segment_to(emitter, node, analysis)
+        return unless node.respond_to?(:start_line) && node.start_line
+
+        start_line = emission_start_line_for(node, analysis)
+        return unless start_line && start_line < node.start_line
+
+        lines = (start_line...node.start_line).filter_map { |line_number| analysis.line_at(line_number) }
+        emitter.emit_raw_lines(lines)
       end
     end
   end
