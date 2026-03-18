@@ -26,6 +26,7 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - Preserved destination leading comments and safe inline comments through template-preferred function and assignment merges without widening shell-comment heuristics beyond the conservative supported shapes
 - Preserved or promoted comments for removed destination-only shell nodes when `remove_template_missing_nodes: true` is enabled, including safe inline-comment promotion for removed single-line assignments
+- Adopted `Ast::Merge::TrailingGroups::DestIterate` for position-aware template-only Bash function, assignment, and prelude-node insertion while keeping freeze blocks and conservative shell ordering rules unchanged
 
 ### Deprecated
 
