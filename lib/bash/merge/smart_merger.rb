@@ -35,6 +35,8 @@ module Bash
     #     node_typing: { "function_definition" => ->(n) { NodeTyping.with_merge_type(n, :func) } },
     #     preference: { default: :destination, func: :template })
     class SmartMerger < ::Ast::Merge::SmartMergerBase
+      include ::Ast::Merge::TrailingGroups::DestIterate
+
       # Creates a new SmartMerger for intelligent Bash script merging.
       #
       # @param template_content [String] Template Bash source code
@@ -200,6 +202,22 @@ module Bash
         # Per-signature cursor so duplicate signatures match 1:1 in order.
         sig_cursor = Hash.new(0)
 
+        # Pre-compute position-aware trailing groups for template-only nodes.
+        dest_sigs = ::Set.new
+        dest_nodes.each { |n| sig = @dest_analysis.generate_signature(n); dest_sigs << sig if sig }
+
+        trailing_groups, all_matched_indices = build_dest_iterate_trailing_groups(
+          template_nodes: template_nodes,
+          dest_sigs: dest_sigs,
+          signature_for: ->(node) { @template_analysis.generate_signature(node) },
+          add_template_only_nodes: @add_template_only_nodes,
+        )
+
+        # Emit prefix template-only nodes (before first matched template node)
+        emit_prefix_trailing_group(trailing_groups, consumed_template_indices) do |info|
+          emit_node_to(emitter, info[:node], @template_analysis)
+        end
+
         # Phase 1 — Walk destination nodes in order, preserving their positions.
         dest_nodes.each do |dest_node|
           dest_sig = @dest_analysis.generate_signature(dest_node)
@@ -240,17 +258,20 @@ module Bash
             # Destination-only node — always keep
             handle_destination_only_node(emitter, dest_node)
           end
+
+          # Flush interior trailing groups that are ready
+          flush_ready_trailing_groups(
+            trailing_groups: trailing_groups,
+            matched_indices: all_matched_indices,
+            consumed_indices: consumed_template_indices,
+          ) { |info| emit_node_to(emitter, info[:node], @template_analysis) }
         end
 
-        # Phase 2 — Emit template-only nodes (unconsumed template nodes)
-        if @add_template_only_nodes
-          template_nodes.each_with_index do |template_node, idx|
-            next if consumed_template_indices.include?(idx)
-            next if template_node.is_a?(FreezeNode) || (template_node.respond_to?(:is_a?) && template_node.is_a?(Ast::Merge::Freezable))
-
-            emit_node_to(emitter, template_node, @template_analysis)
-          end
-        end
+        # Emit remaining trailing groups (tail + safety net)
+        emit_remaining_trailing_groups(
+          trailing_groups: trailing_groups,
+          consumed_indices: consumed_template_indices,
+        ) { |info| emit_node_to(emitter, info[:node], @template_analysis) }
 
         emit_root_boundary_to(emitter, :postlude)
 
@@ -285,6 +306,11 @@ module Bash
           map[sig] << {node: node, index: idx} if sig
         end
         map
+      end
+
+      # Override hook: freeze nodes are treated as matched for trailing group purposes.
+      def trailing_group_node_matched?(node, _signature)
+        node.is_a?(FreezeNode) || (node.respond_to?(:is_a?) && node.is_a?(Ast::Merge::Freezable))
       end
 
       def emit_root_boundary_to(emitter, kind)
