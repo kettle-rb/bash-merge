@@ -398,6 +398,55 @@ RSpec.shared_examples "parser path handling" do
   end
 end
 
+RSpec.shared_examples "shared layout compliance" do
+  describe "shared layout compliance" do
+    let(:bash_with_layout_gaps) do
+      <<~BASH
+
+        alpha() {
+          echo "alpha"
+        }
+
+        beta() {
+          echo "beta"
+        }
+
+      BASH
+    end
+
+    let(:analysis) { described_class.new(bash_with_layout_gaps) }
+    let(:first_owner) { analysis.top_level_statements.first }
+    let(:second_owner) { analysis.top_level_statements[1] }
+    let(:layout_augmenter) { analysis.layout_augmenter(owners: [first_owner, second_owner].compact) }
+    let(:layout_attachment) { layout_augmenter.attachment_for(first_owner) }
+
+    it "finds stable top-level owners for layout inference" do
+      expect(first_owner).not_to be_nil
+      expect(second_owner).not_to be_nil
+      expect(first_owner.function_definition?).to be true
+      expect(second_owner.function_definition?).to be true
+    end
+
+    it_behaves_like "Ast::Merge::Layout::Attachment" do
+      let(:expected_attachment_owner) { first_owner }
+      let(:expected_leading_gap_kind) { :preamble }
+      let(:expected_trailing_gap_kind) { :interstitial }
+      let(:expected_gap_ranges) { [1..1, 5..5] }
+      let(:expected_leading_controls_output) { true }
+      let(:expected_trailing_controls_output) { false }
+    end
+
+    it_behaves_like "Ast::Merge::Layout::Augmenter" do
+      let(:augmenter_owner) { first_owner }
+      let(:expected_preamble_range) { 1..1 }
+      let(:expected_postlude_range) { 9..9 }
+      let(:expected_interstitial_ranges) { [5..5] }
+      let(:expected_owner_leading_gap_kind) { :preamble }
+      let(:expected_owner_trailing_gap_kind) { :interstitial }
+    end
+  end
+end
+
 RSpec.shared_examples "freeze block integration" do
   describe "integration with freeze blocks" do
     it "excludes freeze block content from regular nodes" do
