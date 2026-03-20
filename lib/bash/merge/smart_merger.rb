@@ -204,7 +204,10 @@ module Bash
 
         # Pre-compute position-aware trailing groups for template-only nodes.
         dest_sigs = ::Set.new
-        dest_nodes.each { |n| sig = @dest_analysis.generate_signature(n); dest_sigs << sig if sig }
+        dest_nodes.each { |n|
+          sig = @dest_analysis.generate_signature(n)
+          dest_sigs << sig if sig
+        }
 
         trailing_groups, all_matched_indices = build_dest_iterate_trailing_groups(
           template_nodes: template_nodes,
@@ -331,7 +334,7 @@ module Bash
 
       def preferred_root_boundary_analysis
         pref = @preference.is_a?(Hash) ? (@preference[:default] || :destination) : @preference
-        pref == :template ? @template_analysis : @dest_analysis
+        (pref == :template) ? @template_analysis : @dest_analysis
       end
 
       def root_boundary_lines_for(kind, analysis)

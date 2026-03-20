@@ -529,7 +529,8 @@ RSpec.shared_examples "duplicate command signatures" do
       dest = "echo \"Foo\"\n"
 
       result = described_class.new(
-        template, dest,
+        template,
+        dest,
         preference: :destination,
         add_template_only_nodes: true,
       ).merge
@@ -544,7 +545,8 @@ RSpec.shared_examples "duplicate command signatures" do
       dest = "echo \"Foo\"\necho \"Foo\"\necho \"Bar\"\necho \"Bar\"\n"
 
       result = described_class.new(
-        template, dest,
+        template,
+        dest,
         preference: :destination,
       ).merge
 
@@ -559,7 +561,8 @@ RSpec.shared_examples "duplicate command signatures" do
       dest = "echo \"Foo\"\necho \"Foo\"\necho \"Bar\"\necho \"Bar\"\n"
 
       result = described_class.new(
-        template, dest,
+        template,
+        dest,
         preference: :destination,
         add_template_only_nodes: true,
       ).merge
@@ -576,7 +579,8 @@ RSpec.shared_examples "duplicate command signatures" do
       content = "echo \"Foo\"\necho \"Foo\"\necho \"Bar\"\n"
 
       result = described_class.new(
-        content, content,
+        content,
+        content,
         preference: :destination,
       ).merge
 

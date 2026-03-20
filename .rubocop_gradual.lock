@@ -1,0 +1,5 @@
+{
+  "spec/bash/merge/removal_mode_compliance_spec.rb:3744369579": [
+    [6, 1, 54, "RSpec/SpecFilePathFormat: Spec path should end with `bash/merge/smart_merger*_spec.rb`.", 183952980]
+  ]
+}
