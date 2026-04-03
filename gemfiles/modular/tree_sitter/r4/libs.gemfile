@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+# NOTE: Tree sitter grammars, like tree-sitter-bash, must be installed separately
+#       via your package manager, e.g., `apt install libtree-sitter-bash-dev`,
+#       or built from source.
+#
+# TreeHaver provides a unified interface to tree-sitter. ruby_tree_sitter, tree_haver,
+# and ast-merge are provided by the templating gemfile stack (templating.gemfile +
+# templating_local.gemfile). Only parser backends specific to bash-merge belong here.
+
+# FFI Backend - works on MRI, JRuby, and TruffleRuby
+gem "ffi", require: false # DO NOT LOAD, because conflicts with MRI
+
+platform :mri do
+  # Rust Backend
+  gem "tree_stump", "~> 0.2"
+end
