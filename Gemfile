@@ -44,3 +44,4 @@ gem "irb", "~> 1.17" # ruby >= 2.7
 
 # Templating (env-switched: KETTLE_RB_DEV=true for local paths)
 eval_gemfile "gemfiles/modular/templating.gemfile"
+
