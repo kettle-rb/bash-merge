@@ -42,6 +42,7 @@ Please file a bug if you notice a violation of semantic versioning.
   Multiple nodes with identical signatures (e.g., two `echo "Foo"` lines, or `PATH_add exe`
   and `PATH_add bin`) are now matched 1:1 in order via cursor-based positional matching,
   instead of being treated as a single node.
+- Fixed multi-byte character (emoji) handling — upstream `ast-merge` `byteslice` → `slice` fix prevents corruption when merging content with multi-byte characters
 
 ### Security
 
