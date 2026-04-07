@@ -35,6 +35,7 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "removed node leading comments"
     it_behaves_like "conservative inline comments"
     it_behaves_like "removed node inline comments"
+    it_behaves_like "multi-byte character (emoji) handling"
   end
 
   # ============================================================
@@ -67,6 +68,7 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "removed node leading comments"
     it_behaves_like "conservative inline comments"
     it_behaves_like "removed node inline comments"
+    it_behaves_like "multi-byte character (emoji) handling"
   end
 
   # ============================================================
@@ -99,6 +101,7 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "removed node leading comments"
     it_behaves_like "conservative inline comments"
     it_behaves_like "removed node inline comments"
+    it_behaves_like "multi-byte character (emoji) handling"
   end
 
   # ============================================================
@@ -131,6 +134,7 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "removed node leading comments"
     it_behaves_like "conservative inline comments"
     it_behaves_like "removed node inline comments"
+    it_behaves_like "multi-byte character (emoji) handling"
   end
 
   # ============================================================
@@ -163,5 +167,6 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "removed node leading comments"
     it_behaves_like "conservative inline comments"
     it_behaves_like "removed node inline comments"
+    it_behaves_like "multi-byte character (emoji) handling"
   end
 end

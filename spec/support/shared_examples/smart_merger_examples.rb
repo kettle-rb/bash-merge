@@ -964,3 +964,90 @@ RSpec.shared_examples "removed node inline comments" do
     end
   end
 end
+
+RSpec.shared_examples "multi-byte character (emoji) handling" do
+  describe "regression: multi-byte characters must not corrupt byte offsets" do
+    it "does not duplicate variable assignments when destination contains emoji" do
+      template = <<~BASH
+        export VAR="hello"
+      BASH
+      destination = <<~BASH
+        export EMOJI="🪙"
+        export VAR="hello"
+      BASH
+
+      merger = described_class.new(
+        template,
+        destination,
+        preference: :destination,
+        add_template_only_nodes: true,
+      )
+      result = merger.merge
+
+      expect(result.scan('VAR=').size).to eq(1), "Expected VAR= to appear exactly once, got:\n#{result}"
+    end
+
+    it "preserves emoji in variable values" do
+      template = <<~BASH
+        MY_VAR="default"
+      BASH
+      destination = <<~BASH
+        MY_VAR="🍲 cooking"
+      BASH
+
+      merger = described_class.new(
+        template,
+        destination,
+        preference: :destination,
+      )
+      result = merger.merge
+
+      expect(result).to include("🍲 cooking")
+    end
+
+    it "handles functions after emoji comments without duplication" do
+      template = <<~BASH
+        hello() {
+          echo "hi"
+        }
+      BASH
+      destination = <<~BASH
+        # 🪙 Token config
+        hello() {
+          echo "hi"
+        }
+      BASH
+
+      merger = described_class.new(
+        template,
+        destination,
+        preference: :destination,
+        add_template_only_nodes: true,
+      )
+      result = merger.merge
+
+      expect(result.scan("hello()").size).to eq(1), "Expected hello() to appear exactly once, got:\n#{result}"
+    end
+
+    it "handles CJK characters in comments without duplication" do
+      template = <<~BASH
+        # Config
+        export A="1"
+      BASH
+      destination = <<~BASH
+        # 設定
+        export A="1"
+      BASH
+
+      merger = described_class.new(
+        template,
+        destination,
+        preference: :destination,
+        add_template_only_nodes: true,
+      )
+      result = merger.merge
+
+      expect(result.scan("A=").size).to eq(1), "Expected A= to appear exactly once, got:\n#{result}"
+    end
+  end
+end
