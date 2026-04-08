@@ -13,8 +13,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["Peter H. Boling"]
   spec.email = ["floss@galtzo.com"]
 
-  spec.summary = "🍲 Intelligent Bash script merging using tree-sitter AST analysis"
-  spec.description = "🍲 Bash::Merge provides smart Bash script merging that preserves comments, understands shell structure, and supports freeze blocks for protecting destination content. Perfect for merging configuration scripts and shell templates with customized destination files."
+  spec.summary = "☯️ Intelligent Bash script merging using tree-sitter AST analysis"
+  spec.description = "☯️ Bash::Merge provides smart Bash script merging that preserves comments, understands shell structure, and supports freeze blocks for protecting destination content. Perfect for merging configuration scripts and shell templates with customized destination files."
   spec.homepage = "https://github.com/kettle-rb/bash-merge"
   spec.licenses = ["AGPL-3.0-only"]
   spec.required_ruby_version = ">= 3.2.0"
