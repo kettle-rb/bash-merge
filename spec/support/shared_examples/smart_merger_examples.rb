@@ -984,7 +984,7 @@ RSpec.shared_examples "multi-byte character (emoji) handling" do
       )
       result = merger.merge
 
-      expect(result.scan('VAR=').size).to eq(1), "Expected VAR= to appear exactly once, got:\n#{result}"
+      expect(result.scan("VAR=").size).to eq(1), "Expected VAR= to appear exactly once, got:\n#{result}"
     end
 
     it "preserves emoji in variable values" do
