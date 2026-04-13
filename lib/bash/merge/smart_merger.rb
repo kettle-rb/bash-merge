@@ -320,12 +320,12 @@ module Bash
       end
 
       def emit_root_boundary_to(emitter, kind)
-        root_boundary_analysis_candidates.each do |analysis|
+        root_boundary_analysis_candidates.find do |analysis|
           lines = root_boundary_lines_for(kind, analysis)
           next if lines.empty?
 
           emitter.emit_raw_lines(lines)
-          return
+          true
         end
       end
 

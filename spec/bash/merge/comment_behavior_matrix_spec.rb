@@ -3,7 +3,7 @@
 require "spec_helper"
 require "ast/merge/rspec/shared_examples"
 
-RSpec.describe "bash comment behavior matrix", :bash_grammar do
+RSpec.describe Bash::Merge::SmartMerger, "comment behavior matrix", :bash_grammar do
   extend Ast::Merge::RSpec::CommentBehaviorMatrixAdapters
 
   it_behaves_like "Ast::Merge::CommentBehaviorMatrix" do
