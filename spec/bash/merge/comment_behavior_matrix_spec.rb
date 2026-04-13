@@ -6,7 +6,7 @@ require "ast/merge/rspec/shared_examples"
 RSpec.describe "bash comment behavior matrix", :bash_grammar do
   extend Ast::Merge::RSpec::CommentBehaviorMatrixAdapters
 
-  include_examples "Ast::Merge::CommentBehaviorMatrix" do
+  it_behaves_like "Ast::Merge::CommentBehaviorMatrix" do
     hash_comment_line_based_comment_matrix_adapter(
       analysis_class: Bash::Merge::FileAnalysis,
       merger_class: Bash::Merge::SmartMerger,
