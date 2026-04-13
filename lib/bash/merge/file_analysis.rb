@@ -117,7 +117,11 @@ module Bash
       # @param options [Hash] Additional metadata / lookup overrides
       # @return [Ast::Merge::Comment::Attachment]
       def comment_attachment_for(owner, **options)
-        comment_tracker.comment_attachment_for(owner, **options)
+        merge_comment_attachment_with_layout(
+          owner,
+          comment_tracker.comment_attachment_for(owner, **options),
+          **options,
+        )
       end
 
       # Build a passive shared comment augmenter for this analysis.
@@ -177,16 +181,20 @@ module Bash
       def top_level_statements
         return [] unless valid?
 
-        root = @ast.root_node
-        return [] unless root
+        @top_level_statements ||= begin
+          root = @ast.root_node
+          if root
+            statements = []
+            root.each do |child|
+              next if child.type.to_s == "comment" # Comments handled separately
 
-        statements = []
-        root.each do |child|
-          next if child.type.to_s == "comment" # Comments handled separately
-
-          statements << NodeWrapper.new(child, lines: @lines, source: @source)
+              statements << NodeWrapper.new(child, lines: @lines, source: @source)
+            end
+            statements
+          else
+            []
+          end
         end
-        statements
       end
 
       private

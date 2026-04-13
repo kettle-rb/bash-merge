@@ -34,9 +34,10 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "matched leading comments"
     it_behaves_like "removed node leading comments"
     it_behaves_like "conservative inline comments"
-    it_behaves_like "removed node inline comments"
-    it_behaves_like "multi-byte character (emoji) handling"
-  end
+     it_behaves_like "removed node inline comments"
+     it_behaves_like "multi-byte character (emoji) handling"
+     it_behaves_like "floating comment gap transitions"
+   end
 
   # ============================================================
   # Backend-aware tests - MRI/ruby_tree_sitter
@@ -67,9 +68,10 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "matched leading comments"
     it_behaves_like "removed node leading comments"
     it_behaves_like "conservative inline comments"
-    it_behaves_like "removed node inline comments"
-    it_behaves_like "multi-byte character (emoji) handling"
-  end
+     it_behaves_like "removed node inline comments"
+     it_behaves_like "multi-byte character (emoji) handling"
+     it_behaves_like "floating comment gap transitions"
+   end
 
   # ============================================================
   # Backend-aware tests - FFI
@@ -100,9 +102,10 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "matched leading comments"
     it_behaves_like "removed node leading comments"
     it_behaves_like "conservative inline comments"
-    it_behaves_like "removed node inline comments"
-    it_behaves_like "multi-byte character (emoji) handling"
-  end
+     it_behaves_like "removed node inline comments"
+     it_behaves_like "multi-byte character (emoji) handling"
+     it_behaves_like "floating comment gap transitions"
+   end
 
   # ============================================================
   # Backend-aware tests - Rust/tree_stump
@@ -133,9 +136,10 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "matched leading comments"
     it_behaves_like "removed node leading comments"
     it_behaves_like "conservative inline comments"
-    it_behaves_like "removed node inline comments"
-    it_behaves_like "multi-byte character (emoji) handling"
-  end
+     it_behaves_like "removed node inline comments"
+     it_behaves_like "multi-byte character (emoji) handling"
+     it_behaves_like "floating comment gap transitions"
+   end
 
   # ============================================================
   # Backend-aware tests - Java/jtreesitter
@@ -166,7 +170,8 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "matched leading comments"
     it_behaves_like "removed node leading comments"
     it_behaves_like "conservative inline comments"
-    it_behaves_like "removed node inline comments"
-    it_behaves_like "multi-byte character (emoji) handling"
-  end
+     it_behaves_like "removed node inline comments"
+     it_behaves_like "multi-byte character (emoji) handling"
+     it_behaves_like "floating comment gap transitions"
+   end
 end

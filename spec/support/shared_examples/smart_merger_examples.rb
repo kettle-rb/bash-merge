@@ -1051,3 +1051,63 @@ RSpec.shared_examples "multi-byte character (emoji) handling" do
     end
   end
 end
+
+RSpec.shared_examples "floating comment gap transitions" do
+  describe "floating comment gap transitions" do
+    it "attaches a formerly floating comment when template preference removes the separating gap" do
+      template = <<~BASH
+        export BEFORE=1
+        # floating note
+        APP_MODE="template"
+      BASH
+      destination = <<~BASH
+        export BEFORE=1
+
+        # floating note
+        APP_MODE="destination"
+      BASH
+
+      merger = described_class.new(
+        template,
+        destination,
+        preference: :template,
+      )
+
+      expect(merger.merge).to eq(<<~BASH)
+        export BEFORE=1
+        # floating note
+        APP_MODE="template"
+      BASH
+    end
+
+    it "preserves the separating gap when the commented owner is removed but the comment should remain floating" do
+      template = <<~BASH
+        export BEFORE=1
+        APP_MODE="template"
+      BASH
+      destination = <<~BASH
+        export BEFORE=1
+
+        # floating note
+        REMOVE_ME=1
+
+        APP_MODE="destination"
+      BASH
+
+      merger = described_class.new(
+        template,
+        destination,
+        preference: :template,
+        remove_template_missing_nodes: true,
+      )
+
+      expect(merger.merge).to eq(<<~BASH)
+        export BEFORE=1
+
+        # floating note
+
+        APP_MODE="template"
+      BASH
+    end
+  end
+end

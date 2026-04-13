@@ -329,6 +329,7 @@ module Bash
       def handle_destination_only_node(emitter, dest_node)
         if remove_template_missing_nodes
           emit_leading_segment_to(emitter, dest_node, @dest_analysis)
+          emit_preserved_floating_gap_to(emitter, dest_node, @dest_analysis)
           emit_promoted_inline_comment_to(emitter, dest_node, @dest_analysis)
         else
           emit_node_to(emitter, dest_node, @dest_analysis)
@@ -463,6 +464,17 @@ module Bash
 
         line = promoted_inline_comment_line_for(node, analysis, inline_comment)
         emitter.emit_raw_lines([line]) if line
+      end
+
+      def emit_preserved_floating_gap_to(emitter, node, analysis)
+        attachment = analysis.comment_attachment_for(node)
+        return unless attachment&.leading_region
+
+        trailing_gap = attachment.trailing_gap
+        return unless trailing_gap
+        return unless trailing_gap.effective_controller_side(removed_owners: [node]) == :after
+
+        emitter.emit_raw_lines(trailing_gap.lines)
       end
 
       def promoted_inline_comment_line_for(node, analysis, inline_comment)
