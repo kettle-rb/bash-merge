@@ -249,6 +249,12 @@ RSpec.shared_examples "shared comment capability" do
       analysis = described_class.new(commented_source)
 
       expect(analysis.comment_capability.source_augmented?).to be true
+      expect(analysis.comment_support_style).to be_a(Ast::Merge::Comment::SupportStyle)
+      expect(analysis.comment_support_style.source_augmented_synthetic?).to be true
+      expect(analysis.comment_support_style.synthetic_write?).to be true
+      expect(analysis.comment_support_style.details[:capability]).to eq(:source_augmented)
+      expect(analysis.comment_support_style.details[:source]).to eq(:bash_source)
+      expect(analysis.comment_support_style.details[:style]).to eq(:hash_comment)
       expect(analysis.comment_nodes.map(&:line_number)).to eq([2, 4, 5])
       expect(analysis.comment_node_at(4)&.text).to include("inline hello")
     end
@@ -260,10 +266,11 @@ RSpec.shared_examples "shared comment capability" do
       attachment = analysis.comment_attachment_for(owner)
       expect(attachment.leading_region.nodes.map(&:line_number)).to eq([2])
       expect(attachment.inline_region.nodes.map(&:line_number)).to eq([4])
+      expect(attachment.trailing_region.nodes.map(&:line_number)).to eq([5])
 
       augmenter = analysis.comment_augmenter(owners: analysis.statements)
       expect(augmenter.preamble_region).to be_nil
-      expect(augmenter.postlude_region.nodes.map(&:line_number)).to eq([5])
+      expect(augmenter.postlude_region).to be_nil
     end
   end
 end

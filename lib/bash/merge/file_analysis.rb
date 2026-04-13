@@ -82,6 +82,20 @@ module Bash
         @comment_capability ||= comment_tracker.augment(owners: []).capability
       end
 
+      # Describe how Bash merges currently own and emit comments.
+      #
+      # Bash comment handling is fully source-augmented and emitted through the
+      # synthetic merge layer.
+      #
+      # @return [Ast::Merge::Comment::SupportStyle]
+      def comment_support_style
+        @comment_support_style ||= Ast::Merge::Comment::SupportStyle.source_augmented_synthetic(
+          source: :bash_source,
+          capability: comment_capability.level,
+          style: :hash_comment,
+        )
+      end
+
       # Get all tracked comments converted to shared Ast::Merge comment nodes.
       #
       # @return [Array<Ast::Merge::Comment::Line>]
