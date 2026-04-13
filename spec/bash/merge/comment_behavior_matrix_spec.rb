@@ -16,12 +16,6 @@ RSpec.describe "bash comment behavior matrix", :bash_grammar do
         line = "#{name}=#{value}"
         inline ? "#{line} # #{inline}" : line
       end,
-      capabilities: {
-        floating_leading_regions: "gap-separated leading docs are not yet surfaced as floating attachment regions",
-        template_only_floating_comment_additions: "template-only additions currently omit floating leading docs and their gap",
-        template_only_preamble_additions: "template-only additions currently omit file-preamble comments",
-        template_only_trailing_comment_additions: "template-only additions currently omit trailing full-line docs",
-      },
     )
   end
 end

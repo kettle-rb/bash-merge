@@ -320,10 +320,13 @@ module Bash
       end
 
       def emit_root_boundary_to(emitter, kind)
-        lines = root_boundary_lines_for(kind, preferred_root_boundary_analysis)
-        return if lines.empty?
+        root_boundary_analysis_candidates.each do |analysis|
+          lines = root_boundary_lines_for(kind, analysis)
+          next if lines.empty?
 
-        emitter.emit_raw_lines(lines)
+          emitter.emit_raw_lines(lines)
+          return
+        end
       end
 
       def handle_destination_only_node(emitter, dest_node)
@@ -339,6 +342,15 @@ module Bash
       def preferred_root_boundary_analysis
         pref = @preference.is_a?(Hash) ? (@preference[:default] || :destination) : @preference
         (pref == :template) ? @template_analysis : @dest_analysis
+      end
+
+      def root_boundary_analysis_candidates
+        preferred = preferred_root_boundary_analysis
+        fallback = preferred.equal?(@template_analysis) ? @dest_analysis : @template_analysis
+
+        analyses = [preferred]
+        analyses << fallback if @add_template_only_nodes
+        analyses.compact.uniq
       end
 
       def root_boundary_lines_for(kind, analysis)

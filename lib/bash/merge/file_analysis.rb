@@ -89,10 +89,10 @@ module Bash
       #
       # @return [Ast::Merge::Comment::SupportStyle]
       def comment_support_style
-        @comment_support_style ||= Ast::Merge::Comment::SupportStyle.source_augmented_synthetic(
+        @comment_support_style ||= shared_comment_support_style(
           source: :bash_source,
-          capability: comment_capability.level,
           style: :hash_comment,
+          read_strategy: :source_augmented_synthetic,
         )
       end
 
@@ -131,11 +131,16 @@ module Bash
       # @param options [Hash] Additional metadata / lookup overrides
       # @return [Ast::Merge::Comment::Attachment]
       def comment_attachment_for(owner, **options)
-        merge_comment_attachment_with_layout(
+        shared_comment_attachment_for(
           owner,
-          comment_tracker.comment_attachment_for(owner, **options),
+          tracker_attachment: comment_tracker.comment_attachment_for(owner, **options),
           **options,
         )
+      end
+
+      # @return [Symbol]
+      def comment_attachment_strategy
+        :augmenter_preferred_tracker_layout
       end
 
       # Build a passive shared comment augmenter for this analysis.
@@ -212,10 +217,6 @@ module Bash
       end
 
       private
-
-      def comment_augmenter_default_owners
-        statements.select { |statement| statement.respond_to?(:start_line) && statement.respond_to?(:end_line) }
-      end
 
       def parse_bash
         # TreeHaver handles grammar discovery and backend selection
