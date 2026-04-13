@@ -6,6 +6,191 @@ PATH
       tree_haver (~> 6.0, >= 6.0.0)
       version_gem (~> 1.1, >= 1.1.9)
 
+PATH
+  remote: /home/pboling/src/kettle-rb/ast-merge
+  specs:
+    ast-merge (5.0.0)
+      parslet (~> 2.0)
+      tree_haver (~> 6.0, >= 6.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/dotenv-merge
+  specs:
+    dotenv-merge (2.0.0)
+      ast-merge (~> 5.0, >= 5.0.0)
+      tree_haver (~> 6.0, >= 6.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/json-merge
+  specs:
+    json-merge (2.0.0)
+      ast-merge (~> 5.0, >= 5.0.0)
+      tree_haver (~> 6.0, >= 6.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/jsonc-merge
+  specs:
+    jsonc-merge (2.0.0)
+      json-merge (>= 2.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/kettle-dev
+  specs:
+    kettle-dev (2.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/kettle-drift
+  specs:
+    kettle-drift (0.1.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/kettle-jem
+  specs:
+    kettle-jem (1.0.0)
+      ast-merge (~> 5.0, >= 5.0.0)
+      bash-merge (~> 3.0)
+      citrus (~> 3.0, >= 3.0.2)
+      dotenv-merge (~> 2.0)
+      json-merge (~> 2.0)
+      kettle-dev (~> 2.0)
+      kettle-drift (~> 0.1)
+      markdown-merge (~> 2.0)
+      markly-merge (~> 2.0)
+      parslet (~> 2.0)
+      prism-merge (~> 3.0)
+      psych-merge (~> 2.0)
+      rbs-merge (~> 3.0)
+      service_actor (~> 3.9)
+      service_actor-promptable (~> 1.0)
+      token-resolver (~> 1.0, >= 1.0.2)
+      toml-merge (~> 3.0)
+      toml-rb (~> 4.1)
+      tree_haver (~> 6.0, >= 6.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/kettle-soup-cover
+  specs:
+    kettle-soup-cover (1.1.1)
+      simplecov (~> 0.22)
+      simplecov-cobertura (~> 3.0)
+      simplecov-console (~> 0.9, >= 0.9.3)
+      simplecov-html (~> 0.13, >= 0.13.1)
+      simplecov-lcov (~> 0.8)
+      simplecov-rcov (~> 0.3, >= 0.3.7)
+      simplecov_json_formatter (~> 0.1, >= 0.1.4)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/kettle-test
+  specs:
+    kettle-test (2.0.0)
+      appraisal2 (~> 3.0, >= 3.0.2)
+      backports (~> 3.0)
+      rspec (~> 3.0)
+      rspec-block_is_expected (~> 1.0, >= 1.0.6)
+      rspec-pending_for (~> 0.1, >= 0.1.19)
+      rspec-stubbed_env (~> 1.0, >= 1.0.4)
+      rspec_junit_formatter (~> 0.6)
+      silent_stream (~> 1.0, >= 1.0.12)
+      timecop-rspec (~> 1.0, >= 1.0.3)
+      turbo_tests2 (~> 3.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/markdown-merge
+  specs:
+    markdown-merge (2.0.0)
+      ast-merge (~> 5.0, >= 5.0.0)
+      parslet (~> 2.0)
+      tree_haver (~> 6.0, >= 6.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/markly-merge
+  specs:
+    markly-merge (2.0.0)
+      ast-merge (~> 5.0, >= 5.0.0)
+      markdown-merge (~> 2.0)
+      markly (~> 0.15, >= 0.15.3)
+      tree_haver (~> 6.0, >= 6.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/prism-merge
+  specs:
+    prism-merge (3.0.0)
+      ast-merge (~> 5.0, >= 5.0.0)
+      prism (~> 1.6)
+      tree_haver (~> 6.0, >= 6.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/psych-merge
+  specs:
+    psych-merge (2.0.0)
+      ast-merge (~> 5.0, >= 5.0.0)
+      psych (~> 5.0)
+      tree_haver (~> 6.0, >= 6.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/rbs-merge
+  specs:
+    rbs-merge (3.0.0)
+      ast-merge (~> 5.0, >= 5.0.0)
+      tree_haver (~> 6.0, >= 6.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/toml-merge
+  specs:
+    toml-merge (3.0.0)
+      ast-merge (~> 5.0, >= 5.0.0)
+      tree_haver (~> 6.0, >= 6.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/tree_haver
+  specs:
+    tree_haver (6.0.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/turbo_tests2
+  specs:
+    turbo_tests2 (3.0.0)
+      parallel_tests (>= 3.3.0, < 6)
+      rspec (>= 3.10)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/yard-fence
+  specs:
+    yard-fence (0.8.2)
+      rdoc (~> 6.11)
+      version_gem (~> 1.1, >= 1.1.9)
+      yard (~> 0.9, >= 0.9.37)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/yard-timekeeper
+  specs:
+    yard-timekeeper (0.1.0)
+      version_gem (~> 1.1, >= 1.1.9)
+
+PATH
+  remote: /home/pboling/src/kettle-rb/yard-yaml
+  specs:
+    yard-yaml (0.1.0)
+      version_gem (~> 1.1, >= 1.1.9)
+      yaml-converter (~> 0.1)
+
 GEM
   remote: https://gem.coop/
   specs:
@@ -17,10 +202,6 @@ GEM
       rake (>= 10)
       thor (>= 0.14)
     ast (2.4.3)
-    ast-merge (5.0.0)
-      parslet (~> 2.0)
-      tree_haver (~> 6.0, >= 6.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
     backports (3.25.3)
     benchmark (0.5.0)
     bigdecimal (3.3.1)
@@ -38,10 +219,6 @@ GEM
     diff-lcs (1.6.2)
     diffy (3.4.4)
     docile (1.4.1)
-    dotenv-merge (2.0.0)
-      ast-merge (~> 5.0, >= 5.0.0)
-      tree_haver (~> 6.0, >= 6.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
     dry-configurable (1.3.0)
       dry-core (~> 1.1)
       zeitwerk (~> 2.6)
@@ -85,56 +262,6 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (2.19.3)
-    json-merge (2.0.0)
-      ast-merge (~> 5.0, >= 5.0.0)
-      tree_haver (~> 6.0, >= 6.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
-    kettle-dev (2.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
-    kettle-drift (0.1.0)
-      version_gem (~> 1.1, >= 1.1.9)
-    kettle-jem (1.0.0)
-      ast-merge (~> 5.0, >= 5.0.0)
-      bash-merge (~> 3.0)
-      citrus (~> 3.0, >= 3.0.2)
-      dotenv-merge (~> 2.0)
-      json-merge (~> 2.0)
-      kettle-dev (~> 2.0)
-      kettle-drift (~> 0.1)
-      markdown-merge (~> 2.0)
-      markly-merge (~> 2.0)
-      parslet (~> 2.0)
-      prism-merge (~> 3.0)
-      psych-merge (~> 2.0)
-      rbs-merge (~> 3.0)
-      service_actor (~> 3.9)
-      service_actor-promptable (~> 1.0)
-      token-resolver (~> 1.0, >= 1.0.2)
-      toml-merge (~> 3.0)
-      toml-rb (~> 4.1)
-      tree_haver (~> 6.0, >= 6.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
-    kettle-soup-cover (1.1.1)
-      simplecov (~> 0.22)
-      simplecov-cobertura (~> 3.0)
-      simplecov-console (~> 0.9, >= 0.9.3)
-      simplecov-html (~> 0.13, >= 0.13.1)
-      simplecov-lcov (~> 0.8)
-      simplecov-rcov (~> 0.3, >= 0.3.7)
-      simplecov_json_formatter (~> 0.1, >= 0.1.4)
-      version_gem (~> 1.1, >= 1.1.9)
-    kettle-test (2.0.0)
-      appraisal2 (~> 3.0, >= 3.0.2)
-      backports (~> 3.0)
-      rspec (~> 3.0)
-      rspec-block_is_expected (~> 1.0, >= 1.0.6)
-      rspec-pending_for (~> 0.1, >= 0.1.19)
-      rspec-stubbed_env (~> 1.0, >= 1.0.4)
-      rspec_junit_formatter (~> 0.6)
-      silent_stream (~> 1.0, >= 1.0.12)
-      timecop-rspec (~> 1.0, >= 1.0.3)
-      turbo_tests2 (~> 3.0)
-      version_gem (~> 1.1, >= 1.1.9)
     kramdown (2.5.2)
       rexml (>= 3.4.4)
     kramdown-parser-gfm (1.1.0)
@@ -142,18 +269,7 @@ GEM
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     logger (1.7.0)
-    markdown-merge (2.0.0)
-      ast-merge (~> 5.0, >= 5.0.0)
-      parslet (~> 2.0)
-      tree_haver (~> 6.0, >= 6.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
     markly (0.15.3)
-    markly-merge (2.0.0)
-      ast-merge (~> 5.0, >= 5.0.0)
-      markdown-merge (~> 2.0)
-      markly (~> 0.15, >= 0.15.3)
-      tree_haver (~> 6.0, >= 6.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
     matrix (0.4.3)
     mutex_m (0.3.0)
     nokogiri (1.19.2-x86_64-linux-gnu)
@@ -176,19 +292,9 @@ GEM
       ttfunk (~> 1.8)
     prettyprint (0.2.0)
     prism (1.9.0)
-    prism-merge (3.0.0)
-      ast-merge (~> 5.0, >= 5.0.0)
-      prism (~> 1.6)
-      tree_haver (~> 6.0, >= 6.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
     psych (5.3.1)
       date
       stringio
-    psych-merge (2.0.0)
-      ast-merge (~> 5.0, >= 5.0.0)
-      psych (~> 5.0)
-      tree_haver (~> 6.0, >= 6.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
     public_suffix (7.0.5)
     racc (1.8.1)
     rainbow (3.1.1)
@@ -196,10 +302,6 @@ GEM
     rbs (3.10.4)
       logger
       tsort
-    rbs-merge (3.0.0)
-      ast-merge (~> 5.0, >= 5.0.0)
-      tree_haver (~> 6.0, >= 6.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
     rdoc (6.17.0)
       erb
       psych (>= 4.0.0)
@@ -362,22 +464,12 @@ GEM
       version_gem (~> 1.1, >= 1.1.9)
     toml (0.3.0)
       parslet (>= 1.8.0, < 3.0.0)
-    toml-merge (3.0.0)
-      ast-merge (~> 5.0, >= 5.0.0)
-      tree_haver (~> 6.0, >= 6.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
     toml-rb (4.1.0)
       citrus (~> 3.0, > 3.0)
       racc (~> 1.7)
-    tree_haver (6.0.0)
-      version_gem (~> 1.1, >= 1.1.9)
     tsort (0.2.0)
     ttfunk (1.8.0)
       bigdecimal (~> 3.1)
-    turbo_tests2 (3.0.0)
-      parallel_tests (>= 3.3.0, < 6)
-      rspec (>= 3.10)
-      version_gem (~> 1.1, >= 1.1.9)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
@@ -392,10 +484,6 @@ GEM
       prawn (>= 2.5, < 3)
       version_gem (~> 1.1, >= 1.1.9)
     yard (0.9.39)
-    yard-fence (0.8.2)
-      rdoc (~> 6.11)
-      version_gem (~> 1.1, >= 1.1.9)
-      yard (~> 0.9, >= 0.9.37)
     yard-junk (0.1.0)
       benchmark
       ostruct
@@ -403,11 +491,6 @@ GEM
       yard
     yard-relative_markdown_links (0.6.0)
       nokogiri (>= 1.14.3, < 2)
-    yard-timekeeper (0.1.0)
-      version_gem (~> 1.1, >= 1.1.9)
-    yard-yaml (0.1.0)
-      version_gem (~> 1.1, >= 1.1.9)
-      yaml-converter (~> 0.1)
     zeitwerk (2.7.5)
     zlib (3.2.3)
 
@@ -417,29 +500,39 @@ PLATFORMS
 DEPENDENCIES
   addressable (>= 2.8, < 3)
   appraisal2 (~> 3.0, >= 3.0.6)
+  ast-merge!
   bash-merge!
   benchmark (~> 0.5, >= 0.5.0)
   bundler-audit (~> 0.9.3)
   citrus
   commonmarker
   debug (>= 1.1)
+  dotenv-merge!
   erb (~> 5.0)
   ffi
   gem_bench (~> 2.0, >= 2.0.5)
   gitmoji-regex (~> 1.0, >= 1.0.3)
   irb (~> 1.17)
-  kettle-dev (~> 2.0)
-  kettle-jem (~> 1.0)
-  kettle-soup-cover (~> 1.1, ~> 1.0, >= 1.1.1, >= 1.0.10)
-  kettle-test (~> 2.0, >= 2.0.0)
+  json-merge!
+  jsonc-merge!
+  kettle-dev (~> 2.0, >= 0)!
+  kettle-drift!
+  kettle-jem!
+  kettle-soup-cover (~> 1.1, >= 1.1.1, >= 0)!
+  kettle-test (~> 2.0, >= 2.0.0, >= 0)!
   kramdown (~> 2.5, >= 2.5.1)
   kramdown-parser-gfm (~> 1.1)
+  markdown-merge!
   markly (~> 0.15, >= 0.15.3)
+  markly-merge!
   mutex_m (~> 0.2)
   parslet
   prism (~> 1.6)
+  prism-merge!
+  psych-merge!
   rake (~> 13.0)
   rbs (>= 3.10)
+  rbs-merge!
   rdoc (~> 6.11)
   reek (~> 6.5)
   require_bench (~> 1.0, >= 1.0.4)
@@ -454,15 +547,18 @@ DEPENDENCIES
   stone_checksums (~> 1.0, >= 1.0.3)
   stringio (>= 3.0)
   toml
+  toml-merge!
   toml-rb
+  tree_haver!
+  turbo_tests2!
   unparser (~> 0.8, >= 0.8.1)
   yaml-converter (~> 0.1)
   yard (~> 0.9, >= 0.9.37)
-  yard-fence (~> 0.8, >= 0.8.2)
+  yard-fence!
   yard-junk (~> 0.1, >= 0.1.0)
   yard-relative_markdown_links (~> 0.6)
-  yard-timekeeper (~> 0.1)
-  yard-yaml (~> 0.1)
+  yard-timekeeper!
+  yard-yaml!
 
 CHECKSUMS
   addressable (2.9.0) sha256=7fdf6ac3660f7f4e867a0838be3f6cf722ace541dd97767fa42bc6cfa980c7af
@@ -500,6 +596,7 @@ CHECKSUMS
   irb (1.17.0) sha256=168c4ddb93d8a361a045c41d92b2952c7a118fa73f23fe14e55609eb7a863aae
   json (2.19.3) sha256=289b0bb53052a1fa8c34ab33cc750b659ba14a5c45f3fcf4b18762dc67c78646
   json-merge (2.0.0)
+  jsonc-merge (2.0.0)
   kettle-dev (2.0.0)
   kettle-drift (0.1.0)
   kettle-jem (1.0.0)
@@ -603,13 +700,13 @@ CHECKSUMS
   version_gem (1.1.9) sha256=0c1a0962ae543c84a00889bb018d9f14d8f8af6029d26b295d98774e3d2eb9a4
   yaml-converter (0.1.0) sha256=3a8a6ce675eec8adc7ee67697ee0567e2153cad974b601c062c3a25f545ecc77
   yard (0.9.39) sha256=0bbbcd87ffd132824c3f89bbd39deef1ffb3877259090849bd49e48daeaf7b56
-  yard-fence (0.8.2) sha256=4efa58d682fc0eb57258a6d6a8463b61af0890082cdea45f19088b8634d9ab6f
+  yard-fence (0.8.2)
   yard-junk (0.1.0) sha256=e85fe2ec1afa47313decd333447b53458cb1ed49b510b70015fdc3041a94bcdd
   yard-relative_markdown_links (0.6.0) sha256=3e5ffa85cbad9bac70bee5421774b190fb25d3bdf489323a5b3534f647d1a70e
   yard-timekeeper (0.1.0)
-  yard-yaml (0.1.0) sha256=8bf7b1a69183429c07e8c521d17fbbd56598387f15e13b2c27f31c4ba821a7a7
+  yard-yaml (0.1.0)
   zeitwerk (2.7.5) sha256=d8da92128c09ea6ec62c949011b00ed4a20242b255293dd66bf41545398f73dd
   zlib (3.2.3) sha256=5bd316698b32f31a64ab910a8b6c282442ca1626a81bbd6a1674e8522e319c20
 
 BUNDLED WITH
-  4.0.9
+  4.0.10
