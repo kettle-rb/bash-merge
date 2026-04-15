@@ -145,7 +145,6 @@ RSpec.describe Bash::Merge::MergeResult do
 
     it "adds lines from a node wrapper" do
       node = analysis.nodes.first
-      skip "No nodes available" unless node
 
       result.add_node(
         node,
@@ -173,7 +172,6 @@ RSpec.describe Bash::Merge::MergeResult do
 
     it "skips lines that return nil from analysis" do
       node = analysis.nodes.first
-      skip "No nodes available" unless node
 
       # Create a mock analysis that returns nil for lines
       mock_analysis = double("FileAnalysis", line_at: nil)
