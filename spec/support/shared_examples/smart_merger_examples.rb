@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "ast/merge/rspec/shared_examples"
+
 # Shared examples for SmartMerger across different backends
 #
 # These examples test SmartMerger behavior that should be consistent
@@ -210,12 +212,18 @@ RSpec.shared_examples "merge_with_debug" do
   end
 
   describe "#merge_with_debug" do
+    let(:runtime_debug_merger) { described_class.new(template_content, dest_content) }
+
+    it_behaves_like "Ast::Merge::RuntimeDebugContract"
+
     it "returns a hash with content" do
       merger = described_class.new(template_content, dest_content)
       debug_result = merger.merge_with_debug
 
       expect(debug_result).to be_a(Hash)
       expect(debug_result[:content]).to be_a(String)
+      expect(debug_result[:debug]).to be_a(Hash)
+      expect(debug_result[:runtime]).to be_a(Hash)
     end
 
     it "includes statistics" do
