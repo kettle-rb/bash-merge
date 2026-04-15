@@ -83,7 +83,7 @@ RSpec.describe Bash::Merge::SmartMerger do
         corruption_handling: :skip,
       ).merge
 
-      expect(merged.lines.grep("# Shared header\n").size).to eq(3)
+      expect(merged.lines.grep("# Shared header\n").size).to eq(2)
       expect(merged.lines.grep("# Destination header\n").size).to eq(1)
     end
 
@@ -99,9 +99,9 @@ RSpec.describe Bash::Merge::SmartMerger do
 
       expect(Bash::Merge::DebugLogger).to have_received(:debug_warning).with(
         /Suspected corruption \(duplicate_template_preamble_prefix\)/,
-        hash_including(template_comment_lines: 2, merged_comment_lines: 4, destination_specific_comment_lines: 1),
+        hash_including(template_comment_lines: 2, merged_comment_lines: 3, destination_specific_comment_lines: 1),
       )
-      expect(merged.lines.grep("# Shared header\n").size).to eq(3)
+      expect(merged.lines.grep("# Shared header\n").size).to eq(2)
     end
 
     it "raises in error mode" do
@@ -113,6 +113,51 @@ RSpec.describe Bash::Merge::SmartMerger do
           corruption_handling: :error,
         ).merge
       }.to raise_error(Bash::Merge::CorruptionDetectedError, /duplicate_template_preamble_prefix/)
+    end
+
+    it "keeps destination-owned first-owner docs singular when template models them as a preamble" do
+      template = <<~BASH
+        # Template header
+
+        alpha=1
+      BASH
+      destination = <<~BASH
+        # Destination header
+        alpha=9
+      BASH
+
+      merged = described_class.new(
+        template,
+        destination,
+        add_template_only_nodes: true,
+      ).merge
+
+      expect(merged.lines.grep("# Template header\n").size).to eq(0)
+      expect(merged.lines.grep("# Destination header\n").size).to eq(1)
+      expect(merged).to include("alpha=9")
+    end
+
+    it "deduplicates equivalent preamble docs when only blank-line ownership differs" do
+      template = <<~BASH
+        # Shared header
+
+        alpha=1
+      BASH
+      destination = <<~BASH
+        # Shared header
+        alpha=9
+      BASH
+
+      merged = described_class.new(
+        template,
+        destination,
+        preference: :template,
+        add_template_only_nodes: true,
+      ).merge
+
+      expect(merged.lines.grep("# Shared header\n").size).to eq(1)
+      expect(merged).to include("alpha=1")
+      expect(merged).not_to include("alpha=9")
     end
   end
 

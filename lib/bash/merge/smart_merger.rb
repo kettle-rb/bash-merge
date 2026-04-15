@@ -398,6 +398,7 @@ module Bash
         root_boundary_analysis_candidates.find do |analysis|
           lines = root_boundary_lines_for(kind, analysis)
           next if lines.empty?
+          next if skip_root_boundary_lines?(kind, analysis, lines)
 
           emitter.emit_raw_lines(lines)
           true
@@ -482,7 +483,7 @@ module Bash
         fallback = preferred.equal?(@template_analysis) ? @dest_analysis : @template_analysis
 
         analyses = [preferred]
-        analyses << fallback if @add_template_only_nodes
+        analyses << fallback if @add_template_only_nodes && !first_statement_has_leading_comments?(preferred)
         analyses.compact.uniq
       end
 
@@ -558,6 +559,13 @@ module Bash
         [template_node, @template_analysis]
       end
 
+      def first_statement_has_leading_comments?(analysis)
+        first_statement = Array(analysis&.nodes).first
+        return false unless first_statement
+
+        node_has_leading_comments?(first_statement, analysis)
+      end
+
       def node_has_leading_comments?(node, analysis)
         attachment = analysis.comment_attachment_for(node)
         leading_region = attachment&.leading_region
@@ -566,6 +574,31 @@ module Bash
         leading_region.nodes.any? do |comment_node|
           comment_node.respond_to?(:comment?) ? comment_node.comment? : true
         end
+      end
+
+      def leading_comment_lines_for(node, analysis)
+        return [] unless node.respond_to?(:start_line) && node.start_line
+
+        start_line = emission_start_line_for(node, analysis)
+        return [] unless start_line && start_line < node.start_line
+
+        lines = (start_line...node.start_line).filter_map { |line_number| analysis.line_at(line_number) }
+        comments, = leading_standalone_comment_run(lines.join)
+        comments
+      end
+
+      def skip_root_boundary_lines?(kind, analysis, lines)
+        return false unless kind == :preamble
+        return false unless analysis.equal?(@template_analysis)
+        return false unless preferred_root_boundary_analysis.equal?(@template_analysis)
+
+        template_comments, = leading_standalone_comment_run(lines.join)
+        return false if template_comments.empty?
+
+        destination_first_statement = Array(@dest_analysis&.nodes).first
+        return false unless destination_first_statement
+
+        template_comments == leading_comment_lines_for(destination_first_statement, @dest_analysis)
       end
 
       def preferred_inline_comment_for(template_node, dest_node)
