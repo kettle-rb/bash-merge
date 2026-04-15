@@ -39,6 +39,7 @@ module Bash
       include ::Ast::Merge::Runtime::RootSessionSupport
 
       attr_reader :runtime_session
+      attr_reader :corruption_handling
 
       # Creates a new SmartMerger for intelligent Bash script merging.
       #
@@ -66,6 +67,7 @@ module Bash
         preference: :destination,
         add_template_only_nodes: false,
         remove_template_missing_nodes: false,
+        corruption_handling: :heal,
         freeze_token: nil,
         match_refiner: nil,
         regions: nil,
@@ -74,6 +76,7 @@ module Bash
         **options
       )
         @remove_template_missing_nodes = remove_template_missing_nodes
+        @corruption_handling = ::Ast::Merge::Healer.normalize_mode(corruption_handling)
 
         super(
           template_content,
@@ -138,6 +141,7 @@ module Bash
             preference: @preference,
             add_template_only_nodes: @add_template_only_nodes,
             remove_template_missing_nodes: @remove_template_missing_nodes,
+            corruption_handling: @corruption_handling,
             freeze_token: @freeze_token,
             runtime_operation_count: runtime_session&.operations&.size || 0,
             runtime_diagnostic_count: runtime_session&.diagnostics&.size || 0,
@@ -311,6 +315,7 @@ module Bash
 
         # Transfer emitter output to result
         emitted_content = emitter.to_s
+        emitted_content = collapse_cross_source_preamble_prefixes(emitted_content)
         unless emitted_content.empty?
           emitted_content.lines.each do |line|
             @result.add_line(line.chomp, decision: MergeResult::DECISION_MERGED, source: :merged)
@@ -397,6 +402,64 @@ module Bash
           emitter.emit_raw_lines(lines)
           true
         end
+      end
+
+      STANDALONE_BASH_COMMENT_LINE_RE = /\A\s*#(?!\!).*\z/
+      private_constant :STANDALONE_BASH_COMMENT_LINE_RE
+
+      def collapse_cross_source_preamble_prefixes(content)
+        template_comments, = leading_standalone_comment_run(@template_analysis.source.to_s)
+        return content if template_comments.empty?
+
+        merged_comments, remainder = leading_standalone_comment_run(content)
+        return content if merged_comments.empty?
+
+        destination_specific_comments = merged_comments.reject { |line| template_comments.include?(line) }
+        return content if destination_specific_comments.empty?
+
+        should_heal = ::Ast::Merge::Healer.handle(
+          mode: @corruption_handling,
+          kind: :duplicate_template_preamble_prefix,
+          message: "merged Bash preamble begins with duplicated template-owned comment lines",
+          prefix: "[bash-merge]",
+          error_class: Bash::Merge::CorruptionDetectedError,
+          warner: lambda { |formatted|
+            DebugLogger.debug_warning(formatted, {
+              template_comment_lines: template_comments.length,
+              merged_comment_lines: merged_comments.length,
+              destination_specific_comment_lines: destination_specific_comments.length,
+            })
+          },
+        )
+        return content unless should_heal
+
+        remainder = remainder.sub(/\A(?:\s*\n)+/, "")
+        rebuilt = destination_specific_comments.join("\n")
+        return rebuilt if remainder.empty?
+
+        "#{rebuilt}\n\n#{remainder}"
+      end
+
+      def leading_standalone_comment_run(text)
+        lines = text.to_s.split("\n", -1)
+        comment_lines = []
+        index = 0
+
+        while index < lines.length
+          line = lines[index]
+          if line.strip.empty?
+            comment_lines << line if comment_lines.any?
+            index += 1
+            next
+          end
+
+          break unless STANDALONE_BASH_COMMENT_LINE_RE.match?(line)
+
+          comment_lines << line
+          index += 1
+        end
+
+        [comment_lines, lines.drop(index).join("\n")]
       end
 
       def handle_destination_only_node(emitter, dest_node)

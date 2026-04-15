@@ -224,6 +224,7 @@ RSpec.shared_examples "merge_with_debug" do
       expect(debug_result[:content]).to be_a(String)
       expect(debug_result[:debug]).to be_a(Hash)
       expect(debug_result[:runtime]).to be_a(Hash)
+      expect(debug_result.dig(:debug, :corruption_handling)).to eq(:heal)
     end
 
     it "includes statistics" do
@@ -231,6 +232,7 @@ RSpec.shared_examples "merge_with_debug" do
       debug_result = merger.merge_with_debug
 
       expect(debug_result[:statistics]).to be_a(Hash)
+      expect(merger.corruption_handling).to eq(:heal)
     end
 
     it "includes decisions" do

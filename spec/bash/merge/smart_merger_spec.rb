@@ -39,6 +39,83 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "floating comment gap transitions"
   end
 
+  describe "duplicate template preamble healing", :bash_grammar, :mri_backend do
+    around do |example|
+      TreeHaver.with_backend(:mri) do
+        example.run
+      end
+    end
+
+    let(:template_content) do
+      <<~BASH
+        # Shared header
+
+        alpha=1
+      BASH
+    end
+
+    let(:destination_content) do
+      <<~BASH
+        # Shared header
+        # Shared header
+        # Destination header
+        alpha=9
+      BASH
+    end
+
+    it "collapses the duplicated template prefix in heal mode" do
+      merged = described_class.new(
+        template_content,
+        destination_content,
+        add_template_only_nodes: true,
+      ).merge
+
+      expect(merged.lines.grep("# Shared header\n").size).to eq(0)
+      expect(merged.lines.grep("# Destination header\n").size).to eq(1)
+      expect(merged).to include("alpha=9")
+    end
+
+    it "preserves the duplicated prefix in skip mode" do
+      merged = described_class.new(
+        template_content,
+        destination_content,
+        add_template_only_nodes: true,
+        corruption_handling: :skip,
+      ).merge
+
+      expect(merged.lines.grep("# Shared header\n").size).to eq(3)
+      expect(merged.lines.grep("# Destination header\n").size).to eq(1)
+    end
+
+    it "warns and preserves the duplicated prefix in warn mode" do
+      allow(Bash::Merge::DebugLogger).to receive(:debug_warning)
+
+      merged = described_class.new(
+        template_content,
+        destination_content,
+        add_template_only_nodes: true,
+        corruption_handling: :warn,
+      ).merge
+
+      expect(Bash::Merge::DebugLogger).to have_received(:debug_warning).with(
+        /Suspected corruption \(duplicate_template_preamble_prefix\)/,
+        hash_including(template_comment_lines: 2, merged_comment_lines: 4, destination_specific_comment_lines: 1),
+      )
+      expect(merged.lines.grep("# Shared header\n").size).to eq(3)
+    end
+
+    it "raises in error mode" do
+      expect {
+        described_class.new(
+          template_content,
+          destination_content,
+          add_template_only_nodes: true,
+          corruption_handling: :error,
+        ).merge
+      }.to raise_error(Bash::Merge::CorruptionDetectedError, /duplicate_template_preamble_prefix/)
+    end
+  end
+
   # ============================================================
   # Backend-aware tests - MRI/ruby_tree_sitter
   # ============================================================

@@ -100,6 +100,8 @@ module Bash
     #   end
     class DestinationParseError < ParseError; end
 
+    class CorruptionDetectedError < Error; end
+
     autoload :CommentTracker, "bash/merge/comment_tracker"
     autoload :DebugLogger, "bash/merge/debug_logger"
     autoload :Emitter, "bash/merge/emitter"

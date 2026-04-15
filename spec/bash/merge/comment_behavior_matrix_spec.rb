@@ -13,7 +13,6 @@ RSpec.describe Bash::Merge::SmartMerger, "comment behavior matrix", :bash_gramma
       capabilities: {
         cross_source_preamble_ownership_dedup: "Bash document preamble vs first-owner ownership remains unsupported",
         cross_source_preamble_spacing_dedup: "Bash equivalent preamble blocks with different blank-line ownership remain unsupported",
-        duplicate_template_preamble_prefix_collapse: "Bash duplicate template-prefix collapse remains a healing policy, not a normative merge rule",
       },
       structural_owners_reader: ->(analysis) { analysis.top_level_statements.select(&:variable_assignment?) },
       owner_value_reader: ->(owner) { owner.text[%r{\A[a-zA-Z_][a-zA-Z0-9_]*=(.+)\z}, 1] },
