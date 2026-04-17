@@ -143,6 +143,14 @@ module Bash
         :augmenter_preferred_tracker_layout
       end
 
+      def ruleset_owner_selector
+        :line_bound_statements
+      end
+
+      def ruleset_render_family
+        :bash_script_statements
+      end
+
       # Build a passive shared comment augmenter for this analysis.
       #
       # @param owners [Array<#start_line,#end_line>, nil] Owners used for attachment inference

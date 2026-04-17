@@ -13,21 +13,27 @@ module Bash
     #   emitter.emit_comment("This is a comment")
     #   emitter.emit_line("echo 'hello'")
     class Emitter < Ast::Merge::EmitterBase
+      include Ast::Merge::EmitterLineMetadataSupport
+
       # Initialize subclass-specific state
       def initialize_subclass_state(**options)
-        # Bash doesn't need separator tracking like JSON
+        initialize_line_metadata_state
       end
 
       # Clear subclass-specific state
       def clear_subclass_state
-        # Nothing to clear for Bash
+        clear_line_metadata_state
+      end
+
+      def emit_blank_line
+        append_line("")
       end
 
       # Emit a tracked comment from CommentTracker
       # @param comment [Hash] Comment with :text, :indent
       def emit_tracked_comment(comment)
         indent = " " * (comment[:indent] || 0)
-        @lines << "#{indent}# #{comment[:text]}"
+        append_line("#{indent}# #{comment[:text]}")
       end
 
       # Emit a comment line
@@ -41,15 +47,15 @@ module Bash
 
           @lines[-1] = "#{@lines[-1]} # #{text}"
         else
-          @lines << "#{current_indent}# #{text}"
+          append_line("#{current_indent}# #{text}")
         end
       end
 
       # Emit a shebang line
       #
       # @param interpreter [String] Interpreter path (e.g., "/bin/bash")
-      def emit_shebang(interpreter = "/bin/bash")
-        @lines << "#!#{interpreter}"
+      def emit_shebang(interpreter = "/bin/bash", metadata: nil)
+        append_line("#!#{interpreter}", metadata)
       end
 
       # Emit a variable assignment
@@ -58,113 +64,119 @@ module Bash
       # @param value [String] Variable value
       # @param export [Boolean] Whether to export the variable
       # @param inline_comment [String, nil] Optional inline comment
-      def emit_variable_assignment(name, value, export: false, inline_comment: nil)
+      def emit_variable_assignment(name, value, export: false, inline_comment: nil, metadata: nil)
         prefix = export ? "export " : ""
         line = "#{current_indent}#{prefix}#{name}=#{value}"
         line += " # #{inline_comment}" if inline_comment
-        @lines << line
+        append_line(line, metadata)
       end
 
       # Emit a function definition start
       #
       # @param name [String] Function name
-      def emit_function_start(name)
-        @lines << "#{current_indent}#{name}() {"
+      def emit_function_start(name, metadata: nil)
+        append_line("#{current_indent}#{name}() {", metadata)
         indent
       end
 
       # Emit a function definition end
       def emit_function_end
         dedent
-        @lines << "#{current_indent}}"
+        append_line("#{current_indent}}")
       end
 
       # Emit an if statement start
       #
       # @param condition [String] Condition expression
-      def emit_if_start(condition)
-        @lines << "#{current_indent}if #{condition}; then"
+      def emit_if_start(condition, metadata: nil)
+        append_line("#{current_indent}if #{condition}; then", metadata)
         indent
       end
 
       # Emit an elif clause
       #
       # @param condition [String] Condition expression
-      def emit_elif(condition)
+      def emit_elif(condition, metadata: nil)
         dedent
-        @lines << "#{current_indent}elif #{condition}; then"
+        append_line("#{current_indent}elif #{condition}; then", metadata)
         indent
       end
 
       # Emit an else clause
       def emit_else
         dedent
-        @lines << "#{current_indent}else"
+        append_line("#{current_indent}else")
         indent
       end
 
       # Emit an if statement end
       def emit_fi
         dedent
-        @lines << "#{current_indent}fi"
+        append_line("#{current_indent}fi")
       end
 
       # Emit a for loop start
       #
       # @param var [String] Loop variable name
       # @param items [String] Items to iterate over
-      def emit_for_start(var, items)
-        @lines << "#{current_indent}for #{var} in #{items}; do"
+      def emit_for_start(var, items, metadata: nil)
+        append_line("#{current_indent}for #{var} in #{items}; do", metadata)
         indent
       end
 
       # Emit a for/while loop end
       def emit_done
         dedent
-        @lines << "#{current_indent}done"
+        append_line("#{current_indent}done")
       end
 
       # Emit a while loop start
       #
       # @param condition [String] Condition expression
-      def emit_while_start(condition)
-        @lines << "#{current_indent}while #{condition}; do"
+      def emit_while_start(condition, metadata: nil)
+        append_line("#{current_indent}while #{condition}; do", metadata)
         indent
       end
 
       # Emit a case statement start
       #
       # @param expression [String] Expression to match
-      def emit_case_start(expression)
-        @lines << "#{current_indent}case #{expression} in"
+      def emit_case_start(expression, metadata: nil)
+        append_line("#{current_indent}case #{expression} in", metadata)
         indent
       end
 
       # Emit a case pattern
       #
       # @param pattern [String] Pattern to match
-      def emit_case_pattern(pattern)
-        @lines << "#{current_indent}#{pattern})"
+      def emit_case_pattern(pattern, metadata: nil)
+        append_line("#{current_indent}#{pattern})", metadata)
         indent
       end
 
       # Emit a case pattern terminator
       def emit_case_pattern_end
         dedent
-        @lines << "#{current_indent};;"
+        append_line("#{current_indent};;")
       end
 
       # Emit a case statement end
       def emit_esac
         dedent
-        @lines << "#{current_indent}esac"
+        append_line("#{current_indent}esac")
       end
 
       # Emit a raw line of code
       #
       # @param line [String] Line to emit
-      def emit_line(line)
-        @lines << "#{current_indent}#{line}"
+      def emit_line(line, metadata: nil)
+        append_line("#{current_indent}#{line}", metadata)
+      end
+
+      def emit_raw_lines(raw_lines, metadata: nil)
+        raw_lines.each_with_index do |line, idx|
+          append_line(line.chomp, expanded_line_metadata(metadata, idx))
+        end
       end
 
       # Get the output as a Bash string

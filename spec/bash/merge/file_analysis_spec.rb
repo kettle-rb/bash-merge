@@ -11,6 +11,42 @@ require "spec_helper"
 # - :java (via jtreesitter, tagged :java_backend)
 
 RSpec.describe Bash::Merge::FileAnalysis do
+  describe "FileAnalyzable contract", :bash_grammar do
+    it_behaves_like "Ast::Merge::FileAnalyzable" do
+      let(:file_analysis_class) { described_class }
+      let(:freeze_node_class) { Bash::Merge::FreezeNode }
+      let(:sample_source) { "VAR=value\n# comment\n" }
+      let(:sample_source_with_freeze) do
+        <<~BASH
+          VAR=value
+          # bash-merge:freeze
+          LOCKED=value
+          # bash-merge:unfreeze
+          OTHER=value
+        BASH
+      end
+      let(:build_file_analysis) do
+        ->(source, **opts) { described_class.new(source, **opts) }
+      end
+
+      let(:analysis_expected_feature_profile) do
+        {
+          owner_selector: :line_bound_statements,
+          match_key: :signature,
+          read_strategy: :source_augmented_portable_write,
+          attachment_strategy: :augmenter_preferred_tracker_layout,
+          comment_style: :hash_comment,
+          render_family: :bash_script_statements,
+          capabilities: {layout_aware: true, logical_owner: false},
+          logical_owners: {},
+          repair_policies: [],
+          surfaces: [],
+          delegation_policies: [],
+        }
+      end
+    end
+  end
+
   # ============================================================
   # :auto backend tests (uses whatever is available)
   # ============================================================

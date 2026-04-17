@@ -37,6 +37,7 @@ module Bash
     class SmartMerger < ::Ast::Merge::SmartMergerBase
       include ::Ast::Merge::TrailingGroups::DestIterate
       include ::Ast::Merge::Runtime::RootSessionSupport
+      include ::Ast::Merge::StructuredEmitterProvenanceSupport
 
       attr_reader :runtime_session
       attr_reader :corruption_handling
@@ -141,6 +142,7 @@ module Bash
             preference: @preference,
             add_template_only_nodes: @add_template_only_nodes,
             remove_template_missing_nodes: @remove_template_missing_nodes,
+            resolution_mode: @resolution_mode,
             corruption_handling: @corruption_handling,
             freeze_token: @freeze_token,
             runtime_operation_count: runtime_session&.operations&.size || 0,
@@ -314,13 +316,9 @@ module Bash
         emit_root_boundary_to(emitter, :postlude)
 
         # Transfer emitter output to result
-        emitted_content = emitter.to_s
-        emitted_content = collapse_cross_source_preamble_prefixes(emitted_content)
-        unless emitted_content.empty?
-          emitted_content.lines.each do |line|
-            @result.add_line(line.chomp, decision: MergeResult::DECISION_MERGED, source: :merged)
-          end
-        end
+        @emitter = emitter
+        collapse_cross_source_preamble_prefixes!(emitter)
+        transfer_emitter_output(@result)
 
         @result
       end
@@ -343,12 +341,16 @@ module Bash
             preference: @preference,
             add_template_only_nodes: @add_template_only_nodes,
             remove_template_missing_nodes: @remove_template_missing_nodes,
+            resolution_mode: @resolution_mode,
+            unresolved_policy: @unresolved_policy.to_h,
           },
           metadata: {merger: self.class.name},
           options: {
             preference: @preference,
             add_template_only_nodes: @add_template_only_nodes,
             remove_template_missing_nodes: @remove_template_missing_nodes,
+            resolution_mode: @resolution_mode,
+            unresolved_policy: @unresolved_policy.to_h,
           },
           language_chain: [:bash],
           delegate_metadata: {merger: self.class.name},
@@ -359,6 +361,7 @@ module Bash
         complete_runtime_root_session!(
           root_operation: root_operation,
           replacement_text: merge_result.to_bash,
+          unresolved_cases: merge_result.unresolved_cases,
           metadata: {
             stats: merge_result.statistics,
             decisions: merge_result.decision_summary,
@@ -400,7 +403,8 @@ module Bash
           next if lines.empty?
           next if skip_root_boundary_lines?(kind, analysis, lines)
 
-          emitter.emit_raw_lines(lines)
+          start_line = kind == :preamble ? 1 : (analysis.lines.length - lines.length + 1)
+          emitter.emit_raw_lines(lines, metadata: emitter_block_metadata(analysis, start_line))
           true
         end
       end
@@ -408,15 +412,16 @@ module Bash
       STANDALONE_BASH_COMMENT_LINE_RE = /\A\s*#(?!\!).*\z/
       private_constant :STANDALONE_BASH_COMMENT_LINE_RE
 
-      def collapse_cross_source_preamble_prefixes(content)
+      def collapse_cross_source_preamble_prefixes!(emitter)
         template_comments, = leading_standalone_comment_run(@template_analysis.source.to_s)
-        return content if template_comments.empty?
+        return emitter if template_comments.empty?
 
-        merged_comments, remainder = leading_standalone_comment_run(content)
-        return content if merged_comments.empty?
+        leading_entries, remainder_entries = leading_standalone_comment_entries(emitter)
+        merged_comments = leading_entries.map { |entry| entry[:line] }
+        return emitter if merged_comments.empty?
 
         destination_specific_comments = merged_comments.reject { |line| template_comments.include?(line) }
-        return content if destination_specific_comments.empty?
+        return emitter if destination_specific_comments.empty?
 
         should_heal = ::Ast::Merge::Healer.handle(
           mode: @corruption_handling,
@@ -432,13 +437,17 @@ module Bash
             })
           },
         )
-        return content unless should_heal
+        return emitter unless should_heal
 
-        remainder = remainder.sub(/\A(?:\s*\n)+/, "")
-        rebuilt = destination_specific_comments.join("\n")
-        return rebuilt if remainder.empty?
+        destination_specific_entries = leading_entries.reject { |entry| template_comments.include?(entry[:line]) }
+        trimmed_remainder_entries = remainder_entries.drop_while { |entry| entry[:line].strip.empty? }
+        rebuilt_entries = destination_specific_entries.dup
+        rebuilt_entries << {line: "", metadata: {}} if rebuilt_entries.any? && trimmed_remainder_entries.any?
+        rebuilt_entries.concat(trimmed_remainder_entries)
 
-        "#{rebuilt}\n\n#{remainder}"
+        emitter.lines.replace(rebuilt_entries.map { |entry| entry[:line] })
+        emitter.line_metadata.replace(rebuilt_entries.map { |entry| entry[:metadata] })
+        emitter
       end
 
       def leading_standalone_comment_run(text)
@@ -461,6 +470,30 @@ module Bash
         end
 
         [comment_lines, lines.drop(index).join("\n")]
+      end
+
+      def leading_standalone_comment_entries(emitter)
+        entries = emitter.lines.each_with_index.map do |line, idx|
+          {line: line.to_s, metadata: emitter.line_metadata[idx].to_h}
+        end
+
+        leading_entries = []
+        index = 0
+        while index < entries.length
+          line = entries[index][:line]
+          if line.strip.empty?
+            leading_entries << entries[index] if leading_entries.any?
+            index += 1
+            next
+          end
+
+          break unless STANDALONE_BASH_COMMENT_LINE_RE.match?(line)
+
+          leading_entries << entries[index]
+          index += 1
+        end
+
+        [leading_entries, entries.drop(index)]
       end
 
       def handle_destination_only_node(emitter, dest_node)
@@ -536,6 +569,7 @@ module Bash
       # Emit the preferred version of a matched node pair.
       def emit_preferred(emitter, template_node, dest_node)
         pref = preference_for_pair(template_node, dest_node)
+        record_unresolved_choice(template_node: template_node, dest_node: dest_node, provisional_winner: pref)
         if pref == :destination
           emit_node_to(emitter, dest_node, @dest_analysis)
         else
@@ -641,7 +675,7 @@ module Bash
         return unless inline_comment && single_line_node?(node) && safe_inline_comment_node?(node)
 
         line = promoted_inline_comment_line_for(node, analysis, inline_comment)
-        emitter.emit_raw_lines([line]) if line
+        emitter.emit_raw_lines([line], metadata: emitter_line_metadata(analysis, line_number: node.start_line)) if line
       end
 
       def emit_preserved_floating_gap_to(emitter, node, analysis)
@@ -652,7 +686,7 @@ module Bash
         return unless trailing_gap
         return unless trailing_gap.effective_controller_side(removed_owners: [node]) == :after
 
-        emitter.emit_raw_lines(trailing_gap.lines)
+        emitter.emit_raw_lines(trailing_gap.lines, metadata: emitter_block_metadata(analysis, trailing_gap.start_line))
       end
 
       def promoted_inline_comment_line_for(node, analysis, inline_comment)
@@ -682,13 +716,69 @@ module Bash
         @preference.fetch(:default, :destination)
       end
 
+      def record_unresolved_choice(template_node:, dest_node:, provisional_winner:)
+        return unless unresolved_mode?
+        return unless template_node && dest_node
+
+        template_text = template_node.text
+        dest_text = dest_node.text
+
+        identifier = resolution_identifier(template_node, dest_node)
+        surface_path = resolution_surface_path(template_node, dest_node)
+        record_unresolved_node_choice(
+          result: @result,
+          template_node: template_node,
+          destination_node: dest_node,
+          template_text: template_text,
+          destination_text: dest_text,
+          provisional_winner: provisional_winner,
+          case_prefix: "bash",
+          case_parts: [dest_node.type, identifier],
+          surface_path: surface_path,
+          metadata: {
+            node_type: dest_node.type,
+            identifier: identifier,
+            review_identity: review_identity_for_unresolved_choice(
+              template_text: template_text,
+              destination_text: dest_text,
+              provisional_winner: provisional_winner,
+              surface_path: surface_path,
+              node_type: dest_node.type,
+              identifier: identifier,
+            ),
+          },
+          conflict_fields: {
+            node_type: dest_node.type,
+            identifier: identifier,
+          },
+        )
+      end
+
+      def resolution_identifier(template_node, dest_node)
+        unresolved_identifier_for_nodes(
+          dest_node,
+          template_node,
+          methods: %i[function_name variable_name command_name],
+        )
+      end
+
+      def resolution_surface_path(template_node, dest_node)
+        identifier = resolution_identifier(template_node, dest_node)
+        unresolved_surface_path_for(
+          unresolved_typed_path_segment(dest_node.type, identifier: identifier, node: dest_node, fallback: nil),
+        )
+      end
+
       # Emit a single node (with its leading comments) to an emitter.
       def emit_node_to(emitter, node, analysis, comment_source_node: node, comment_source_analysis: analysis, inline_comment: nil)
         # Emit the node content
         if node.start_line && node.end_line
           emit_leading_segment_to(emitter, comment_source_node, comment_source_analysis)
           lines = (node.start_line..node.end_line).filter_map { |ln| analysis.line_at(ln) }
-          emitter.emit_raw_lines(apply_inline_comment(lines, inline_comment))
+          emitter.emit_raw_lines(
+            apply_inline_comment(lines, inline_comment),
+            metadata: emitter_block_metadata(analysis, node.start_line),
+          )
         end
       end
 
@@ -707,7 +797,7 @@ module Bash
         return unless start_line && start_line < node.start_line
 
         lines = (start_line...node.start_line).filter_map { |line_number| analysis.line_at(line_number) }
-        emitter.emit_raw_lines(lines)
+        emitter.emit_raw_lines(lines, metadata: emitter_block_metadata(analysis, start_line))
       end
     end
   end

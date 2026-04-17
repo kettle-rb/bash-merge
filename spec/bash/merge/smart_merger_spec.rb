@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require "spec_helper"
 
 # SmartMerger specs with explicit backend testing
@@ -261,6 +260,52 @@ RSpec.describe Bash::Merge::SmartMerger do
     it_behaves_like "removed node inline comments"
     it_behaves_like "multi-byte character (emoji) handling"
     it_behaves_like "floating comment gap transitions"
+  end
+
+  describe "unresolved runtime flow", :bash_grammar, :mri_backend do
+    around do |example|
+      TreeHaver.with_backend(:mri) do
+        example.run
+      end
+    end
+
+    let(:template_content) do
+      <<~BASH
+        #!/bin/bash
+        MY_VAR="template_value"
+      BASH
+    end
+
+    let(:destination_content) do
+      <<~BASH
+        #!/bin/bash
+        MY_VAR="dest_value"
+      BASH
+    end
+
+    let(:unresolved_runtime_merger) do
+      described_class.new(
+        template_content,
+        destination_content,
+        resolution_mode: :unresolved,
+      )
+    end
+    let(:expected_unresolved_surface_path) { 'document[0] > variable_assignment["MY_VAR"]' }
+    let(:expected_unresolved_output_fragment) { 'MY_VAR="dest_value"' }
+    let(:build_fresh_unresolved_merge_result) do
+      -> do
+        described_class.new(
+          template_content,
+          destination_content,
+          resolution_mode: :unresolved,
+        ).merge_result
+      end
+    end
+    let(:expected_replayed_output_fragment) { 'MY_VAR="template_value"' }
+
+    it_behaves_like "Ast::Merge::UnresolvedRuntimeContract"
+    it_behaves_like "Ast::Merge::UnresolvedRuntimeDebugContract"
+    it_behaves_like "Ast::Merge::UnresolvedReviewStateTransportContract"
   end
 
   # ============================================================

@@ -12,6 +12,8 @@ module Bash
     #   result.add_line("echo 'hello'", decision: :kept_template, source: :template)
     #   result.to_bash # => "echo 'hello'\n"
     class MergeResult < Ast::Merge::MergeResultBase
+      include Ast::Merge::StructuredReviewApplySupport
+
       # Inherit decision constants from base class
       DECISION_KEPT_TEMPLATE = Ast::Merge::MergeResultBase::DECISION_KEPT_TEMPLATE
       DECISION_KEPT_DEST = Ast::Merge::MergeResultBase::DECISION_KEPT_DEST
@@ -118,6 +120,10 @@ module Bash
       # Alias for to_bash
       # @return [String]
       def content
+        to_bash
+      end
+
+      def to_s
         to_bash
       end
 

@@ -215,48 +215,6 @@ RSpec.shared_examples "merge_with_debug" do
     let(:runtime_debug_merger) { described_class.new(template_content, dest_content) }
 
     it_behaves_like "Ast::Merge::RuntimeDebugContract"
-
-    it "returns a hash with content" do
-      merger = described_class.new(template_content, dest_content)
-      debug_result = merger.merge_with_debug
-
-      expect(debug_result).to be_a(Hash)
-      expect(debug_result[:content]).to be_a(String)
-      expect(debug_result[:debug]).to be_a(Hash)
-      expect(debug_result[:runtime]).to be_a(Hash)
-      expect(debug_result.dig(:debug, :corruption_handling)).to eq(:heal)
-    end
-
-    it "includes statistics" do
-      merger = described_class.new(template_content, dest_content)
-      debug_result = merger.merge_with_debug
-
-      expect(debug_result[:statistics]).to be_a(Hash)
-      expect(merger.corruption_handling).to eq(:heal)
-    end
-
-    it "includes decisions" do
-      merger = described_class.new(template_content, dest_content)
-      debug_result = merger.merge_with_debug
-
-      expect(debug_result[:decisions]).to be_a(Hash)
-    end
-
-    it "includes template_analysis info" do
-      merger = described_class.new(template_content, dest_content)
-      debug_result = merger.merge_with_debug
-
-      expect(debug_result[:template_analysis]).to be_a(Hash)
-      expect(debug_result[:template_analysis][:valid]).to be true
-    end
-
-    it "includes dest_analysis info" do
-      merger = described_class.new(template_content, dest_content)
-      debug_result = merger.merge_with_debug
-
-      expect(debug_result[:dest_analysis]).to be_a(Hash)
-      expect(debug_result[:dest_analysis][:valid]).to be true
-    end
   end
 end
 
