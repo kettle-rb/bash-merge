@@ -1,5 +1,5 @@
 {
-  "spec/bash/merge/comment_behavior_matrix_spec.rb:2756618406": [
+  "spec/bash/merge/comment_behavior_matrix_spec.rb:3015673770": [
     [6, 1, 81, "RSpec/SpecFilePathFormat: Spec path should end with `bash/merge/smart_merger*comment_behavior_matrix*_spec.rb`.", 3710990748],
     [6, 42, 25, "RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.", 1921084705],
     [12, 21, 24, "RSpec/DescribedClass: Use `described_class` instead of `Bash::Merge::SmartMerger`.", 4177413398]

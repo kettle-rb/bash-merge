@@ -403,7 +403,7 @@ module Bash
           next if lines.empty?
           next if skip_root_boundary_lines?(kind, analysis, lines)
 
-          start_line = kind == :preamble ? 1 : (analysis.lines.length - lines.length + 1)
+          start_line = (kind == :preamble) ? 1 : (analysis.lines.length - lines.length + 1)
           emitter.emit_raw_lines(lines, metadata: emitter_block_metadata(analysis, start_line))
           true
         end
