@@ -227,7 +227,8 @@ module Bash
       private
 
       def parse_bash
-        # TreeHaver handles grammar discovery and backend selection
+        # TreeHaver handles backend selection against the grammars Bash::Merge
+        # has already registered during bootstrap.
         # Set TREE_HAVER_BACKEND=ffi for bash (MRI/Rust have compatibility issues)
         parser = TreeHaver.parser_for(:bash, library_path: @parser_path)
         @ast = parser.parse(@source)

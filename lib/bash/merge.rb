@@ -5,8 +5,8 @@ require "set"
 
 # External gems
 # TreeHaver provides a unified cross-Ruby interface to tree-sitter.
-# It handles grammar discovery and backend selection automatically
-# via parser_for(:bash). No manual registration needed.
+# Bash::Merge registers its TreeHaver grammar bootstrap when loaded so
+# parser_for(:bash) can resolve a registered grammar consistently.
 #
 # BACKEND COMPATIBILITY for Bash:
 # - FFI: Most portable and reliable with bash grammar (recommended)
@@ -49,6 +49,8 @@ module Bash
   # @see SmartMerger Main entry point for merge operations
   # @see FileAnalysis Analyzes Bash structure
   module Merge
+    BACKEND_REGISTRY = Struct.new(:registered, :mutex).new(false, Mutex.new)
+
     # Base error class for Bash::Merge
     # Inherits from Ast::Merge::Error for consistency across merge gems.
     class Error < Ast::Merge::Error; end
@@ -110,8 +112,23 @@ module Bash
     autoload :MergeResult, "bash/merge/merge_result"
     autoload :NodeWrapper, "bash/merge/node_wrapper"
     autoload :SmartMerger, "bash/merge/smart_merger"
+
+    class << self
+      def register_backend!
+        BACKEND_REGISTRY.mutex.synchronize do
+          return if BACKEND_REGISTRY.registered
+
+          grammar_finder = TreeHaver::GrammarFinder.new(:bash)
+          grammar_finder.register! if grammar_finder.available?
+
+          BACKEND_REGISTRY.registered = true
+        end
+      end
+    end
   end
 end
+
+Bash::Merge.register_backend!
 
 # Register with ast-merge's MergeGemRegistry for RSpec dependency tags
 # Only register if MergeGemRegistry is loaded (i.e., in test environment)

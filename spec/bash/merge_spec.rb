@@ -63,6 +63,14 @@ RSpec.describe Bash::Merge do
     end
   end
 
+  describe ".register_backend!" do
+    it "registers bash with TreeHaver when a grammar is available" do
+      registrations = TreeHaver.registered_language(:bash)
+
+      expect(registrations).to be_a(Hash)
+    end
+  end
+
   describe Bash::Merge::ParseError do
     it "can be instantiated with no arguments" do
       error = described_class.new
